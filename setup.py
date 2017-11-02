@@ -31,6 +31,15 @@ setup(
     license="MIT license",
     zip_safe=False,
     keywords='gfeat',
+    extras_require={
+        "develop": ["bumpversion",
+                    "wheel",
+                    "jedi",
+                    "epc",
+                    "pytest",
+                    "pytest-pep8",
+                    "pytest-cov"],
+    },
     classifiers=[
         'Programming Language :: Python :: 3.5',
     ],
