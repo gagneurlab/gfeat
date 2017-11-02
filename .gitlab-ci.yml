@@ -1,19 +1,21 @@
 # Docker image
+image: continuumio/miniconda3:latest
 
-# all python environments
-# https://github.com/themattrix/docker-tox
-image: avsecz/tox-mongo
-# image: python:3.5
+before_script:
+  - export PIP_CACHE_DIR="/opt/cache/pip"
+  - conda install -y numpy pandas scipy pytest h5py bcolz
+  # dl toolkit
+  - pip install tensorflow
+  - pip install keras
+  # - conda install -y pytorch torchvision -c soumith
 
-# run tests
-py.test:
-  only:
-    - master
-  before_script:
-    - python --version
-    - pip install -U tox
-    - tox --version
-  script:
-    - tox
+
+tests:
+  stage: test
   tags:
     - docker
+  script:
+    - python --version
+    - conda --version
+    - pip install .
+    - py.test
