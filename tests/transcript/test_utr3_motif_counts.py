@@ -1,5 +1,5 @@
 """
-Test codon_counts
+Test utr3_motif_counts
 """
 
 import pytest
