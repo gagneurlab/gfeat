@@ -4,34 +4,41 @@ import unicodedata
 
 # Boyer Moore string search algorithm
 def boyer_moore_search(text, pattern):
+    # alphabet = set(text)
     occurrences = dict()
-    for letter in {"A", "C", "G", "T"}:
+    for letter in {'A', 'C', 'G', 'T'}:
         occurrences[letter] = pattern.rfind(letter)
     #last = last_occurrence(pattern, alphabet)
     m = len(pattern)
     n = len(text)
-    itext = m - 1
-    ipattern = m - 1
-    count = 0
-    while itext < n:
-        #print text[itext]
-        #print pattern[ipattern]
-        if text[itext] == pattern[ipattern]:
-            if ipattern == 0:
+    i = m - 1  # text index
+    j = m - 1  # pattern index
+    count = 0;
+    while i < n:
+        if text[i] == pattern[j]:
+            if j == 0:
                 count += 1
-                itext += m - 1
-                #itext += m - 1
+                #print text[i-1]
+                print i
+                print "---" + str(count)
+                i += 2*m - 1
+                j = m - 1
+                #return i
             else:
-                itext -= 1
-                ipattern -= 1
+                print i
+                i -= 1
+                j -= 1
         else:
-            l = occurrences[text[itext]]
-                #last(unicodedata.normalize('NFKD', text[itext]).encode('ascii','ignore'))
-            #l = occurrences[letter]
-            print letter
-            print "----"
-            itext = itext + m - min(ipattern, 1+l)
-            ipattern = m - 1
+            l = occurrences[text[i]]
+            #print i
+            #print l
+            #print text[i]
+            print i
+            i = i + m - min(j, 1 + l)
+            #print i
+            #print "-----------------------"
+            j = m - 1
+    # print count
     return count
 
 #class GFTranscript(IndexUnit, pyensembl.Transcript):
