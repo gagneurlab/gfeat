@@ -1,14 +1,12 @@
 import pyensembl
 import unicodedata
-#from .units import IndexUnit
+# from .units import IndexUnit
 
 # Boyer Moore string search algorithm
 def boyer_moore_search(text, pattern):
-    # alphabet = set(text)
     occurrences = dict()
     for letter in {'A', 'C', 'G', 'T'}:
         occurrences[letter] = pattern.rfind(letter)
-    #last = last_occurrence(pattern, alphabet)
     m = len(pattern)
     n = len(text)
     i = m - 1  # text index
@@ -18,30 +16,18 @@ def boyer_moore_search(text, pattern):
         if text[i] == pattern[j]:
             if j == 0:
                 count += 1
-                #print text[i-1]
-                print i
-                print "---" + str(count)
                 i += 2*m - 1
                 j = m - 1
-                #return i
             else:
-                print i
                 i -= 1
                 j -= 1
         else:
             l = occurrences[text[i]]
-            #print i
-            #print l
-            #print text[i]
-            print i
             i = i + m - min(j, 1 + l)
-            #print i
-            #print "-----------------------"
             j = m - 1
-    # print count
     return count
 
-#class GFTranscript(IndexUnit, pyensembl.Transcript):
+# class GFTranscript(IndexUnit, pyensembl.Transcript):
 # Transcript class inherited from pyensembl's Transcript class
 class GFTranscript(pyensembl.Transcript):
 
@@ -80,6 +66,6 @@ class GFTranscript(pyensembl.Transcript):
 # Loading testing data
 data = pyensembl.ensembl_release.EnsemblRelease(75)
 mytranscript = GFTranscript("ENST00000369985", "MYO6-001", "6", 76458926, 76629253, "+", "protein_coding", "ENSG00000196586", data)
-#print mytranscript.codon_counts()
-print mytranscript.three_prime_utr_sequence
-print mytranscript.utr3_motif_counts("ACCA")
+# print mytranscript.codon_counts()
+# print mytranscript.five_prime_utr_sequence
+# print mytranscript.utr5_motif_counts("AC")

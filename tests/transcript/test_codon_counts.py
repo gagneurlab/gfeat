@@ -8,7 +8,7 @@ import pyensembl
 from gfeat.transcript import GFTranscript
 
 
-@pytest.fixture
+@pytest.fixture()
 def transcript():
     data = pyensembl.ensembl_release.EnsemblRelease(75)
     test_transcript = GFTranscript("ENST00000369985", "MYO6-001", "6", 76458926, 76629253, "+", "protein_coding",

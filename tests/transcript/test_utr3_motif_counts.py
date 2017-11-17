@@ -15,6 +15,26 @@ def transcript():
                                 "ENSG00000196586", data)
     return test_transcript
 
-def test_codon_counts(transcript):
-    res = transcript.codon_counts()
-    assert res == 1263
+def test_two_letters(transcript):
+    res = transcript.utr3_motif_counts("AC")
+    assert res == 207
+
+def test_three_letters(transcript):
+    res = transcript.utr3_motif_counts("TTT")
+    assert res == 151
+
+def test_four_letters(transcript):
+    res = transcript.utr3_motif_counts("ACCA")
+    assert res == 14
+
+def test_five_letters(transcript):
+    res = transcript.utr3_motif_counts("GAGTT")
+    assert res == 8
+
+def test_six_letters(transcript):
+    res = transcript.utr3_motif_counts("AAAAAT")
+    assert res == 8
+
+def test_seven_letters(transcript):
+    res = transcript.utr3_motif_counts("TGTAAAA")
+    assert res == 0
