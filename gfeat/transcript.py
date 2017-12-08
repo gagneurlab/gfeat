@@ -1,31 +1,38 @@
 import pyensembl
-#from .units import IndexUnit
+import unicodedata
+# from .units import IndexUnit
 
 # Boyer Moore string search algorithm
+from pyensembl import Genome
+
+from genome import GFGenome
+
+
 def boyer_moore_search(text, pattern):
     occurrences = dict()
-    for letter in {"A", "B", "C", "D"}:
+    for letter in {'A', 'C', 'G', 'T'}:
         occurrences[letter] = pattern.rfind(letter)
     m = len(pattern)
     n = len(text)
-    itext = m - 1
-    ipattern = m - 1
-    count = 0
-    while itext < n:
-        if text[itext] == pattern[ipattern]:
-            if ipattern == 0:
+    i = m - 1  # text index
+    j = m - 1  # pattern index
+    count = 0;
+    while i < n:
+        if text[i] == pattern[j]:
+            if j == 0:
                 count += 1
-                itext += m - 1
+                i += 2*m - 1
+                j = m - 1
             else:
-                itext -= 1
-                ipattern -= 1
+                i -= 1
+                j -= 1
         else:
-            l = occurrences[letter]
-            itext = itext + m - min(ipattern, 1+l)
-            ipattern = m - 1
-    return -1
+            l = occurrences[text[i]]
+            i = i + m - min(j, 1 + l)
+            j = m - 1
+    return count
 
-#class GFTranscript(IndexUnit, pyensembl.Transcript):
+# class GFTranscript(IndexUnit, pyensembl.Transcript):
 # Transcript class inherited from pyensembl's Transcript class
 class GFTranscript(pyensembl.Transcript):
 
@@ -33,7 +40,7 @@ class GFTranscript(pyensembl.Transcript):
     # TODO  implement the feature extractors
 
     # Counts how many codons are in the transcript's sequence
-    def codon_count(self):
+    def codon_counts(self):
         # Removing 5' UTR and 3' UTR sequences as they don't have any codons
         sequence = self.sequence.replace(self.five_prime_utr_sequence, "").replace(self.three_prime_utr_sequence, "")
         return len(sequence)/3
@@ -62,4 +69,38 @@ class GFTranscript(pyensembl.Transcript):
     #               - deposit a small fasta and gtf (chr22) to the test files
 
 # Loading testing data
+<<<<<<< HEAD
 
+=======
+data = pyensembl.ensembl_release.EnsemblRelease(75)
+# mytranscript = GFTranscript("ENST00000369985", "MYO6-001", "6", 76458926, 76629253, "+", "protein_coding", "ENSG00000196586", data)
+# print(mytranscript.sequence)
+print(data.gene_ids(1, '+'))
+
+data1 = GFGenome(reference_name='hg38_test',
+                       annotation_name='hg38_chr22_test',
+                       gtf_path_or_url='/Users/veronikakotova/Desktop/checking_pyensembl/gencode.v24.annotation_chr22_test.gtf',
+                       transcript_fasta_paths_or_urls = '/Users/veronikakotova/Desktop/checking_pyensembl/hg38_chr22_test.fa',
+                       # protein_fasta_path_or_url='/Users/veronikakotova/gfeat/tests/data/hg38_chr22.fa'
+                       )
+#print(dir(data1))
+# data1.index()
+data1.index()
+# print(data1.gene_ids(22, '+'))
+# print(data.transcript_ids(22, '+'))
+# print(data1.gene_by_id('ENSG00000099968.17'))
+# print(data1.transcript_ids_of_gene_id('ENSG00000099968.17'))
+print(data1.transcript_by_id('ENST00000485631.1'))
+print(data1.transcript_by_id('ENST00000485631.1').sequence)
+# print(data.transcript_by_id('ENST00000415118'))
+# mytranscript1 = GFTranscript('ENST00000615943.1', 'U2.14-201', '22', 10736171, 10736283, '-', 'None', 'ENSG00000277248.1', data1)
+# mytranscript1 = GFTranscript("ENST00000615943.1", "U2.14-201", "ENSG00000277248.1", "U2", "None", "22:10736171-10736283")
+# print(mytranscript1.sequence)
+
+# RNA5SP46
+
+# parse GTF and construct database of genomic features
+# print(mytranscript.codon_counts())
+# print(mytranscript.five_prime_utr_sequence)
+# print(mytranscript.utr5_motif_counts("AC"))
+>>>>>>> 1c7049b67f72570d2c562b506265ec0849eeca1c

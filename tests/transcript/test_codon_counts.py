@@ -1,9 +1,9 @@
-"""Test the codon counts
+"""
+Test codon_counts
 """
 
+from config import transcript
 
-def test_codon_counts():
-    seq = "ACGAGGACATA"
-
-    # res = count_codons(seq)
-    # assert res == ...
+def test_codon_counts(transcript):
+    res = transcript.codon_counts()
+    assert res == 1263
