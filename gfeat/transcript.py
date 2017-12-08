@@ -62,7 +62,4 @@ class GFTranscript(pyensembl.Transcript):
     #               - deposit a small fasta and gtf (chr22) to the test files
 
 # Loading testing data
-data = pyensembl.ensembl_release.EnsemblRelease(75)
-mytranscript = GFTranscript("ENST00000369985", "MYO6-001", "6", 76458926, 76629253, "+", "protein_coding", "ENSG00000196586", data)
-print mytranscript.codon_count()
-mytranscript.utr3_motif_counts()
+
