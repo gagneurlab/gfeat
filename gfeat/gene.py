@@ -25,6 +25,7 @@ class GFGene(IndexUnit, pyensembl.Gene):
     def iter_all(cls, genome):
         pass
 
+    
 
 # data = some data #for instance, data = EnsemblRelease(77)
 

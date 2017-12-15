@@ -73,14 +73,14 @@ class GFGenome(pyensembl.Genome):
             require_ensembl_ids,
             cache_directory_path)
         # first_dict_key = 0;
-        for key in self.transcript_sequences.fasta_dictionary.keys():
-            first_dict_key = key;
-        for trans in self.transcripts():
-             # print(trans)
-             # print(self.transcript_sequences.fasta_dictionary[chrom][trans.start])
-             self.transcript_sequences.fasta_dictionary[trans.transcript_id] = self.transcript_sequences.fasta_dictionary[first_dict_key][trans.start:trans.end];
-             # print(self.transcript_sequences.fasta_dictionary[first_dict_key][trans.start:trans.end])
-        # self.index(overwrite=False);
+        key_values = []
+
+        if ((len(self.transcript_sequences.fasta_dictionary) <= 1) and (self.transcript_fasta_path is not None)):
+            for key in self.transcript_sequences.fasta_dictionary.keys():
+                key_values.append(key);
+            for key in key_values:
+                for trans in self.transcripts():
+                    self.transcript_sequences.fasta_dictionary[trans.transcript_id] = self.transcript_sequences.fasta_dictionary[key][trans.start-1:trans.end];
         dump_pickle(self._transcript_sequences._fasta_dictionary, self._transcript_sequences.fasta_dictionary_pickle_path)
 
 
