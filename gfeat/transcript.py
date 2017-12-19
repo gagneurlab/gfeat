@@ -5,8 +5,8 @@ import unicodedata
 # Boyer Moore string search algorithm
 from pyensembl import Genome
 
-from gfeat.genome import GFGenome
-from gfeat.common_methods import boyer_moore_search
+from genome import GFGenome
+from common_methods import boyer_moore_search
 
 # class GFTranscript(IndexUnit, pyensembl.Transcript):
 # Transcript class inherited from pyensembl's Transcript class
@@ -45,10 +45,10 @@ class GFTranscript(pyensembl.Transcript):
     #               - deposit a small fasta and gtf (chr22) to the test files
 
 # Loading testing data
-data = pyensembl.ensembl_release.EnsemblRelease(75)
+# data = pyensembl.ensembl_release.EnsemblRelease(75)
 # mytranscript = GFTranscript("ENST00000369985", "MYO6-001", "6", 76458926, 76629253, "+", "protein_coding", "ENSG00000196586", data)
 # print(mytranscript.sequence)
-print(data.gene_ids(1, '+'))
+# print(data.gene_ids(1, '+'))
 
 data1 = GFGenome(reference_name='hg38_test',
                        annotation_name='hg38_chr22_test',
