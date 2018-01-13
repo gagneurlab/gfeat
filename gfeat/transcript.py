@@ -56,16 +56,29 @@ data1 = GFGenome(reference_name='hg38_test',
                        transcript_fasta_paths_or_urls = '/Users/veronikakotova/Desktop/checking_pyensembl/hg38_chr22_test.fa',
                        # protein_fasta_path_or_url='/Users/veronikakotova/gfeat/tests/data/hg38_chr22.fa'
                        )
+
+data_test = GFGenome(reference_name='chr22_test',
+                       annotation_name='chr22_test_test',
+                       gtf_path_or_url='/Users/veronikakotova/gfeat/tests/data/chr22_testing.gtf',
+                       transcript_fasta_paths_or_urls = '/Users/veronikakotova/gfeat/tests/data/chr22_testing.fa',
+                       # protein_fasta_path_or_url='/Users/veronikakotova/gfeat/tests/data/hg38_chr22.fa'
+                       )
+
 #print(dir(data1))
 # data1.index()
-data1.index()
+data_test.index()
 # print(data1.gene_ids(22, '+'))
 # print(data.transcript_ids(22, '+'))
 # print(data1.gene_by_id('ENSG00000099968.17'))
 # print(data1.transcript_ids_of_gene_id('ENSG00000099968.17'))
-print(data1.gene_ids()[:10])
-print(data1.transcript_by_id('ENST00000485631.1'))
-print(data1.transcript_by_id('ENST00000485631.1').sequence)
+
+# print(data1.gene_ids()[:10])
+# print(data1.transcript_by_id('ENST00000485631.1'))
+# print(data1.transcript_by_id('ENST00000485631.1').sequence)
+
+print(data_test.gene_ids())
+print(data_test.transcript_by_id('ENST00000612579.4').sequence)
+
 # print(data.transcript_by_id('ENST00000415118'))
 # mytranscript1 = GFTranscript('ENST00000615943.1', 'U2.14-201', '22', 10736171, 10736283, '-', 'None', 'ENSG00000277248.1', data1)
 # mytranscript1 = GFTranscript("ENST00000615943.1", "U2.14-201", "ENSG00000277248.1", "U2", "None", "22:10736171-10736283")

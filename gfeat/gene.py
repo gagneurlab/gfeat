@@ -1,6 +1,6 @@
 import pyensembl
-from common_methods import boyer_moore_search
-from genome import GFGenome
+from gfeat.common_methods import boyer_moore_search
+from gfeat.genome import GFGenome
 
 
 # class GFGene(IndexUnit, pyensembl.Gene):

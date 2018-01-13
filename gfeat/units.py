@@ -1,4 +1,7 @@
 import pyensembl
+from pysam import FastaFile
+from pybedtools import BedTool
+from cyvcf2 import VCF
 
 
 
@@ -31,6 +34,23 @@ class IndexUnit(object):
 
 # API independent function
 #  - should be as raw as possible
-def extract_sequence(interval, genome, vcf=None):
-    # TODO - ziga - put your function here, ignore vcf
-    pass
+def extract_sequence(interval, fasta, vcf=None):
+    """function documentation - TODO
+    """
+    seq = fasta.fetch(str(interval.chrom), interval.start,
+                       interval.stop)
+    if vcf is not None:
+        # TODO - modify seq according to the vcf file
+        # 1. query all the positions in the vcf overlaping the interval
+        # 2. For each variant:
+        #    - Do a string replacement at the right places
+        #      (check that the reference matches the genome sequence)
+        pass
+    if interval.strand == "-":
+        # TODO - reverse-coplement the sequence if
+        pass
+    return seq
+
+bed = BedTool("file.bed")
+interval = bed[0] # get the first element in the bed file, returns an Interval object
+fasta = FastaFile("file.fasta")
