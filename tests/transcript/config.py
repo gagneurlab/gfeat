@@ -21,12 +21,12 @@ def interval():
 
 @pytest.fixture()
 def fasta():
-    test_fasta = FastaFile("file.fasta")
+    test_fasta = FastaFile("/Users/veronikakotova/gfeat/tests/data/chr22_testing.fa")
     return test_fasta
 
 @pytest.fixture()
 def vcf():
-    test_vcf = "/Users/veronikakotova/gfeat/tests/data/49470G_chr22_testing.vcf"
+    test_vcf = "/Users/veronikakotova/gfeat/tests/data/49470G_chr22_testing.vcf.gz"
     return test_vcf
 
 # data = Genome(reference_name='GRCh38',

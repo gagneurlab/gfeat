@@ -21,3 +21,7 @@ def boyer_moore_search(text, pattern):
             i = i + m - min(j, 1 + l)
             j = m - 1
     return count
+
+def reverse_complement(dna):
+    complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
+    return ''.join([complement[base] for base in dna[::-1]])

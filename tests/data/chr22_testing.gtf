@@ -1,0 +1,8 @@
+##description: gfeat extract_sequence testing
+##provider: Veronika
+##contact: Veronika
+##format: gtf
+##date: 2018-01-03
+chr22	HAVANA	transcript	5	21	.	-	.	gene_id "ENSG00000274602.4"; transcript_id "ENST00000612579.4"; gene_type "transcribed_unprocessed_pseudogene"; gene_status "KNOWN"; gene_name "PI4KAP1"; transcript_type "transcribed_unprocessed_pseudogene"; transcript_status "KNOWN"; transcript_name "PI4KAP1-001"; level 2; ont "PGO:0000005"; ont "PGO:0000019"; tag "basic"; transcript_support_level "NA"; havana_gene "OTTHUMG00000188354.1"; havana_transcript "OTTHUMT00000476967.1";
+chr22	HAVANA	exon	6	13	.	-	.	gene_id "ENSG00000274602.4"; transcript_id "ENST00000612579.4"; gene_type "transcribed_unprocessed_pseudogene"; gene_status "KNOWN"; gene_name "PI4KAP1"; transcript_type "transcribed_unprocessed_pseudogene"; transcript_status "KNOWN"; transcript_name "PI4KAP1-001"; exon_number 1; exon_id "ENSE00002266702.2"; level 2; ont "PGO:0000005"; ont "PGO:0000019"; tag "basic"; transcript_support_level "NA"; havana_gene "OTTHUMG00000188354.1"; havana_transcript "OTTHUMT00000476967.1";
+chr22	HAVANA	exon	14	18	.	-	.	gene_id "ENSG00000274602.4"; transcript_id "ENST00000612579.4"; gene_type "transcribed_unprocessed_pseudogene
