@@ -4,6 +4,7 @@ from pybedtools import BedTool
 from cyvcf2 import VCF
 from collections import OrderedDict
 from itertools import combinations
+from gfeat.common_methods import reverse_complement #TODO make it look like gfeat.common_methods
 
 """Define the basic classess
 """
@@ -122,38 +123,61 @@ def extract_sequence(interval, fasta, vcf=None):
 
         tuple = ()
         output = []
+        if interval.strand == "-":
+            for key in variants_hom:
+                    seq = seq[:(key - interval.start - 1)] + variants_hom[key] + \
+                          seq[(key + len(variants_hom[key]) - interval.start - 1):]
+                    tuple = tuple + (key,)
+                # seq = initial sequence with all homozygous variants in it
+            output.append((reverse_complement(seq), tuple))
 
-        for key in variants_hom:
+            for n in range(len(variants_het)):
+                for combs in combinations(variants_het, n + 1):
+                    seq_temp = seq
+                    tuple_temp = tuple
+                    for key in combs:
+                        seq_temp = seq_temp[:(key - interval.start - 1)] + variants_het[key] \
+                                   + seq_temp[(key + len(variants_het[key]) - interval.start - 1):]
+                    tuple_temp = tuple + combs
+                    output.append((reverse_complement(seq_temp), tuple_temp)) # Note that the tuple is unsorted
+        else:
+            for key in variants_hom:
                 seq = seq[:(key - interval.start - 1)] + variants_hom[key] + \
                       seq[(key + len(variants_hom[key]) - interval.start - 1):]
                 tuple = tuple + (key,)
             # seq = initial sequence with all homozygous variants in it
-        output.append((seq, tuple))
+            output.append((seq, tuple))
 
-        for n in range(len(variants_het)):
-            for combs in combinations(variants_het, n + 1):
-                seq_temp = seq
-                tuple_temp = tuple
-                for key in combs:
-                    seq_temp = seq_temp[:(key - interval.start - 1)] + variants_het[key] \
-                               + seq_temp[(key + len(variants_het[key]) - interval.start - 1):]
-                tuple_temp = tuple + combs
-                output.append((seq_temp, tuple_temp)) # Note that the tuple is unsorted
+            for n in range(len(variants_het)):
+                for combs in combinations(variants_het, n + 1):
+                    seq_temp = seq
+                    tuple_temp = tuple
+                    for key in combs:
+                        seq_temp = seq_temp[:(key - interval.start - 1)] + variants_het[key] \
+                                   + seq_temp[(key + len(variants_het[key]) - interval.start - 1):]
+                    tuple_temp = tuple + combs
+                    output.append((seq_temp, tuple_temp))  # Note that the tuple is unsorted
 
         # 1. query all the positions in the vcf overlaping the interval
         # 2. For each variant:
         #    - Do a string replacement at the right places
         #      (check that the reference matches the genome sequence)
         pass
-    if interval.strand == "-":
-        # TODO - reverse-coplement the sequence if
-        pass
+    else:
+        if interval.strand == "-":
+            output = [(reverse_complement(seq),)] # not sure that it's better to return a string then a [('')]
+        else:
+            output = [(seq,)]
+    # if interval.strand == "-":
+    #     for tuple in output:
+    #         tuple[0] = reverse_complement(tuple[0])
+    #     pass
     # return seq
     return output
 
-# gtf = BedTool("/Users/veronikakotova/gfeat/tests/data/chr22_testing.gtf")
-# test_interval = gtf[0]
-# test_fasta = FastaFile("/Users/veronikakotova/gfeat/tests/data/chr22_testing.fa")
-# test_vcf = "/Users/veronikakotova/gfeat/tests/data/49470G_chr22_testing.vcf.gz"
-#
-# print(extract_sequence(test_interval, test_fasta, test_vcf))
+gtf = BedTool("/Users/veronikakotova/gfeat/tests/data/chr22_testing.gtf")
+test_interval = gtf[0]
+test_fasta = FastaFile("/Users/veronikakotova/gfeat/tests/data/chr22_testing.fa")
+test_vcf = "/Users/veronikakotova/gfeat/tests/data/49470G_chr22_testing.vcf.gz"
+
+print(extract_sequence(test_interval, test_fasta, test_vcf))

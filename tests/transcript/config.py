@@ -14,7 +14,14 @@ def transcript():
     return test_transcript
 
 @pytest.fixture()
-def interval():
+def interval_plus():
+    gtf = BedTool("/Users/veronikakotova/gfeat/tests/data/chr22_testing.gtf")
+    test_interval = gtf[0]  # get the first element in the bed file, returns an Interval object
+    test_interval.strand = '+'
+    return test_interval
+
+@pytest.fixture()
+def interval_minus():
     gtf = BedTool("/Users/veronikakotova/gfeat/tests/data/chr22_testing.gtf")
     test_interval = gtf[0]  # get the first element in the bed file, returns an Interval object
     return test_interval
