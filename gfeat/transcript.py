@@ -5,8 +5,8 @@ import unicodedata
 # Boyer Moore string search algorithm
 from pyensembl import Genome
 
-from genome import GFGenome
-from common_methods import boyer_moore_search
+from gfeat.genome import GFGenome
+from gfeat.common_methods import boyer_moore_search
 
 # class GFTranscript(IndexUnit, pyensembl.Transcript):
 # Transcript class inherited from pyensembl's Transcript class

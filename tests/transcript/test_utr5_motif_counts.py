@@ -2,6 +2,7 @@
 Test utr5_motif_counts
 """
 
+import pytest
 from config import transcript
 
 def test_two_letters(transcript):
