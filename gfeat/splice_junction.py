@@ -1,5 +1,5 @@
 import pyensembl
-from .units import IndexUnit
+from gfeat.units import IndexUnit
 
 
 class GFSpliceJunction(IndexUnit, pyensembl.Gene):

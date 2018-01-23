@@ -175,6 +175,7 @@ def extract_sequence(interval, fasta, vcf=None):
     # return seq
     return output
 
+
 gtf = BedTool("/Users/veronikakotova/gfeat/tests/data/chr22_testing.gtf")
 test_interval = gtf[0]
 test_fasta = FastaFile("/Users/veronikakotova/gfeat/tests/data/chr22_testing.fa")

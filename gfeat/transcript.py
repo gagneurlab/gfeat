@@ -8,6 +8,7 @@ from pyensembl import Genome
 from gfeat.genome import GFGenome
 from gfeat.common_methods import boyer_moore_search
 
+
 # class GFTranscript(IndexUnit, pyensembl.Transcript):
 # Transcript class inherited from pyensembl's Transcript class
 class GFTranscript(pyensembl.Transcript):

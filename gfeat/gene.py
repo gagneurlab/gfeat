@@ -1,6 +1,6 @@
 import pyensembl
 from gfeat.common_methods import boyer_moore_search
-from .genome import GFGenome
+from gfeat.genome import GFGenome
 
 
 # class GFGene(IndexUnit, pyensembl.Gene):
@@ -17,7 +17,7 @@ class GFGene(pyensembl.Gene):
     def iter_all(cls, genome):
         pass
 
-    # Counts how many times the given codob is present in the sequence
+    # Counts how many times the given codon is present in the sequence
     def coding_sequence_codon_count(self, codon):
         gene_coding_sequence = ''
         for transcript in self.transcripts:

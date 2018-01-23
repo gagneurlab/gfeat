@@ -46,7 +46,6 @@ class GFGenome(pyensembl.Genome):
                     self.transcript_sequences.fasta_dictionary[trans.transcript_id] = self.transcript_sequences.fasta_dictionary[key][trans.start-1:trans.end];
         dump_pickle(self._transcript_sequences._fasta_dictionary, self._transcript_sequences.fasta_dictionary_pickle_path)
 
-
     def check_fasta_dictionary(self):
 
         pass

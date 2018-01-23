@@ -5,9 +5,11 @@ Test extract_sequence
 from tests.transcript.config import interval_plus, interval_minus, fasta, vcf
 from gfeat.units import extract_sequence
 
+
 def test_extract_sequence_no_vcf(interval_plus, fasta):
     res = extract_sequence(interval_plus, fasta)
     assert res == [("CCCTGAGTCATCCTTGC",)]
+
 
 def test_extract_sequence_vcf_plus(interval_plus, fasta, vcf):
     res = extract_sequence(interval_plus, fasta, vcf)
@@ -15,6 +17,7 @@ def test_extract_sequence_vcf_plus(interval_plus, fasta, vcf):
                    ("CCCTGAAGCGTCCTTGC", (12, 14, 11)), ("CCCTGAGGCGTCTTTGC", (12, 14, 17)),
                    ("CCCCAAAGCGTCCTTGC", (12, 14, 8, 11)), ("CCCCAAGGCGTCTTTGC", (12, 14, 8, 17)),
                    ("CCCTGAAGCGTCTTTGC", (12, 14, 11, 17)), ("CCCCAAAGCGTCTTTGC", (12, 14, 8, 11, 17))]
+
 
 def test_extract_sequence_vcf_minus(interval_minus, fasta, vcf):
     res = extract_sequence(interval_minus, fasta, vcf)

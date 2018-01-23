@@ -2,7 +2,8 @@
 Test codon_counts
 """
 
-from config import transcript
+from tests.transcript.config import transcript
+
 
 def test_codon_counts(transcript):
     res = transcript.codon_counts()
