@@ -39,3 +39,15 @@ def fasta():
 def vcf():
     test_vcf = "./tests/data/49470G_chr22_testing.vcf.gz"
     return test_vcf
+
+
+@pytest.fixture()
+def vcf_none():
+    test_vcf = None
+    return test_vcf
+
+
+@pytest.fixture()
+def ref_check():
+    ref_check_test = True
+    return ref_check_test

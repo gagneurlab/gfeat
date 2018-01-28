@@ -2,7 +2,7 @@
 Test extract_sequence
 """
 
-from tests.transcript.config import interval_plus, interval_minus, fasta, vcf
+from tests.transcript.config import interval_plus, interval_minus, fasta, vcf, vcf_none, ref_check
 from gfeat.units import extract_sequence
 
 

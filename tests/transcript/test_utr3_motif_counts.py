@@ -3,6 +3,7 @@ Test utr3_motif_counts
 """
 
 from tests.transcript.config import transcript
+import time
 
 
 def test_two_letters(transcript):
