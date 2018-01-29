@@ -4,7 +4,7 @@ image: continuumio/miniconda3:latest
 before_script:
   - export PIP_CACHE_DIR="/opt/cache/pip"
   - conda install -y numpy pandas scipy pytest h5py bcolz 
-  - conda install -c bioconda bedtools htslib pyvcf
+  - conda install -c bioconda pybedtools bedtools htslib pyvcf
   # dl toolkit
   - pip install tensorflow
   - pip install keras
