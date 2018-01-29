@@ -3,9 +3,6 @@ import unicodedata
 import re
 # from .units import IndexUnit
 
-from pyensembl import Genome
-from gfeat.genome import GFGenome
-
 
 # class GFTranscript(IndexUnit, pyensembl.Transcript):
 # Transcript class inherited from pyensembl's Transcript class

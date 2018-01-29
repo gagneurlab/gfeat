@@ -2,15 +2,18 @@ import pytest
 import pyensembl
 from pysam import FastaFile
 from pybedtools import BedTool
-
+from gfeat.genome import GFGenome
 from gfeat.transcript import GFTranscript
 
 
 @pytest.fixture()
 def transcript():
-    data = pyensembl.ensembl_release.EnsemblRelease(75)
-    test_transcript = GFTranscript("ENST00000369985", "MYO6-001", "6", 76458926, 76629253, "+", "protein_coding",
-                                "ENSG00000196586", data)
+    data = GFGenome(reference_name='hg38_test',
+                     annotation_name='hg38_chr22_test',
+                     gtf_path_or_url="./tests/data/gencode.v24.annotation_chr22.gtf",
+                     transcript_fasta_paths_or_urls="./tests/data/hg38_chr22.fa",
+                     )
+    test_transcript = GFTranscript('ENST00000624155.1', 'BAGE5-201', '22', 11066501, 11068089, '-', 'None', 'ENSG00000279973.1', data)
     return test_transcript
 
 

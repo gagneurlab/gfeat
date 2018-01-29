@@ -8,27 +8,27 @@ import time
 
 def test_two_letters(transcript):
     res = transcript.utr3_motif_counts("AC")
-    assert res == 207
+    assert res == 64
 
 
 def test_three_letters(transcript):
     res = transcript.utr3_motif_counts("TTT")
-    assert res == 151
+    assert res == 14
 
 
 def test_four_letters(transcript):
     res = transcript.utr3_motif_counts("ACCA")
-    assert res == 14
+    assert res == 4
 
 
 def test_five_letters(transcript):
     res = transcript.utr3_motif_counts("GAGTT")
-    assert res == 8
+    assert res == 2
 
 
 def test_six_letters(transcript):
-    res = transcript.utr3_motif_counts("AAAAAT")
-    assert res == 8
+    res = transcript.utr3_motif_counts("CAGCTG")
+    assert res == 2
 
 
 def test_seven_letters(transcript):
