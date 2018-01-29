@@ -6,11 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="42634b39-5467-43b6-ab3d-357c28d3d096" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/gfeat/transcript.py" afterPath="$PROJECT_DIR$/gfeat/transcript.py" />
-      <change beforePath="$PROJECT_DIR$/tests/transcript/config.py" afterPath="$PROJECT_DIR$/tests/transcript/config.py" />
-      <change beforePath="$PROJECT_DIR$/tests/transcript/test_codon_counts.py" afterPath="$PROJECT_DIR$/tests/transcript/test_codon_counts.py" />
-      <change beforePath="$PROJECT_DIR$/tests/transcript/test_utr3_motif_counts.py" afterPath="$PROJECT_DIR$/tests/transcript/test_utr3_motif_counts.py" />
-      <change beforePath="$PROJECT_DIR$/tests/transcript/test_utr5_motif_counts.py" afterPath="$PROJECT_DIR$/tests/transcript/test_utr5_motif_counts.py" />
+      <change beforePath="$PROJECT_DIR$/gfeat/Untitled.ipynb" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/gfeat/__init__.py" afterPath="$PROJECT_DIR$/gfeat/__init__.py" />
+      <change beforePath="$PROJECT_DIR$/gfeat/common_methods.py" afterPath="$PROJECT_DIR$/gfeat/common_methods.py" />
+      <change beforePath="$PROJECT_DIR$/tests/__init__.py" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,12 +19,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/gfeat$units.coverage" NAME="units Coverage Results" MODIFIED="1517252186067" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gfeat" />
+    <SUITE FILE_PATH="coverage/gfeat$units.coverage" NAME="units Coverage Results" MODIFIED="1517255855691" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gfeat" />
     <SUITE FILE_PATH="coverage/gfeat$gene.coverage" NAME="gene Coverage Results" MODIFIED="1513681408407" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gfeat" />
-    <SUITE FILE_PATH="coverage/gfeat$transcript.coverage" NAME="transcript Coverage Results" MODIFIED="1517254189792" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gfeat" />
+    <SUITE FILE_PATH="coverage/gfeat$transcript.coverage" NAME="transcript Coverage Results" MODIFIED="1517255027016" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gfeat" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -53,6 +52,8 @@
       <find>print</find>
       <find>prin</find>
       <find>start</find>
+      <find>common_methods</find>
+      <find>common</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -68,7 +69,6 @@
         <option value="$PROJECT_DIR$/tests/gene/test_.py" />
         <option value="$PROJECT_DIR$/tests/gene/test_coding_sequence_codon_coun.py" />
         <option value="$PROJECT_DIR$/tests/gene/config.py" />
-        <option value="$PROJECT_DIR$/gfeat/__init__.py" />
         <option value="$PROJECT_DIR$/tests/data/chr22_testing.fa" />
         <option value="$PROJECT_DIR$/tests/data/chr22_testing.gtf" />
         <option value="$PROJECT_DIR$/tests/transcript/test_extract_sequence.py" />
@@ -77,15 +77,16 @@
         <option value="$PROJECT_DIR$/tests/gene/config_1.py" />
         <option value="$PROJECT_DIR$/tests/gene/test_coding_sequence_codon_count.py" />
         <option value="$PROJECT_DIR$/tests/data/49470G_chr22_testing.vcf" />
-        <option value="$PROJECT_DIR$/gfeat/common_methods.py" />
         <option value="$PROJECT_DIR$/gfeat/gene.py" />
-        <option value="$PROJECT_DIR$/tests/units/test_extract_sequence.py" />
-        <option value="$PROJECT_DIR$/gfeat/units.py" />
         <option value="$PROJECT_DIR$/tests/transcript/config.py" />
         <option value="$PROJECT_DIR$/tests/transcript/test_codon_counts.py" />
         <option value="$PROJECT_DIR$/tests/transcript/test_utr3_motif_counts.py" />
         <option value="$PROJECT_DIR$/tests/transcript/test_utr5_motif_counts.py" />
         <option value="$PROJECT_DIR$/gfeat/transcript.py" />
+        <option value="$PROJECT_DIR$/tests/units/test_extract_sequence.py" />
+        <option value="$PROJECT_DIR$/gfeat/common_methods.py" />
+        <option value="$PROJECT_DIR$/gfeat/__init__.py" />
+        <option value="$PROJECT_DIR$/gfeat/units.py" />
       </list>
     </option>
   </component>
@@ -130,7 +131,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -187,6 +187,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -217,7 +218,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.transcript">
+  <component name="RunManager" selected="Python.units">
     <configuration name="tesst" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -371,7 +372,14 @@
       <option name="project" value="LOCAL" />
       <updated>1517165384320</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="config.py&#10;    – substituted pyensembl genome with manually created GFGenome&#10;test_codon_counts.py&#10;test_utr3_motif_counts.py&#10;test_utr5_motif_counts.py&#10;    – corresponding changes">
+      <created>1517254473479</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1517254473480</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView">
@@ -388,13 +396,14 @@
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287483" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24533333" sideWeight="0.515625" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26547456" sideWeight="0.484375" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26547456" sideWeight="0.484375" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2008253" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.261348" sideWeight="0.4890625" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32737276" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30452344" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30048466" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.084" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959871" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4099037" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -406,7 +415,6 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287483" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.084" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985553" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
     </layout>
@@ -472,7 +480,8 @@
     <MESSAGE value="- Added string replacement for all variants" />
     <MESSAGE value="tests&#10;   – all paths changed to relative paths&#10;   - prettifying" />
     <MESSAGE value="transcript.py&#10;    - Boyer-Moore search changed to the algorithm based on regular expressions&#10;    &#10;transcript.py&#10;    - Boyer-Moore search changed to the algorithm based on regular expressions&#10; &#10; units.py&#10;    - algorithms for &quot;+&quot; and &quot;-&quot; strands were collapsed into 1&#10;    - added error handling when VCF reference does not match the genome sequence&#10;    - added error handling in case of alterations/deletions" />
-    <option name="LAST_COMMIT_MESSAGE" value="transcript.py&#10;    - Boyer-Moore search changed to the algorithm based on regular expressions&#10;    &#10;transcript.py&#10;    - Boyer-Moore search changed to the algorithm based on regular expressions&#10; &#10; units.py&#10;    - algorithms for &quot;+&quot; and &quot;-&quot; strands were collapsed into 1&#10;    - added error handling when VCF reference does not match the genome sequence&#10;    - added error handling in case of alterations/deletions" />
+    <MESSAGE value="config.py&#10;    – substituted pyensembl genome with manually created GFGenome&#10;test_codon_counts.py&#10;test_utr3_motif_counts.py&#10;test_utr5_motif_counts.py&#10;    – corresponding changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="config.py&#10;    – substituted pyensembl genome with manually created GFGenome&#10;test_codon_counts.py&#10;test_utr3_motif_counts.py&#10;test_utr5_motif_counts.py&#10;    – corresponding changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -680,14 +689,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/gfeat/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="18" lean-forward="false" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/GFGene">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -723,74 +724,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gfeat/common_methods.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gfeat/gene.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" column="63" lean-forward="false" selection-start-line="28" selection-start-column="63" selection-end-line="28" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gfeat/genome.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gfeat/gfeat.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gfeat/splice_junction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="10" lean-forward="false" selection-start-line="1" selection-start-column="10" selection-end-line="1" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/units/test_extract_sequence.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/gene/config_1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gfeat/units.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="66" column="63" lean-forward="false" selection-start-line="66" selection-start-column="63" selection-end-line="66" selection-end-column="63" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/transcript/test_utr3_motif_counts.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="47" lean-forward="false" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="47" />
-          <folding>
-            <element signature="e#32#78#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -799,17 +736,7 @@
         <state relative-caret-position="225">
           <caret line="15" column="133" lean-forward="true" selection-start-line="15" selection-start-column="133" selection-end-line="15" selection-end-column="133" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gfeat/transcript.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-107">
-          <caret line="3" column="30" lean-forward="false" selection-start-line="3" selection-start-column="30" selection-end-line="3" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -819,8 +746,15 @@
         <state relative-caret-position="435">
           <caret line="29" column="40" lean-forward="true" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="46" />
           <folding>
-            <element signature="e#32#45#0" expanded="true" />
+            <element signature="e#32#45#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/data/gencode.v24.annotation_chr22.gtf">
+      <provider selected="true" editor-type-id="LargeFileEditor">
+        <state relative-caret-position="194">
+          <caret line="121" column="125" lean-forward="true" selection-start-line="121" selection-start-column="108" selection-end-line="121" selection-end-column="125" />
         </state>
       </provider>
     </entry>
@@ -832,10 +766,95 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/data/gencode.v24.annotation_chr22.gtf">
-      <provider selected="true" editor-type-id="LargeFileEditor">
-        <state relative-caret-position="194">
-          <caret line="121" column="125" lean-forward="true" selection-start-line="121" selection-start-column="108" selection-end-line="121" selection-end-column="125" />
+    <entry file="file://$PROJECT_DIR$/tests/transcript/test_utr3_motif_counts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="481">
+          <caret line="34" column="47" lean-forward="false" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="47" />
+          <folding>
+            <element signature="e#32#78#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/units/test_extract_sequence.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="24" lean-forward="false" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gfeat/units.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1560">
+          <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gfeat/gene.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="63" lean-forward="false" selection-start-line="28" selection-start-column="63" selection-end-line="28" selection-end-column="63" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gfeat/genome.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gfeat/gfeat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gfeat/splice_junction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="10" lean-forward="false" selection-start-line="1" selection-start-column="10" selection-end-line="1" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gfeat/transcript.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="30" lean-forward="false" selection-start-line="3" selection-start-column="30" selection-end-line="3" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gfeat/common_methods.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gfeat/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding>
+            <element signature="e#173#191#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
