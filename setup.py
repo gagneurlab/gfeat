@@ -10,7 +10,11 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-    "pyensembl", 'pytest', 'pysam', 'pybedtools'
+    "pyensembl", 
+    'pytest', 
+    'pysam', 
+    'pybedtools', 
+    'cyvcf2', 
 ]
 
 test_requirements = [
