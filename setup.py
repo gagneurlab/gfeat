@@ -14,7 +14,7 @@ requirements = [
     'pytest', 
     'pysam', 
     'pybedtools', 
-    'pyvcf2', 
+    'cyvcf2', 
 ]
 
 test_requirements = [
