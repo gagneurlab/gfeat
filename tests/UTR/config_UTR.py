@@ -1,9 +1,6 @@
 import pytest
 import pyensembl
-from pysam import FastaFile
-from pybedtools import BedTool
 from gfeat.genome import GFGenome
-from gfeat.transcript import GFTranscript
 from gfeat.UTR import FivePrimeUTRSeq
 
 
