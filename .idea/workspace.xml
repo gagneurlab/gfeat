@@ -48,8 +48,8 @@
       <file leaf-file-name="test_FivePrimeUTRSeq_constructor.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_constructor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="8" column="274" lean-forward="false" selection-start-line="8" selection-start-column="274" selection-end-line="8" selection-end-column="274" />
+            <state relative-caret-position="225">
+              <caret line="12" column="4" lean-forward="true" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
               <folding>
                 <element signature="e#41#54#0" expanded="true" />
               </folding>
@@ -550,7 +550,14 @@
       <option name="project" value="LOCAL" />
       <updated>1521134509229</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="– pyensembl 1.1.0">
+      <created>1521134787815</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1521134787815</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1052,8 +1059,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_constructor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="8" column="274" lean-forward="false" selection-start-line="8" selection-start-column="274" selection-end-line="8" selection-end-column="274" />
+        <state relative-caret-position="225">
+          <caret line="12" column="4" lean-forward="true" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
           <folding>
             <element signature="e#41#54#0" expanded="true" />
           </folding>
