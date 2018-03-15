@@ -11,7 +11,7 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     "pyensembl==1.1.0",
-    "gtfparse==0.0.6"
+    "gtfparse==0.0.6",
     'pytest',
     'pysam',
     'pybedtools',
