@@ -1,6 +1,6 @@
 from pybedtools import Interval
-from genome import GFGenome
-from common_methods import reverse_complement
+from gfeat.genome import GFGenome
+from gfeat.common_methods import reverse_complement
 
 class FivePrimeUTRSeq:
 
@@ -122,12 +122,3 @@ class FivePrimeUTRSeq:
                 "transcripts": transcripts,
                 "exons": self.exons[idx]
             }
-
-data_minus = GFGenome(reference_name='hg38_test_FivePrimeUTRSeq_minus',
-                     annotation_name='hg38_chr22_test_FivePrimeUTRSeq_minus',
-                     gtf_path_or_url="/Users/veronikakotova/gfeat/tests/data/gencode.v24.annotation_chr22_FivePrimeUTRSeq_testing_minus-strand.gtf",
-                     transcript_fasta_paths_or_urls="/Users/veronikakotova/gfeat/tests/data/hg38_chr22.fa",
-                     )
-FivePrimeUTRSeq_test_minus = FivePrimeUTRSeq(data_minus)
-print(len(FivePrimeUTRSeq_test_minus.seq[0]))
-print(len(FivePrimeUTRSeq_test_minus.seq_exons[0]))
