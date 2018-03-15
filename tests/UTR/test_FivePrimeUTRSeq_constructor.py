@@ -6,7 +6,7 @@ import pytest
 from tests.UTR.config_UTR import FivePrimeUTRSeq_object, FivePrimeUTRSeq_object_minus_strand
 
 import os
-# os.system("pyensembl install --reference-name hg38_test_FivePrimeUTRSeq_minus --annotation-name hg38_chr22_test_FivePrimeUTRSeq_minus --gtf \"./tests/data/gencode.v24.annotation_chr22_FivePrimeUTRSeq_testing_minus-strand.gtf\" --transcript-fasta \"./tests/data/hg38_chr22.fa\"")
+os.system("pyensembl install --reference-name hg38_test_FivePrimeUTRSeq_minus --annotation-name hg38_chr22_test_FivePrimeUTRSeq_minus --gtf \"./tests/data/gencode.v24.annotation_chr22_FivePrimeUTRSeq_testing_minus-strand.gtf\" --transcript-fasta \"./tests/data/hg38_chr22.fa\"")
 # os.system("pyensembl install --reference-name hg38_test_FivePrimeUTRSeq_minus --annotation-name hg38_chr22_test_FivePrimeUTRSeq_minus --gtf \"./tests/data/gencode.v24.annotation_chr22_FivePrimeUTRSeq_testing_minus-strand.gtf\" --transcript-fasta \"./tests/data/hg38_chr22.fa\"")
 
 def test_constructor(FivePrimeUTRSeq_object):
