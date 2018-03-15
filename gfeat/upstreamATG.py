@@ -1,4 +1,4 @@
-class upstreamAUG:
+class UpstreamATG:
     def __init__(self, allow_ORF = True, verbose_output = False):
         self.allow_ORF = allow_ORF
         self.verbose_output = verbose_output
