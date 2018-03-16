@@ -3,6 +3,7 @@ class UpstreamATG:
         self.allow_ORF = allow_ORF
         self.verbose_output = verbose_output
         pass
+
     def predict_on_sample(self, seq):
         """
         :param seq: string utr's sequence
@@ -20,6 +21,7 @@ class UpstreamATG:
             pass
         else:
             pass
+
     def predict_on_batch(self, seq_list):
         """
         :param seq_list: list of string utr's sequences
