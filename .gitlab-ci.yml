@@ -3,7 +3,7 @@ image: continuumio/miniconda3:latest
 
 before_script:
   # playing
-  - sudo docker exec -it gitlab /bin/bash
+#  - sudo docker exec -it gitlab /bin/bash
   # smth actually needed
   - export PIP_CACHE_DIR="/opt/cache/pip"
   - conda install -y numpy pandas scipy pytest h5py bcolz
