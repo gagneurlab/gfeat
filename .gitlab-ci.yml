@@ -2,6 +2,9 @@
 image: continuumio/miniconda3:latest
 
 before_script:
+  # playing
+  - gitlab-runner --help
+  # smth actually needed
   - export PIP_CACHE_DIR="/opt/cache/pip"
   - conda install -y numpy pandas scipy pytest h5py bcolz
   - conda install -c bioconda pybedtools bedtools htslib cyvcf2
