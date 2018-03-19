@@ -1,6 +1,6 @@
 from pybedtools import Interval
-from gfeat.genome import GFGenome # Todo
-from gfeat.common_methods import reverse_complement # Todo
+from gfeat.common_methods import reverse_complement
+
 
 class FivePrimeUTRSeq:
 
@@ -40,14 +40,19 @@ class FivePrimeUTRSeq:
                         if exon.start <= transcript.start_codon_positions[0] and start <= exon.start:
                             if exon.end > transcript.start_codon_positions[0]:
                                 temp_seq_exons = temp_seq_exons + transcript.sequence[exon.start - transcript.start:
-                                                              transcript.start_codon_positions[0] - transcript.start]
+                                                                                      transcript.start_codon_positions[
+                                                                                          0] - transcript.start]
                                 temp_exon_list.append((transcript.sequence[exon.start - transcript.start:
-                                                         transcript.start_codon_positions[0] - transcript.start],
-                                                  Interval(transcript.contig, exon.start, transcript.start_codon_positions[0] - 1,
-                                                           exon.id, 0, "+")))  # Todo dummy score
+                                                                           transcript.start_codon_positions[
+                                                                               0] - transcript.start],
+                                                       Interval(transcript.contig, exon.start,
+                                                                transcript.start_codon_positions[0] - 1,
+                                                                exon.id, 0, "+")))  # Todo dummy score
                             else:
-                                temp_exon_list.append((transcript.sequence[exon.start - transcript.start: exon.end - transcript.start + 1], \
-                                                  Interval(transcript.contig, exon.start, exon.end, exon.id, 0, "+")))  # Todo dummy score
+                                temp_exon_list.append((transcript.sequence[exon.start - transcript.start: exon.end
+                                                                                                          - transcript.start + 1],
+                                                       Interval(transcript.contig, exon.start, exon.end, exon.id, 0,
+                                                                "+")))  # Todo dummy score
                                 temp_seq_exons = temp_seq_exons + transcript.sequence[exon.start - transcript.start: \
                                                                                       exon.end - transcript.start + 1]
                             start = exon.start
@@ -55,45 +60,19 @@ class FivePrimeUTRSeq:
                     if transcript.sequence[:transcript.start_codon_positions[0] - transcript.start] not in self.seq \
                         and temp_seq_exons not in self.seq_exons:
                         self.seq.append(transcript.sequence[:transcript.start_codon_positions[0] - transcript.start])
-                        self.intervals.append(Interval(transcript.contig, transcript.start, int(transcript.start_codon_positions[0] - 1), "5' UTR", 0, "+")) # Todo dummy score
+                        self.intervals.append(
+                            Interval(transcript.contig, transcript.start, int(transcript.start_codon_positions[0] - 1),
+                                     "5' UTR", 0, "+"))  # Todo dummy score
 
                         self.seq_exons.append(temp_seq_exons)
                         self.exons[count] = temp_exon_list
                         count = count + 1
 
-                    self.transcripts[transcript.id] = self.seq.index(transcript.sequence[:transcript.start_codon_positions[0] - transcript.start])
+                    self.transcripts[transcript.id] = self.seq.index(
+                        transcript.sequence[:transcript.start_codon_positions[0] - transcript.start])
 
             for transcript in data.transcripts(contig, '-'):
                 if transcript.contains_start_codon:
-
-                    # temp_seq_exons = ""
-                    # temp_exon_list = []
-                    # end = transcript.end
-                    # for exon in transcript.exons:
-                    #     if exon.end >= transcript.start_codon_positions[0] and end >= exon.end:
-                    #         if exon.start < transcript.start_codon_positions[0]:
-                    #             reverse_complemet_seq = reverse_complement(transcript.sequence[transcript.start_codon_positions[2]
-                    #                                      - transcript.start + 1:exon.end - transcript.start + 1])
-                    #             temp_seq_exons = temp_seq_exons + reverse_complemet_seq
-                    #             temp_exon_list.append((reverse_complemet_seq, Interval(transcript.contig,
-                    #                   transcript.start_codon_positions[2] + 1, exon.end, exon.id, 0, "-")))  # Todo dummy score
-                    #         else:
-                    #             reverse_complemet_seq = reverse_complement(transcript.sequence[exon.start - transcript.start: exon.end - transcript.start + 1])
-                    #             temp_exon_list.append((reverse_complemet_seq, Interval(transcript.contig, exon.start, exon.end, exon.id, 0, "-")))  # Todo dummy score
-                    #             temp_seq_exons = temp_seq_exons + reverse_complemet_seq
-                    #         end = exon.end
-                    #
-                    # curent_transcript_seq = reverse_complement(transcript.sequence[transcript.start_codon_positions[2] - transcript.start + 1:])
-                    # if curent_transcript_seq not in self.seq \
-                    #     and temp_seq_exons not in self.seq_exons:
-                    #     self.seq.append(curent_transcript_seq)
-                    #     self.intervals.append(Interval(transcript.contig, transcript.start_codon_positions[2] + 1, transcript.end, "5' UTR", 0, "-")) # Todo dummy score
-                    #
-                    #     self.seq_exons.append(temp_seq_exons)
-                    #     self.exons[count] = temp_exon_list
-                    #     count = count + 1
-                    #
-                    # self.transcripts[transcript.id] = self.seq.index(curent_transcript_seq)
 
                     temp_seq_exons = ""
                     temp_exon_list = []
@@ -102,13 +81,18 @@ class FivePrimeUTRSeq:
                         if exon.end >= transcript.start_codon_positions[0] and end >= exon.end:
                             if exon.start < transcript.start_codon_positions[0]:
                                 temp_seq = transcript.sequence[transcript.start_codon_positions[2]
-                                                         - transcript.start + 1:exon.end - transcript.start + 1]
+                                                               - transcript.start + 1:exon.end - transcript.start + 1]
                                 temp_seq_exons = temp_seq + temp_seq_exons
                                 temp_exon_list.append((temp_seq, Interval(transcript.contig,
-                                      transcript.start_codon_positions[2] + 1, exon.end, exon.id, 0, "-")))  # Todo dummy score
+                                                                          transcript.start_codon_positions[2] + 1,
+                                                                          exon.end, exon.id, 0,
+                                                                          "-")))  # Todo dummy score
                             else:
-                                temp_seq = transcript.sequence[exon.start - transcript.start: exon.end - transcript.start + 1]
-                                temp_exon_list.append((temp_seq, Interval(transcript.contig, exon.start, exon.end, exon.id, 0, "-")))  # Todo dummy score
+                                temp_seq = transcript.sequence[
+                                           exon.start - transcript.start: exon.end - transcript.start + 1]
+                                temp_exon_list.append((temp_seq,
+                                                       Interval(transcript.contig, exon.start, exon.end, exon.id, 0,
+                                                                "-")))  # Todo dummy score
                                 temp_seq_exons = temp_seq + temp_seq_exons
                             end = exon.end
 
@@ -119,11 +103,14 @@ class FivePrimeUTRSeq:
                             temp_exon_list_reverse.append((reverse_complement(temp_exon[0]), temp_exon[1]))
                         temp_exon_list = temp_exon_list_reverse
 
-                    curent_transcript_seq = reverse_complement(transcript.sequence[transcript.start_codon_positions[2] - transcript.start + 1:])
+                    curent_transcript_seq = reverse_complement(
+                        transcript.sequence[transcript.start_codon_positions[2] - transcript.start + 1:])
                     if curent_transcript_seq not in self.seq \
                         and temp_seq_exons not in self.seq_exons:
                         self.seq.append(curent_transcript_seq)
-                        self.intervals.append(Interval(transcript.contig, transcript.start_codon_positions[2] + 1, transcript.end, "5' UTR", 0, "-")) # Todo dummy score
+                        self.intervals.append(
+                            Interval(transcript.contig, transcript.start_codon_positions[2] + 1, transcript.end,
+                                     "5' UTR", 0, "-"))  # Todo dummy score
 
                         self.seq_exons.append(temp_seq_exons)
                         self.exons[count] = temp_exon_list
@@ -155,17 +142,7 @@ class FivePrimeUTRSeq:
                 transcripts.append(transcript)
 
         return {
-                self.seq[idx]: self.intervals[idx],
-                "transcripts": transcripts,
-                "exons": self.exons[idx]
-            }
-#
-#
-# data_minus = GFGenome(reference_name='hg38_test_FivePrimeUTRSeq_minus',
-#                      annotation_name='hg38_chr22_test_FivePrimeUTRSeq_minus',
-#                      gtf_path_or_url="/Users/veronikakotova/gfeat/tests/data/gencode.v24.annotation_chr22_FivePrimeUTRSeq_testing_minus-strand.gtf",
-#                      transcript_fasta_paths_or_urls="/Users/veronikakotova/gfeat/tests/data/hg38_chr22.fa",
-#                      )
-# FivePrimeUTRSeq_test_minus = FivePrimeUTRSeq(data_minus, True)
-# print(FivePrimeUTRSeq_test_minus.seq)
-# print(FivePrimeUTRSeq_test_minus[0])
+            self.seq[idx]: self.intervals[idx],
+            "transcripts": transcripts,
+            "exons": self.exons[idx]
+        }
