@@ -1,19 +1,56 @@
 import pytest
 import pyensembl
-from pyensembl import Genome
-
+from pysam import FastaFile
+from pybedtools import BedTool
+from gfeat.genome import GFGenome
 from gfeat.transcript import GFTranscript
+
 
 @pytest.fixture()
 def transcript():
-    data = pyensembl.ensembl_release.EnsemblRelease(75)
-    test_transcript = GFTranscript("ENST00000369985", "MYO6-001", "6", 76458926, 76629253, "+", "protein_coding",
-                                "ENSG00000196586", data)
+    data = GFGenome(reference_name='hg38_test',
+                     annotation_name='hg38_chr22_test',
+                     gtf_path_or_url="./tests/data/gencode.v24.annotation_chr22.gtf",
+                     transcript_fasta_paths_or_urls="./tests/data/hg38_chr22.fa",
+                     )
+    test_transcript = GFTranscript('ENST00000624155.1', 'BAGE5-201', '22', 11066501, 11068089, '-', 'None', 'ENSG00000279973.1', data)
     return test_transcript
 
-# data = Genome(reference_name='GRCh38',
-#     annotation_name='my_genome_features',
-#     gtf_path_or_url='//Users/veronikakotova/gfeat/tests/data/gencode.v24.annotation_chr22.gtf')
-# # parse GTF and construct database of genomic features
-# data.index()
-# gene_names = data.gene_names_at_locus(contig=6, position=29945884)
+
+@pytest.fixture()
+def interval_plus():
+    gtf = BedTool("./tests/data/chr22_testing.gtf")
+    test_interval = gtf[0]  # get the first element in the bed file, returns an Interval object
+    test_interval.strand = '+'
+    return test_interval
+
+
+@pytest.fixture()
+def interval_minus():
+    gtf = BedTool("./tests/data/chr22_testing.gtf")
+    test_interval = gtf[0]  # get the first element in the bed file, returns an Interval object
+    return test_interval
+
+
+@pytest.fixture()
+def fasta():
+    test_fasta = FastaFile("./tests/data/chr22_testing.fa")
+    return test_fasta
+
+
+@pytest.fixture()
+def vcf():
+    test_vcf = "./tests/data/49470G_chr22_testing.vcf.gz"
+    return test_vcf
+
+
+@pytest.fixture()
+def vcf_none():
+    test_vcf = None
+    return test_vcf
+
+
+@pytest.fixture()
+def ref_check():
+    ref_check_test = True
+    return ref_check_test

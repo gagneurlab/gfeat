@@ -1,0 +1,183 @@
+##fileformat=VCFv4.1
+##samtoolsVersion=0.1.19-44428cd
+##reference=file:///data/mirror/goldenpath/hg19/chromosome/hg19.fa
+##contig=<ID=chr1,length=249250621>
+##contig=<ID=chr1_gl000191_random,length=106433>
+##contig=<ID=chr1_gl000192_random,length=547496>
+##contig=<ID=chr2,length=243199373>
+##contig=<ID=chr3,length=198022430>
+##contig=<ID=chr4,length=191154276>
+##contig=<ID=chr4_gl000193_random,length=189789>
+##contig=<ID=chr4_gl000194_random,length=191469>
+##contig=<ID=chr5,length=180915260>
+##contig=<ID=chr6,length=171115067>
+##contig=<ID=chr7,length=159138663>
+##contig=<ID=chr7_gl000195_random,length=182896>
+##contig=<ID=chr8,length=146364022>
+##contig=<ID=chr8_gl000196_random,length=38914>
+##contig=<ID=chr8_gl000197_random,length=37175>
+##contig=<ID=chr9,length=141213431>
+##contig=<ID=chr9_gl000198_random,length=90085>
+##contig=<ID=chr9_gl000199_random,length=169874>
+##contig=<ID=chr9_gl000200_random,length=187035>
+##contig=<ID=chr9_gl000201_random,length=36148>
+##contig=<ID=chr10,length=135534747>
+##contig=<ID=chr11,length=135006516>
+##contig=<ID=chr11_gl000202_random,length=40103>
+##contig=<ID=chr12,length=133851895>
+##contig=<ID=chr13,length=115169878>
+##contig=<ID=chr14,length=107349540>
+##contig=<ID=chr15,length=102531392>
+##contig=<ID=chr16,length=90354753>
+##contig=<ID=chr17,length=81195210>
+##contig=<ID=chr17_gl000203_random,length=37498>
+##contig=<ID=chr17_gl000204_random,length=81310>
+##contig=<ID=chr17_gl000205_random,length=174588>
+##contig=<ID=chr17_gl000206_random,length=41001>
+##contig=<ID=chr18,length=78077248>
+##contig=<ID=chr18_gl000207_random,length=4262>
+##contig=<ID=chr19,length=59128983>
+##contig=<ID=chr19_gl000208_random,length=92689>
+##contig=<ID=chr19_gl000209_random,length=159169>
+##contig=<ID=chr20,length=63025520>
+##contig=<ID=chr21,length=48129895>
+##contig=<ID=chr21_gl000210_random,length=27682>
+##contig=<ID=chr22,length=51304566>
+##contig=<ID=chrX,length=155270560>
+##contig=<ID=chrY,length=59373566>
+##contig=<ID=chrM,length=16571>
+##contig=<ID=chrUn_gl000211,length=166566>
+##contig=<ID=chrUn_gl000212,length=186858>
+##contig=<ID=chrUn_gl000213,length=164239>
+##contig=<ID=chrUn_gl000214,length=137718>
+##contig=<ID=chrUn_gl000215,length=172545>
+##contig=<ID=chrUn_gl000216,length=172294>
+##contig=<ID=chrUn_gl000217,length=172149>
+##contig=<ID=chrUn_gl000218,length=161147>
+##contig=<ID=chrUn_gl000219,length=179198>
+##contig=<ID=chrUn_gl000220,length=161802>
+##contig=<ID=chrUn_gl000221,length=155397>
+##contig=<ID=chrUn_gl000222,length=186861>
+##contig=<ID=chrUn_gl000223,length=180455>
+##contig=<ID=chrUn_gl000224,length=179693>
+##contig=<ID=chrUn_gl000225,length=211173>
+##contig=<ID=chrUn_gl000226,length=15008>
+##contig=<ID=chrUn_gl000227,length=128374>
+##contig=<ID=chrUn_gl000228,length=129120>
+##contig=<ID=chrUn_gl000229,length=19913>
+##contig=<ID=chrUn_gl000230,length=43691>
+##contig=<ID=chrUn_gl000231,length=27386>
+##contig=<ID=chrUn_gl000232,length=40652>
+##contig=<ID=chrUn_gl000233,length=45941>
+##contig=<ID=chrUn_gl000234,length=40531>
+##contig=<ID=chrUn_gl000235,length=34474>
+##contig=<ID=chrUn_gl000236,length=41934>
+##contig=<ID=chrUn_gl000237,length=45867>
+##contig=<ID=chrUn_gl000238,length=39939>
+##contig=<ID=chrUn_gl000239,length=33824>
+##contig=<ID=chrUn_gl000240,length=41933>
+##contig=<ID=chrUn_gl000241,length=42152>
+##contig=<ID=chrUn_gl000242,length=43523>
+##contig=<ID=chrUn_gl000243,length=43341>
+##contig=<ID=chrUn_gl000244,length=39929>
+##contig=<ID=chrUn_gl000245,length=36651>
+##contig=<ID=chrUn_gl000246,length=38154>
+##contig=<ID=chrUn_gl000247,length=36422>
+##contig=<ID=chrUn_gl000248,length=39786>
+##contig=<ID=chrUn_gl000249,length=38502>
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Raw read depth">
+##INFO=<ID=DP4,Number=4,Type=Integer,Description="# high-quality ref-forward bases, ref-reverse, alt-forward and alt-reverse bases">
+##INFO=<ID=MQ,Number=1,Type=Integer,Description="Root-mean-square mapping quality of covering reads">
+##INFO=<ID=FQ,Number=1,Type=Float,Description="Phred probability of all samples being the same">
+##INFO=<ID=AF1,Number=1,Type=Float,Description="Max-likelihood estimate of the first ALT allele frequency (assuming HWE)">
+##INFO=<ID=AC1,Number=1,Type=Float,Description="Max-likelihood estimate of the first ALT allele count (no HWE assumption)">
+##INFO=<ID=AN,Number=1,Type=Integer,Description="Total number of alleles in called genotypes">
+##INFO=<ID=IS,Number=2,Type=Float,Description="Maximum number of reads supporting an indel and fraction of indel reads">
+##INFO=<ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes for each ALT allele, in the same order as listed">
+##INFO=<ID=G3,Number=3,Type=Float,Description="ML estimate of genotype frequencies">
+##INFO=<ID=HWE,Number=1,Type=Float,Description="Chi^2 based HWE test P-value based on G3">
+##INFO=<ID=CLR,Number=1,Type=Integer,Description="Log ratio of genotype likelihoods with and without the constraint">
+##INFO=<ID=UGT,Number=1,Type=String,Description="The most probable unconstrained genotype configuration in the trio">
+##INFO=<ID=CGT,Number=1,Type=String,Description="The most probable constrained genotype configuration in the trio">
+##INFO=<ID=PV4,Number=4,Type=Float,Description="P-values for strand bias, baseQ bias, mapQ bias and tail distance bias">
+##INFO=<ID=INDEL,Number=0,Type=Flag,Description="Indicates that the variant is an INDEL.">
+##INFO=<ID=PC2,Number=2,Type=Integer,Description="Phred probability of the nonRef allele frequency in group1 samples being larger (,smaller) than in group2.">
+##INFO=<ID=PCHI2,Number=1,Type=Float,Description="Posterior weighted chi^2 P-value for testing the association between group1 and group2 samples.">
+##INFO=<ID=QCHI2,Number=1,Type=Integer,Description="Phred scaled PCHI2.">
+##INFO=<ID=PR,Number=1,Type=Integer,Description="# permutations yielding a smaller PCHI2.">
+##INFO=<ID=QBD,Number=1,Type=Float,Description="Quality by Depth: QUAL/#reads">
+##INFO=<ID=RPB,Number=1,Type=Float,Description="Read Position Bias">
+##INFO=<ID=MDV,Number=1,Type=Integer,Description="Maximum number of high-quality nonRef reads in samples">
+##INFO=<ID=VDB,Number=1,Type=Float,Description="Variant Distance Bias (v2) for filtering splice-site artefacts in RNA-seq data. Note: this version may be broken.">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Genotype Quality">
+##FORMAT=<ID=GL,Number=3,Type=Float,Description="Likelihoods for RR,RA,AA genotypes (R=ref,A=alt)">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="# high-quality bases">
+##FORMAT=<ID=DV,Number=1,Type=Integer,Description="# high-quality non-reference bases">
+##FORMAT=<ID=SP,Number=1,Type=Integer,Description="Phred-scaled strand bias P-value">
+##FORMAT=<ID=PL,Number=G,Type=Integer,Description="List of Phred-scaled genotype likelihoods">
+##FILTER=<ID=VARQ,Description="Filtered out by vcfutils.pl varFilter, because of to low MQ (< 25)">
+##FILTER=<ID=VARd,Description="Filtered out by vcfutils.pl varFilter, because of to low read depth (< 3)">
+##FILTER=<ID=VARD,Description="Filtered out by vcfutils.pl varFilter, because of to high read depth (> 9999)">
+##FILTER=<ID=VARa,Description="Filtered out by vcfutils.pl varFilter, because of to low read depth of variant bases (< 2)">
+##FILTER=<ID=VARG,Description="Filtered out by vcfutils.pl varFilter, because of ??? (probably something with surrounding variants)">
+##FILTER=<ID=VARg,Description="Filtered out by vcfutils.pl varFilter, because of ??? (probably something with surrounding variants)">
+##FILTER=<ID=VARP,Description="Filtered out by vcfutils.pl varFilter, because of bias probability (see PV4)">
+##FILTER=<ID=VARM,Description="Filtered out by vcfutils.pl varFilter, because of ???">
+##FILTER=<ID=VARS,Description="Filtered out by vcfutils.pl varFilter, because of Hardy-Weinberg equilibrium">
+##SnpSiftVersion="SnpSift 3.4e (build 2013-12-21), by Pablo Cingolani"
+##SnpSiftCmd="SnpSift annotate /data/isilon/seq/analysis/exomehg19//S0037/49470G/genomicout/paired-endout/ontarget.varfilter.filtered_dbSNPs.vcf /data/isilon/seq/analysis/exomehg19//S0037/49470G/genomicout/paired-endout/ontarget.varfilter.vcf "
+##INFO=<ID=TG,Number=0,Type=Flag,Description="The variant was also found in the 1000G project">
+##INFO=<ID=UTR5TRANS,Number=.,Type=String,Description="Transcript(s) in whose 5'UTR this variant lies">
+##INFO=<ID=UTR5GENE,Number=.,Type=String,Description="Gene(s) in whose 5'UTR this variant lies">
+##INFO=<ID=UTR5STRAND,Number=.,Type=String,Description="Strand(s) of the Transcript(s)/Gene(s) in whose 5'UTR this variant lies">
+##INFO=<ID=UTR3TRANS,Number=.,Type=String,Description="Transcript(s) in whose 3'UTR this variant lies">
+##INFO=<ID=UTR3GENE,Number=.,Type=String,Description="Gene(s) in whose 3'UTR this variant lies">
+##INFO=<ID=UTR3STRAND,Number=.,Type=String,Description="Strand(s) of the Transcript(s)/Gene(s) in whose 3'UTR this variant lies">
+##INFO=<ID=NCTRANS,Number=.,Type=String,Description="Transcript(s) in whose noncoding area this variant lies">
+##INFO=<ID=NCGENE,Number=.,Type=String,Description="Gene(s) in whose noncoding area this variant lies">
+##INFO=<ID=NCSTRAND,Number=.,Type=String,Description="Strand(s) of the Transcript(s)/Gene(s) in whose noncoding area this variant lies">
+##INFO=<ID=CDSTRANS,Number=.,Type=String,Description="Transcript(s) in whose coding sequence this variant lies">
+##INFO=<ID=CDSGENE,Number=.,Type=String,Description="Gene(s) in whose coding sequence this variant lies">
+##INFO=<ID=CDSSTRAND,Number=.,Type=String,Description="Strand(s) of the Transcript(s)/Gene(s) in whose coding sequence this variant lies">
+##INFO=<ID=CDSNUC,Number=.,Type=String,Description="Nucleotide change and its position in the current transcript">
+##INFO=<ID=CDSFRAME,Number=.,Type=Integer,Description="Position of the variant within its frame">
+##INFO=<ID=CDSAA,Number=.,Type=String,Description="Amino acid change triggered by the variant">
+##INFO=<ID=CDSFUNC,Number=.,Type=String,Description="Putative function of the variant">
+##INFO=<ID=DSTRANS,Number=.,Type=String,Description="Transcript(s) in direct splice site this variant lies">
+##INFO=<ID=DSGENE,Number=.,Type=String,Description="Gene(s) in whose direct splice site this variant lies">
+##INFO=<ID=DSSTRAND,Number=.,Type=String,Description="Strand(s) of the Transcript(s)/Gene(s) in whose direct splice site this variant lies">
+##INFO=<ID=DSMUT,Number=.,Type=String,Description="Mutation at the current direct splice site.">
+##INFO=<ID=NSTRANS,Number=.,Type=String,Description="Transcript(s) near whose splice site this variant lies">
+##INFO=<ID=NSGENE,Number=.,Type=String,Description="Gene(s) near whose splice site this variant lies">
+##INFO=<ID=NSSTRAND,Number=.,Type=String,Description="Strand(s) of the Transcript(s)/Gene(s) near whose splice site this variant lies">
+##INFO=<ID=INTTRANS,Number=.,Type=String,Description="Transcript(s) in whose intron this variant lies">
+##INFO=<ID=INTGENE,Number=.,Type=String,Description="Gene(s) in whose intron this variant lies">
+##INFO=<ID=INTSTRAND,Number=.,Type=String,Description="Strand(s) of the Transcript(s)/Gene(s) in whose intron this variant lies">
+##INFO=<ID=FUNC,Number=.,Type=String,Description="Putative function of this variant, according to all isoforms.">
+##INFO=<ID=DBPOS,Number=.,Type=Integer,Description="Position of an indel in database (last possible position), for comparison with e.g. HGMD.">
+##INFO=<ID=DBINDEL,Number=.,Type=String,Description="Nominclature of an indel for database, for comparison with e.g. HGMD.">
+##INFO=<ID=UPSTRANS,Number=1,Type=String,Description="Next upstream transcript if variant is intergenic">
+##INFO=<ID=UPSGENE,Number=1,Type=String,Description="Next upstream gene if variant is intergenic">
+##INFO=<ID=UPSSTRAND,Number=1,Type=String,Description="Strand of next upstream gene if variant is intergenic">
+##INFO=<ID=UPSDIST,Number=1,Type=Integer,Description="Distance to next upstream gene if variant is intergenic">
+##INFO=<ID=DOSTRANS,Number=1,Type=String,Description="Next downstream transcript if variant is intergenic">
+##INFO=<ID=DOSGENE,Number=1,Type=String,Description="Next downstream gene if variant is intergenic">
+##INFO=<ID=DOSSTRAND,Number=1,Type=String,Description="Strand of next downstream gene if variant is intergenic">
+##INFO=<ID=DOSDIST,Number=1,Type=Integer,Description="Distance to next downstream gene if variant is intergenic">
+##INFO=<ID=regulation,Number=.,Type=String,Description="Id(s) of overlapping histones in internal database.">
+##FILTER=<ID=Q20,Description="Filtered out by filterSNPqual.pl because median quality < 20">
+##FILTER=<ID=Q15,Description="Filtered out by filterSNPqual.pl because median quality < 15">
+##FILTER=<ID=Q10,Description="Filtered out by filterSNPqual.pl because median quality < 10">
+##FILTER=<ID=Q5,Description="Filtered out by filterSNPqual.pl because median quality < 5">
+##FILTER=<ID=Q3,Description="Filtered out by filterSNPqual.pl because median quality < 3">
+##INFO=<ID=MED,Number=1,Type=Integer,Description="Median read quality at this position">
+##INFO=<ID=SF,Number=1,Type=Float,Description="Lower strand frequency (<=0.5) of variant read">
+##INFO=<ID=VP,Number=1,Type=Float,Description="Percentage of reads containing the (best) variant">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	49470G
+chr22	3	.	A	G	4.77	VARQ	AC1=1;AF1=0.4999;DP4=3,4,2,2;DP=11;FQ=6.99;FUNC=intronic;INTGENE=AK022914;INTSTRAND=-;INTTRANS=uc002zks.4;MED=25.5;MQ=22;PV4=1,0.16,0.0013,0.021;RPB=-1.791432e+00;SF=0.33;VDB=3.317223e-02;VP=0.25	GT:PL:DP:SP:GQ	1/1:33,0,94:11:0:33
+chr22	8	.	TG	CA	4.77	VARQ	AC1=1;AF1=0.4999;DP4=3,4,2,2;DP=11;FQ=6.99;FUNC=intronic;INTGENE=AK022914;INTSTRAND=-;INTTRANS=uc002zks.4;MED=25.5;MQ=22;PV4=1,0.16,0.0013,0.021;RPB=-1.791432e+00;SF=0.33;VDB=3.317223e-02;VP=0.25	GT:PL:DP:SP:GQ	0/1:33,0,94:11:0:33
+chr22	11	rs35893428	G	A	225.0	.	AC1=1;AF1=0.5;DOSDIST=16190;DOSGENE=CCT8L2;DOSSTRAND=-;DOSTRANS=uc002zlp.1;DP4=11,17,14,10;DP=54;FQ=225;FUNC=intergenic;GMAF=0.210694698354662;GNO;KGPilot123;MED=38;MQ=59;PV4=0.27,0.075,0.19,0.14;RPB=1.826380e+00;RSPOS=17055458;SAO=0;SF=0.42;SLO;SSR=0;UPSDIST=25814;UPSGENE=DQ571479;UPSSTRAND=+;UPSTRANS=uc002zlo.1;VC=SNV;VDB=1.066357e-01;VLD;VP=0.47;WGT=0;dbSNPBuildID=126	GT:PL:DP:SP:GQ	0/1:255,0,255:52:6:99
+chr22	12	rs3729688	T	G	225.0	.	AC1=1;AF1=0.5;DOSDIST=16079;DOSGENE=CCT8L2;DOSSTRAND=-;DOSTRANS=uc002zlp.1;DP4=14,9,9,9;DP=41;FQ=225;FUNC=intergenic;G5;G5A;GMAF=0.439670932358318;GNO;HD;KGPilot123;MED=38;MQ=59;PH2;PV4=0.54,1,1,1;RPB=6.961642e-01;RSPOS=17055569;SAO=0;SF=0.50;SLO;SSR=0;UPSDIST=25925;UPSGENE=DQ571479;UPSSTRAND=+;UPSTRANS=uc002zlo.1;VC=SNV;VDB=1.782038e-01;VLD;VP=0.44;WGT=0;dbSNPBuildID=107	GT:PL:DP:SP:GQ	1/1:255,0,255:41:3:99
+chr22	14	rs2006108	A	G	222.0	.	AC1=2;AF1=1;DOSDIST=8289;DOSGENE=CCT8L2;DOSSTRAND=-;DOSTRANS=uc002zlp.1;DP4=0,0,23,28;DP=55;FQ=-181;FUNC=intergenic;G5;GMAF=0.086837294332724;GNO;KGPilot123;MED=38;MQ=31;PH2;RSPOS=17063359;SAO=0;SF=0.44;SLO;SSR=0;UPSDIST=33715;UPSGENE=DQ571479;UPSSTRAND=+;UPSTRANS=uc002zlo.1;VC=SNV;VDB=3.161857e-02;VLD;VP=0.98;WGT=0;dbSNPBuildID=92	GT:PL:DP:SP:GQ	1/1:255,154,0:51:0:99
+chr22	17	rs17853213	C	T	207.0	.	AC1=1;AF1=0.5;CDSAA=Ser537Ser;CDSFRAME=2;CDSFUNC=syn;CDSGENE=CCT8L2;CDSNUC=1611A->G;CDSSTRAND=-;CDSTRANS=uc002zlp.1;CFL;DP4=7,7,7,6;DP=28;FQ=209;FUNC=syn;GENEINFO=CCT8L2:150160;GNO;HD;MED=38;MQ=59;PV4=1,1,1,1;RPB=5.580508e-01;RSPOS=17071830;SAO=0;SF=0.50;SSR=0;VC=SNV;VDB=8.785691e-02;VP=0.50;WGT=0;dbSNPBuildID=123	GT:PL:DP:SP:GQ	0/1:237,0,242:27:0:99

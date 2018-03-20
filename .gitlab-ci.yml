@@ -2,11 +2,22 @@
 image: continuumio/miniconda3:latest
 
 before_script:
+  # playing
+#  - sudo docker exec -it gitlab /bin/bash
+  # smth actually needed
   - export PIP_CACHE_DIR="/opt/cache/pip"
-  - conda install -y numpy pandas scipy pytest h5py bcolz pybedtools
+  - conda install -y numpy pandas scipy pytest h5py bcolz
+  - conda install -c bioconda pybedtools bedtools htslib cyvcf2
   # dl toolkit
   - pip install tensorflow
   - pip install keras
+  # cython in case we need it
+  - pip install cython
+  - pip install 'pyensembl==1.1.0'
+  - pip install 'gtfparse==0.0.6'
+  - pyensembl install --reference-name hg38_test --annotation-name hg38_chr22_test --gtf "./tests/data/gencode.v24.annotation_chr22.gtf" --transcript-fasta "./tests/data/hg38_chr22.fa"
+  - pyensembl install --reference-name hg38_test_FivePrimeUTRSeq --annotation-name hg38_chr22_test_FivePrimeUTRSeq --gtf "./tests/data/gencode.v24.annotation_chr22_FivePrimeUTRSeq_testing.gtf" --transcript-fasta "./tests/data/hg38_chr22.fa"
+  - pyensembl install --reference-name hg38_test_FivePrimeUTRSeq_minus --annotation-name hg38_chr22_test_FivePrimeUTRSeq_minus --gtf "./tests/data/gencode.v24.annotation_chr22_FivePrimeUTRSeq_testing_minus-strand.gtf" --transcript-fasta "./tests/data/hg38_chr22.fa"
   # - conda install -y pytorch torchvision -c soumith
 
 
