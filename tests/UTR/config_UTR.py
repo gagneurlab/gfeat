@@ -11,7 +11,7 @@ def FivePrimeUTRSeq_object():
                      gtf_path_or_url="./tests/data/gencode.v24.annotation_chr22_FivePrimeUTRSeq_testing.gtf",
                      transcript_fasta_paths_or_urls="./tests/data/hg38_chr22.fa",
                      )
-    UTR_object = FivePrimeUTRSeq(data, True)
+    UTR_object = FivePrimeUTRSeq(data, False)
     return UTR_object
 
 

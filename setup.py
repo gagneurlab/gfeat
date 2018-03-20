@@ -18,7 +18,7 @@ requirements = [
     'pytest',
     'pysam',
     'pybedtools',
-    'cyvcf2',
+    'cyvcf2', 'numpy',
 ]
 
 test_requirements = [

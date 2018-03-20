@@ -1,4 +1,5 @@
 from pybedtools import Interval
+from gfeat.genome import GFGenome
 from gfeat.common_methods import reverse_complement
 
 
@@ -35,7 +36,7 @@ class FivePrimeUTRSeq:
 
                     temp_seq_exons = ""
                     temp_exon_list = []
-                    start = transcript.start_codon_positions[0]
+                    start = transcript.start
                     for exon in transcript.exons:
                         if exon.start <= transcript.start_codon_positions[0] and start <= exon.start:
                             if exon.end > transcript.start_codon_positions[0]:
