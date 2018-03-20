@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42634b39-5467-43b6-ab3d-357c28d3d096" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitlab-ci.yml" afterPath="$PROJECT_DIR$/.gitlab-ci.yml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,18 +24,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UTR.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gfeat/UTR.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="129">
-              <caret line="42" column="34" lean-forward="true" selection-start-line="42" selection-start-column="34" selection-end-line="42" selection-end-column="34" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="units.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gfeat/units.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -47,7 +36,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="upstreamATG.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="upstreamATG.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gfeat/upstreamATG.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1575">
@@ -64,6 +53,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="132">
               <caret line="228" column="0" lean-forward="false" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitlab-ci.yml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitlab-ci.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" column="240" lean-forward="false" selection-start-line="18" selection-start-column="240" selection-end-line="18" selection-end-column="240" />
               <folding />
             </state>
           </provider>
@@ -217,7 +216,6 @@
         <option value="$PROJECT_DIR$/.travis.yml" />
         <option value="$PROJECT_DIR$/tests/transcript/test_codon_counts.py" />
         <option value="$PROJECT_DIR$/requirements_dev.txt" />
-        <option value="$PROJECT_DIR$/.gitlab-ci.yml" />
         <option value="$PROJECT_DIR$/gfeat/units.py" />
         <option value="$PROJECT_DIR$/tests/units/test_extract_sequence.py" />
         <option value="$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_constructor.py" />
@@ -231,6 +229,7 @@
         <option value="$PROJECT_DIR$/tests/uATG/test_predict_on_batch.py" />
         <option value="$PROJECT_DIR$/tests/uATG/test_predict_on_sample.py" />
         <option value="$PROJECT_DIR$/gfeat/upstreamATG.py" />
+        <option value="$PROJECT_DIR$/.gitlab-ci.yml" />
       </list>
     </option>
   </component>
@@ -761,7 +760,14 @@
       <option name="project" value="LOCAL" />
       <updated>1521542834925</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="- file upstreamATG.py, added the following methods of class UpstreamATG: 1. constructor __init__(), predict_on_sample(), predict_on_batch()&#10;- added the corresponding tests cases">
+      <created>1521543221950</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1521543221950</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1091,14 +1097,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitlab-ci.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="16" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/requirements_dev.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -1299,6 +1297,14 @@
           <folding>
             <element signature="e#42#51#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitlab-ci.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="240" lean-forward="false" selection-start-line="18" selection-start-column="240" selection-end-line="18" selection-end-column="240" />
+          <folding />
         </state>
       </provider>
     </entry>
