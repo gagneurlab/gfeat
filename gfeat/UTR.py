@@ -1,6 +1,8 @@
 from pybedtools import Interval
 from gfeat.genome import GFGenome
 from gfeat.common_methods import reverse_complement
+# import pyensembl
+# from pyensembl import EnsemblRelease
 
 
 class FivePrimeUTRSeq:
@@ -118,8 +120,7 @@ class FivePrimeUTRSeq:
                     else:
                         curent_transcript_seq = transcript.sequence[transcript.start_codon_positions[2] - transcript.start + 1:]
 
-                    if curent_transcript_seq not in self.seq \
-                        and temp_seq_exons not in self.seq_exons:
+                    if curent_transcript_seq not in self.seq:
                         self.seq.append(curent_transcript_seq)
                         self.intervals.append(
                             Interval(transcript.contig, transcript.start_codon_positions[2] + 1, transcript.end,
