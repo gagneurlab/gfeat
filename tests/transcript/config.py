@@ -54,3 +54,9 @@ def vcf_none():
 def ref_check():
     ref_check_test = True
     return ref_check_test
+
+
+@pytest.fixture()
+def seq():
+    s = "CCCTGAGTCATCCTTGC"
+    return s

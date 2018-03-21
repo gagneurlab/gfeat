@@ -84,6 +84,65 @@ class UpstreamATG:
         else:
             pass  # Todo what should it do in this case?
 
+    def predict_on_sample_with_pos(self, seq):
+        """
+        NOTE: parameters have changed
+
+        :param seq: string utr's sequence
+        :return: if verbose_output: dictionary:
+                     first entry – 1 or 0 depending whether the uAUG is in-frame or not
+                     second – 1 or 0 depending whether it corresponds to a uORF or not
+                     third - pos of the ATG
+                 else: NumPy array of 1 and 0 depending whether the uAUG is in-frame or not
+        :example: if the input 5'UTR has 5 AUG, then
+                    {
+                    "frame": [1, 1, 0, 0, 1],
+                    "uORF": [1, 1, 1, 0, 0],
+                    "pos": [38, 190, 438, 769, 981]
+                    }
+        """
+
+        if self.allow_ORF:
+            if self.verbose_output:
+
+                ATG_frame = []
+                ATG_ORF = []
+                ATG_pos = []
+
+                for ATG in re.finditer('ATG', seq.upper()):
+                    seq_remainder = seq[ATG.start() + 3:]
+                    TAA_frame = [(TAA.start() % 3) for TAA in re.finditer('TAA', seq_remainder)]
+                    if 0 in TAA_frame:
+                        ORF = True
+                    else:
+                        TAG_frame = [(TAG.start() % 3) for TAG in re.finditer('TAG', seq_remainder)]
+                        if 0 in TAG_frame:
+                            ORF = True
+                        else:
+                            TGA_frame = [(TGA.start() % 3) for TGA in re.finditer('TGA', seq_remainder)]
+                            ORF = 0 in TGA_frame
+                    if ORF:
+                        ATG_ORF.append(1)
+                    else:
+                        ATG_ORF.append(0)
+
+                    if (len(seq) - ATG.start()) % 3:
+                        ATG_frame.append(0)
+                    else:
+                        ATG_frame.append(1)
+                    ATG_pos.append(ATG.start())
+                return {"frame": np.array(ATG_frame), "uORF": np.array(ATG_ORF), "pos": np.array(ATG_pos)}
+
+            else:
+
+                ATG_pos = [ATG.start() for ATG in re.finditer('ATG', seq.upper())]
+                ATG_frame = [((len(seq) - pos) % 3) for pos in ATG_pos]
+                ATG_frame[:] = [(math.ceil(res / 2) ^ 1) for res in ATG_frame]
+                return np.array(ATG_frame)
+
+        else:
+            pass  # Todo what should it do in this case?
+
     def predict_on_batch(self, seq_list):
         """
         :param seq_list: list of string utr's sequences
