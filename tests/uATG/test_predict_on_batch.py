@@ -2,7 +2,7 @@
 Test upstreamATG.predict_on_batch
 """
 
-import pytest
+# import pytest
 from gfeat.upstreamATG import UpstreamATG
 from tests.uATG.config_uATG import seq_list
 import numpy as np
