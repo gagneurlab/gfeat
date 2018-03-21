@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42634b39-5467-43b6-ab3d-357c28d3d096" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/tests/uATG/test_predict_on_sample_with_pos.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/gfeat/UTR.py" afterPath="$PROJECT_DIR$/gfeat/UTR.py" />
-      <change beforePath="$PROJECT_DIR$/tests/uATG/test_predict_on_batch.py" afterPath="$PROJECT_DIR$/tests/uATG/test_predict_on_batch.py" />
-      <change beforePath="$PROJECT_DIR$/tests/uATG/test_predict_on_sample.py" afterPath="$PROJECT_DIR$/tests/uATG/test_predict_on_sample.py" />
-      <change beforePath="$PROJECT_DIR$/tests/uATG/test_predict_on_sample_pos.py" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -42,8 +38,8 @@
       <file leaf-file-name="UTR.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gfeat/UTR.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="67" column="22" lean-forward="true" selection-start-line="67" selection-start-column="22" selection-end-line="67" selection-end-column="116" />
+            <state relative-caret-position="30">
+              <caret line="2" column="51" lean-forward="false" selection-start-line="2" selection-start-column="51" selection-end-line="2" selection-end-column="51" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -748,7 +744,14 @@
       <option name="project" value="LOCAL" />
       <updated>1521643979453</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="- apparently 2 5'UTRs can have the same exonic sequences but different exonic+intronic sequences">
+      <created>1521650943579</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1521650943579</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TodoView">
@@ -844,7 +847,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- unit tests are added for:&#10;    - codon_counts&#10;    - utr3_motif_counts&#10;    - utr5_motif_counts" />
     <MESSAGE value="- Added corresponding VCF, Fasta and GTF files for testing&#10;- Created test_extract_sequence.py&#10;- Added features for test_extract_sequence.py into config.py" />
     <MESSAGE value="- Added string replacement for all variants" />
     <MESSAGE value="tests&#10;   – all paths changed to relative paths&#10;   - prettifying" />
@@ -869,7 +871,8 @@
     <MESSAGE value="- file upstreamATG.py, added the following methods of class UpstreamATG: 1. constructor __init__(), predict_on_sample(), predict_on_batch()&#10;- added the corresponding tests cases" />
     <MESSAGE value="- added creation of &quot;./tests/data/gencode.v24.annotation_chr22_FivePrimeUTRSeq_testing.gtf&quot; database to .gitlab-ci.yml" />
     <MESSAGE value="- fixed constructor of FivePrimeUTRSeq for reverse_complement_bool = False for minus strands&#10;- added predict_on_sample_with_pos to upstreamATG.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="- fixed constructor of FivePrimeUTRSeq for reverse_complement_bool = False for minus strands&#10;- added predict_on_sample_with_pos to upstreamATG.py" />
+    <MESSAGE value="- apparently 2 5'UTRs can have the same exonic sequences but different exonic+intronic sequences" />
+    <option name="LAST_COMMIT_MESSAGE" value="- apparently 2 5'UTRs can have the same exonic sequences but different exonic+intronic sequences" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1270,8 +1273,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gfeat/UTR.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="67" column="22" lean-forward="true" selection-start-line="67" selection-start-column="22" selection-end-line="67" selection-end-column="116" />
+        <state relative-caret-position="30">
+          <caret line="2" column="51" lean-forward="false" selection-start-line="2" selection-start-column="51" selection-end-line="2" selection-end-column="51" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>

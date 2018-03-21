@@ -1,8 +1,6 @@
 from pybedtools import Interval
-from genome import GFGenome
-from common_methods import reverse_complement
-import pyensembl
-from pyensembl import EnsemblRelease
+from gfeat.genome import GFGenome
+from gfeat.common_methods import reverse_complement
 
 
 class FivePrimeUTRSeq:
@@ -161,7 +159,3 @@ class FivePrimeUTRSeq:
             "transcripts": transcripts,
             "exons": self.exons[idx]
         }
-
-
-data = EnsemblRelease(74)
-UTR_object = FivePrimeUTRSeq(data, False)
