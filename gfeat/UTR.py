@@ -42,8 +42,6 @@ class FivePrimeUTRSeq:
                     transcript_id = ""
                     for exon in transcript.exons:
                         if exon.start <= transcript.start_codon_positions[0] and start <= exon.start:
-                            print(exon.start)
-                            print(transcript.id)
                             if exon.end > transcript.start_codon_positions[0]:
                                 temp_seq_exons = temp_seq_exons + transcript.sequence[exon.start - transcript.start:
                                                                                       transcript.start_codon_positions[
@@ -63,8 +61,6 @@ class FivePrimeUTRSeq:
                                                                                       exon.end - transcript.start + 1]
                             start = exon.start
 
-                    print(transcript.sequence[:transcript.start_codon_positions[0] - transcript.start])
-
                     # apparently 2 5'UTRs can have the same exonic sequences but different exonic+intronic sequences
                     #  and (temp_seq_exons not in self.seq_exons)
                     if (transcript.sequence[:transcript.start_codon_positions[0] - transcript.start] not in self.seq):
@@ -77,7 +73,6 @@ class FivePrimeUTRSeq:
                         self.exons[count] = temp_exon_list
                         count = count + 1
 
-                    print("start codon " + str(transcript.start_codon_positions[0]))
                     self.transcripts[transcript.id] = self.seq.index(
                         transcript.sequence[:transcript.start_codon_positions[0] - transcript.start])
 
