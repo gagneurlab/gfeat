@@ -104,8 +104,13 @@ class FivePrimeUTRSeq:
                             temp_exon_list_reverse.append((reverse_complement(temp_exon[0]), temp_exon[1]))
                         temp_exon_list = temp_exon_list_reverse
 
-                    curent_transcript_seq = reverse_complement(
-                        transcript.sequence[transcript.start_codon_positions[2] - transcript.start + 1:])
+
+                        curent_transcript_seq = reverse_complement(
+                            transcript.sequence[transcript.start_codon_positions[2] - transcript.start + 1:])
+
+                    else:
+                        curent_transcript_seq = transcript.sequence[transcript.start_codon_positions[2] - transcript.start + 1:]
+
                     if curent_transcript_seq not in self.seq \
                         and temp_seq_exons not in self.seq_exons:
                         self.seq.append(curent_transcript_seq)
