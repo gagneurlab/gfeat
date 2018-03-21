@@ -2,7 +2,7 @@
 Test upstreamATG.predict_on_sample
 """
 
-import pytest
+# import pytest
 from gfeat.upstreamATG import UpstreamATG
 # from tests.uATG.config_uATG import uATG_object
 import numpy as np
