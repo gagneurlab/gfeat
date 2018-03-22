@@ -1,5 +1,6 @@
 import pytest
 import pyensembl
+from pyensembl import EnsemblRelease
 from gfeat.genome import GFGenome
 from gfeat.UTR import FivePrimeUTRSeq
 
