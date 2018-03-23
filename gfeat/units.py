@@ -127,7 +127,7 @@ def mutate_sequence(interval, seq, vcf=None):
             else:
                 # note at the moment we work only with alterations that do
                 # not introduce deletions or insertions
-                if len(variant.ALT[0]) == len(variant.REF):
+                if len(variant.ALT[0]) == len(variant.REF) and variant.REF != ".":
                     # assumption: 1 ALT per 1 REF
                     if len(variant.ALT) != 1:
                         raise ValueError("A variant in position %d has 2 alternate "
