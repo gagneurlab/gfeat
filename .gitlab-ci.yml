@@ -15,7 +15,6 @@ before_script:
   - pip install cython
   - pip install 'pyensembl==1.1.0'
   - pip install 'gtfparse==0.0.6'
-  - pyensembl install --release 87
   - pyensembl install --reference-name hg38_test --annotation-name hg38_chr22_test --gtf "./tests/data/gencode.v24.annotation_chr22.gtf" --transcript-fasta "./tests/data/hg38_chr22.fa"
   - pyensembl install --reference-name hg38_test_FivePrimeUTRSeq --annotation-name hg38_chr22_test_FivePrimeUTRSeq --gtf "./tests/data/gencode.v24.annotation_chr22_FivePrimeUTRSeq_testing.gtf" --transcript-fasta "./tests/data/hg38_chr22.fa"
   - pyensembl install --reference-name hg38_test_FivePrimeUTRSeq_minus --annotation-name hg38_chr22_test_FivePrimeUTRSeq_minus --gtf "./tests/data/gencode.v24.annotation_chr22_FivePrimeUTRSeq_testing_minus-strand.gtf" --transcript-fasta "./tests/data/hg38_chr22.fa"

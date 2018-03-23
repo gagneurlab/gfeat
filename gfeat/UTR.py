@@ -224,7 +224,7 @@ class FivePrimeUTRSeq:
 
                     if curent_transcript_seq not in self.seq_exons and \
                         Interval(transcript.contig, transcript.exons[len(transcript.exons)-1].end, transcript.exons[0].start,
-                                 "5' UTR", 0, "+"):
+                                 "5' UTR", 0, "+") not in self.intervals:
                         self.seq_exons.append(curent_transcript_seq)
                         self.intervals.append(Interval(transcript.contig, transcript.exons[len(transcript.exons) - 1].end,
                                      transcript.exons[0].start, "5' UTR", 0, "+"))  # Todo dummy score
