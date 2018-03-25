@@ -2,6 +2,7 @@ from gfeat.upstreamATG import UpstreamATG  # Todo
 from gfeat.UTR import FivePrimeUTRSeq
 from gfeat.units import mutate_sequence
 from gfeat.genome import GFGenome
+import pandas as pd
 
 
 def score_utrs(vcf, gtf, fasta):
@@ -16,6 +17,8 @@ def score_utrs(vcf, gtf, fasta):
     ds = FivePrimeUTRSeq(data, False)  # Todo: check
 
     output = []
+
+    dictionary = {'Transcript': [], '0-0': [], '0-1': [], '1-0': [], '1-1': []}
 
     for i in range(1, len(ds)):  # ds[1]
         sample = ds[i]
@@ -49,10 +52,13 @@ def score_utrs(vcf, gtf, fasta):
 
         list_UTR_output = []
 
-        for seq in list_mut_seq:
-            list_UTR_output.append(model.predict_on_sample(seq))
 
-        output.append(list_UTR_output)
+        for seq in list_mut_seq:
+            dictionary["Transcript"].append(ds["transcripts"])
+            model.predict_on_sample_with_pos_pandas(seq, dictionary)
+
+
+    df = pd.DataFrame(data = dictionary)
 
         # mut_seq_list = mutate_sequence(sample[ref_seq_exons], ref_seq_exons, vcf)
         #
@@ -73,5 +79,5 @@ def score_utrs(vcf, gtf, fasta):
         #     alt_pred = model.predict_on_sample(tuple[0])
         #     output.append((sample["transcripts"], alt_pred["frame"], alt_pred["uORF"], tuple[1]))
 
-    return output
+    return df
     ## Append to a pandas DataFrame
