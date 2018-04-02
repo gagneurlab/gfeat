@@ -143,7 +143,7 @@ class UpstreamATG:
         else:
             pass  # Todo what should it do in this case?
 
-    def predict_on_sample_with_pos_pandas(self, seq, dict):
+    def predict_on_sample_with_pos_pandas(self, seq, dict, start):
         """
         NOTE: parameters have changed
 
@@ -183,16 +183,15 @@ class UpstreamATG:
                             ORF = 0 in TGA_frame
                     if ORF:
                         if (len(seq) - ATG.start()) % 3:
-                            list_01.append(ATG.start())
+                            list_01.append(ATG.start() + start)
                         else:
-                            list_11.append(ATG.start())
+                            list_11.append(ATG.start() + start)
                     else:
                         if (len(seq) - ATG.start()) % 3:
-                            list_00.append(ATG.start())
+                            list_00.append(ATG.start() + start)
                         else:
-                            list_10.append(ATG.start())
+                            list_10.append(ATG.start() + start)
 
-                dict["Transcript"].append(transcript_id)
                 dict["0-0"].append(np.array(list_00))
                 dict["0-1"].append(np.array(list_01))
                 dict["1-0"].append(np.array(list_10))

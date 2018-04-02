@@ -1,6 +1,6 @@
 from pybedtools import Interval
-from gfeat.genome import GFGenome
-from gfeat.common_methods import reverse_complement
+from genome import GFGenome
+from common_methods import reverse_complement
 
 
 class FivePrimeUTRSeq:
@@ -252,7 +252,7 @@ class FivePrimeUTRSeq:
     #                     else:
     #                         self.transcripts[transcript.id] = self.seq_exons.index(curent_transcript_seq)
 
-    def __init__(self, data, reverse_complement_bool, contig):
+    def __init__(self, data, reverse_complement_bool, contig, strand = None):
         """
         constructor
         :param data: GFGenome object
@@ -274,107 +274,235 @@ class FivePrimeUTRSeq:
         self.transcripts = {}
         self.exons = {}
 
-        count = 0
+        count = 1
 
-        for transcript in data.transcripts(contig, '+'):
-            if transcript.contains_start_codon:
+        self.seq_exons.append(" Pyensembl error")
+        self.intervals.append(Interval(contig, 0, 0, "5' UTR", 0, "+"))  # Todo dummy score
+        self.exons[0] = []
 
-                temp_exon_list = []
-                start = transcript.start
-                start_pos = 0
-                for exon in transcript.exons:
-                    if exon.start <= transcript.start_codon_positions[0] and start <= exon.start:
-                        if exon.end > transcript.start_codon_positions[0]:
-                            temp_exon_list.append((transcript.five_prime_utr_sequence[start_pos:
-                                                    (start_pos + transcript.start_codon_positions[0] - exon.start)],
-                                                    Interval(transcript.contig, exon.start,
-                                                            transcript.start_codon_positions[0] - 1,
-                                                            exon.id, 0, "+")))  # Todo dummy score
+        if strand is None:
+            for transcript in data.transcripts(contig, '+'):
+                if transcript.contains_start_codon:
+
+                    temp_exon_list = []
+                    start = transcript.start
+                    start_pos = 0
+                    for exon in transcript.exons:
+                        if exon.start <= transcript.start_codon_positions[0] and start <= exon.start:
+                            if exon.end > transcript.start_codon_positions[0]:
+                                temp_exon_list.append((transcript.five_prime_utr_sequence[start_pos:
+                                                        (start_pos + transcript.start_codon_positions[0] - exon.start)],
+                                                        Interval(transcript.contig, exon.start,
+                                                                transcript.start_codon_positions[0] - 1,
+                                                                exon.id, 0, "+")))  # Todo dummy score
+                            else:
+                                temp_exon_list.append((transcript.five_prime_utr_sequence[start_pos:
+                                                                                  (start_pos + exon.end - exon.start + 1)],
+                                                       Interval(transcript.contig, exon.start, exon.end, exon.id, 0,
+                                                                "+")))  # Todo dummy score
+                                start_pos = start_pos + exon.end - exon.start + 1
+                            start = exon.start
+
+                    # apparently 2 5'UTRs can have the same exonic sequences but different exonic+intronic sequences
+                    #  and (temp_seq_exons not in self.seq_exons)
+                    if len(temp_exon_list) < 8:
+                        if (transcript.five_prime_utr_sequence not in self.seq_exons):
+                            self.seq_exons.append(transcript.five_prime_utr_sequence)
+                            self.intervals.append(
+                                Interval(transcript.contig, transcript.exons[0].start, transcript.exons[len(transcript.exons)-1].end,
+                                     "5' UTR", 0, "+"))  # Todo dummy score
+                            self.exons[count] = temp_exon_list
+                            self.transcripts[transcript.id] = count
+                            count = count + 1
                         else:
-                            temp_exon_list.append((transcript.five_prime_utr_sequence[start_pos:
-                                                                              (start_pos + exon.end - exon.start + 1)],
-                                                   Interval(transcript.contig, exon.start, exon.end, exon.id, 0,
-                                                            "+")))  # Todo dummy score
-                            start_pos = start_pos + exon.end - exon.start + 1
-                        start = exon.start
-
-                # apparently 2 5'UTRs can have the same exonic sequences but different exonic+intronic sequences
-                #  and (temp_seq_exons not in self.seq_exons)
-                if (transcript.five_prime_utr_sequence not in self.seq_exons):
-                    self.seq_exons.append(transcript.five_prime_utr_sequence)
-                    self.intervals.append(
-                        Interval(transcript.contig, transcript.exons[0].start, transcript.exons[len(transcript.exons)-1].end,
-                             "5' UTR", 0, "+"))  # Todo dummy score
-                    self.exons[count] = temp_exon_list
-                    self.transcripts[transcript.id] = count
-                    count = count + 1
-                else:
-                    pos = self.seq_exons.index(transcript.five_prime_utr_sequence)
-                    if (self.intervals[pos].strand == "+") and \
-                        ((self.intervals[pos]).start != (transcript.exons[0]).start):
-                        self.seq_exons.append(transcript.five_prime_utr_sequence)
-                        self.intervals.append(
-                            Interval(transcript.contig, transcript.exons[0].start,
-                                     transcript.exons[len(transcript.exons) - 1].end,
-                                    "5' UTR", 0, "+"))  # Todo dummy score
-                        self.exons[count] = temp_exon_list
-                        self.transcripts[transcript.id] = count
-                        count = count + 1
+                            pos = self.seq_exons.index(transcript.five_prime_utr_sequence)
+                            if (self.intervals[pos].strand == "+") and \
+                                ((self.intervals[pos]).start != (transcript.exons[0]).start):
+                                self.seq_exons.append(transcript.five_prime_utr_sequence)
+                                self.intervals.append(
+                                    Interval(transcript.contig, transcript.exons[0].start,
+                                             transcript.exons[len(transcript.exons) - 1].end,
+                                            "5' UTR", 0, "+"))  # Todo dummy score
+                                self.exons[count] = temp_exon_list
+                                self.transcripts[transcript.id] = count
+                                count = count + 1
+                            else:
+                                self.transcripts[transcript.id] = self.seq_exons.index(transcript.five_prime_utr_sequence)
                     else:
-                        self.transcripts[transcript.id] = self.seq_exons.index(transcript.five_prime_utr_sequence)
+                        self.transcripts[transcript.id] = 0
 
-        for transcript in data.transcripts(contig, '-'):
-            if transcript.contains_start_codon:
+            for transcript in data.transcripts(contig, '-'):
+                if transcript.contains_start_codon:
 
-                temp_exon_list = []
-                end = transcript.end
-                temp_reverse_seq = reverse_complement(transcript.five_prime_utr_sequence)
-                start_pos = len(temp_reverse_seq)
-                curent_transcript_seq = ""
-                for exon in transcript.exons:
-                    if exon.end >= transcript.start_codon_positions[2] and end >= exon.end:
-                        if exon.start < transcript.start_codon_positions[2]:
-                            temp_exon_list.append((temp_reverse_seq[:start_pos],
-                                                  Interval(transcript.contig, exon.end, transcript.start_codon_positions[2] + 1, exon.id, 0,
-                                                          "-")))  # Todo dummy score
+                    temp_exon_list = []
+                    end = transcript.end
+                    temp_reverse_seq = reverse_complement(transcript.five_prime_utr_sequence)
+                    start_pos = len(temp_reverse_seq)
+                    curent_transcript_seq = ""
+                    for exon in transcript.exons:
+                        if exon.end >= transcript.start_codon_positions[2] and end >= exon.end:
+                            if exon.start < transcript.start_codon_positions[2]:
+                                temp_exon_list.append((temp_reverse_seq[:start_pos],
+                                                      Interval(transcript.contig, transcript.start_codon_positions[2] + 1, exon.end, exon.id, 0,
+                                                              "-")))  # Todo dummy score
+                            else:
+                                temp_exon_list.append((temp_reverse_seq[start_pos - (exon.end - exon.start + 1):start_pos],
+                                                       Interval(transcript.contig, exon.start, exon.end, exon.id, 0,
+                                                                "-")))  # Todo dummy score
+                                start_pos = start_pos - (exon.end - exon.start) - 1
+                                # start_pos = start_pos - (exon.start - exon.end) - 1
+                            end = exon.end
+
+                    if reverse_complement_bool:
+                        temp_exon_list_reverse = []
+                        for temp_exon in temp_exon_list:
+                            temp_exon_list_reverse.append((reverse_complement(temp_exon[0]), temp_exon[1]))
+                        temp_exon_list = temp_exon_list_reverse
+                        curent_transcript_seq = transcript.five_prime_utr_sequence
+                    else:
+                        curent_transcript_seq = reverse_complement(transcript.five_prime_utr_sequence)
+
+
+                    if (len(temp_exon_list)) < 8:
+                        if (curent_transcript_seq not in self.seq_exons):
+                            self.seq_exons.append(curent_transcript_seq)
+                            self.intervals.append(Interval(transcript.contig, transcript.exons[0].start,
+                                                  transcript.exons[len(transcript.exons) - 1].end, "5' UTR", 0, "-"))  # Todo dummy score
+                            self.exons[count] = temp_exon_list
+                            self.transcripts[transcript.id] = count
+                            count = count + 1
                         else:
-                            temp_exon_list.append((temp_reverse_seq[start_pos - (exon.end - exon.start + 1):start_pos],
-                                                   Interval(transcript.contig, exon.end, exon.start, exon.id, 0,
-                                                            "-")))  # Todo dummy score
-                            start_pos = start_pos - (exon.end - exon.start) - 1
-                            # start_pos = start_pos - (exon.start - exon.end) - 1
-                        end = exon.end
-
-                if reverse_complement_bool:
-                    temp_exon_list_reverse = []
-                    for temp_exon in temp_exon_list:
-                        temp_exon_list_reverse.append((reverse_complement(temp_exon[0]), temp_exon[1]))
-                    temp_exon_list = temp_exon_list_reverse
-                    curent_transcript_seq = transcript.five_prime_utr_sequence
-                else:
-                    curent_transcript_seq = reverse_complement(transcript.five_prime_utr_sequence)
-
-
-                if (curent_transcript_seq not in self.seq_exons):
-                    self.seq_exons.append(curent_transcript_seq)
-                    self.intervals.append(Interval(transcript.contig, transcript.exons[len(transcript.exons) - 1].end,
-                                     transcript.exons[0].start, "5' UTR", 0, "+"))  # Todo dummy score
-                    self.exons[count] = temp_exon_list
-                    self.transcripts[transcript.id] = count
-                    count = count + 1
-                else:
-                    pos = self.seq_exons.index(curent_transcript_seq)
-                    if (self.intervals[pos].strand == "-") and \
-                        (self.intervals[pos].start != transcript.exons[len(transcript.exons) - 1].end):
-                        self.seq_exons.append(curent_transcript_seq)
-                        self.intervals.append(
-                            Interval(transcript.contig, transcript.exons[len(transcript.exons) - 1].end,
-                                     transcript.exons[0].start, "5' UTR", 0, "+"))  # Todo dummy score
-                        self.exons[count] = temp_exon_list
-                        self.transcripts[transcript.id] = count
-                        count = count + 1
+                            pos = self.seq_exons.index(curent_transcript_seq)
+                            if (self.intervals[pos].strand == "-") and \
+                                (self.intervals[pos].start != transcript.exons[len(transcript.exons) - 1].end):
+                                self.seq_exons.append(curent_transcript_seq)
+                                self.intervals.append(
+                                    Interval(transcript.contig, transcript.exons[0].start,
+                                             transcript.exons[len(transcript.exons) - 1].end, "5' UTR", 0, "-"))  # Todo dummy score
+                                self.exons[count] = temp_exon_list
+                                self.transcripts[transcript.id] = count
+                                count = count + 1
+                            else:
+                                self.transcripts[transcript.id] = self.seq_exons.index(curent_transcript_seq)
                     else:
-                        self.transcripts[transcript.id] = self.seq_exons.index(curent_transcript_seq)
+                        self.transcripts[transcript.id] = 0
+        else:
+            if strand == "+":
+                for transcript in data.transcripts(contig, '+'):
+                    if transcript.contains_start_codon:
+
+                        temp_exon_list = []
+                        start = transcript.start
+                        start_pos = 0
+                        for exon in transcript.exons:
+                            if exon.start <= transcript.start_codon_positions[0] and start <= exon.start:
+                                if exon.end > transcript.start_codon_positions[0]:
+                                    temp_exon_list.append((transcript.five_prime_utr_sequence[start_pos:
+                                                                                              (start_pos +
+                                                                                               transcript.start_codon_positions[
+                                                                                                   0] - exon.start)],
+                                                           Interval(transcript.contig, exon.start,
+                                                                    transcript.start_codon_positions[0] - 1,
+                                                                    exon.id, 0, "+")))  # Todo dummy score
+                                else:
+                                    temp_exon_list.append((transcript.five_prime_utr_sequence[start_pos:
+                                                                                              (
+                                                                                                  start_pos + exon.end - exon.start + 1)],
+                                                           Interval(transcript.contig, exon.start, exon.end, exon.id, 0,
+                                                                    "+")))  # Todo dummy score
+                                    start_pos = start_pos + exon.end - exon.start + 1
+                                start = exon.start
+
+                        # apparently 2 5'UTRs can have the same exonic sequences but different exonic+intronic sequences
+                        #  and (temp_seq_exons not in self.seq_exons)
+                        if len(temp_exon_list) < 8:
+                            if (transcript.five_prime_utr_sequence not in self.seq_exons):
+                                self.seq_exons.append(transcript.five_prime_utr_sequence)
+                                self.intervals.append(
+                                    Interval(transcript.contig, transcript.exons[0].start,
+                                             transcript.exons[len(transcript.exons) - 1].end,
+                                             "5' UTR", 0, "+"))  # Todo dummy score
+                                self.exons[count] = temp_exon_list
+                                self.transcripts[transcript.id] = count
+                                count = count + 1
+                            else:
+                                pos = self.seq_exons.index(transcript.five_prime_utr_sequence)
+                                if (self.intervals[pos].strand == "+") and \
+                                    ((self.intervals[pos]).start != (transcript.exons[0]).start):
+                                    self.seq_exons.append(transcript.five_prime_utr_sequence)
+                                    self.intervals.append(
+                                        Interval(transcript.contig, transcript.exons[0].start,
+                                                 transcript.exons[len(transcript.exons) - 1].end,
+                                                 "5' UTR", 0, "+"))  # Todo dummy score
+                                    self.exons[count] = temp_exon_list
+                                    self.transcripts[transcript.id] = count
+                                    count = count + 1
+                                else:
+                                    self.transcripts[transcript.id] = self.seq_exons.index(
+                                        transcript.five_prime_utr_sequence)
+                        else:
+                            self.transcripts[transcript.id] = 0
+
+            else:
+                for transcript in data.transcripts(contig, '-'):
+                    if transcript.contains_start_codon:
+
+                        temp_exon_list = []
+                        end = transcript.end
+                        temp_reverse_seq = reverse_complement(transcript.five_prime_utr_sequence)
+                        start_pos = len(temp_reverse_seq)
+                        curent_transcript_seq = ""
+                        for exon in transcript.exons:
+                            if exon.end >= transcript.start_codon_positions[2] and end >= exon.end:
+                                if exon.start < transcript.start_codon_positions[2]:
+                                    temp_exon_list.append((temp_reverse_seq[:start_pos],
+                                                           Interval(transcript.contig,
+                                                                    transcript.start_codon_positions[2] + 1, exon.end,
+                                                                    exon.id, 0,
+                                                                    "-")))  # Todo dummy score
+                                else:
+                                    temp_exon_list.append(
+                                        (temp_reverse_seq[start_pos - (exon.end - exon.start + 1):start_pos],
+                                         Interval(transcript.contig, exon.start, exon.end, exon.id, 0,
+                                                  "-")))  # Todo dummy score
+                                    start_pos = start_pos - (exon.end - exon.start) - 1
+                                    # start_pos = start_pos - (exon.start - exon.end) - 1
+                                end = exon.end
+
+                        if reverse_complement_bool:
+                            temp_exon_list_reverse = []
+                            for temp_exon in temp_exon_list:
+                                temp_exon_list_reverse.append((reverse_complement(temp_exon[0]), temp_exon[1]))
+                            temp_exon_list = temp_exon_list_reverse
+                            curent_transcript_seq = transcript.five_prime_utr_sequence
+                        else:
+                            curent_transcript_seq = reverse_complement(transcript.five_prime_utr_sequence)
+
+                        if (len(temp_exon_list)) < 8:
+                            if (curent_transcript_seq not in self.seq_exons):
+                                self.seq_exons.append(curent_transcript_seq)
+                                self.intervals.append(Interval(transcript.contig, transcript.exons[0].start,
+                                                               transcript.exons[len(transcript.exons) - 1].end, "5' UTR", 0,
+                                                               "-"))  # Todo dummy score
+                                self.exons[count] = temp_exon_list
+                                self.transcripts[transcript.id] = count
+                                count = count + 1
+                            else:
+                                pos = self.seq_exons.index(curent_transcript_seq)
+                                if (self.intervals[pos].strand == "-") and \
+                                    (self.intervals[pos].start != transcript.exons[len(transcript.exons) - 1].end):
+                                    self.seq_exons.append(curent_transcript_seq)
+                                    self.intervals.append(
+                                        Interval(transcript.contig, transcript.exons[0].start,
+                                                 transcript.exons[len(transcript.exons) - 1].end, "5' UTR", 0,
+                                                 "-"))  # Todo dummy score
+                                    self.exons[count] = temp_exon_list
+                                    self.transcripts[transcript.id] = count
+                                    count = count + 1
+                                else:
+                                    self.transcripts[transcript.id] = self.seq_exons.index(curent_transcript_seq)
+                        else:
+                            self.transcripts[transcript.id] = 0
 
     def __len__(self):
         """
