@@ -283,6 +283,9 @@ def mutate_sequence_Interval_vcf(interval, seq, vcf_file, vcf=None):
             chr = "chr" + interval.chrom
         else:
             chr = interval.chrom
+
+        mutated = 0
+
         try:
             for variant in vcf_file(chr + ":" + str(interval.start) + "-" + str(interval.end)):
                 if not variant.num_het:
@@ -299,36 +302,47 @@ def mutate_sequence_Interval_vcf(interval, seq, vcf_file, vcf=None):
                         variants_het_alt[variant.POS] = variant.ALT[0]
                         variants_het_ref[variant.POS] = variant.REF
 
-            tupl = ()
-            output = []
-            for key in variants_hom_alt:
-                if seq[key - interval.start: key - interval.start +
-                                                 len(variants_hom_ref[key])] != variants_hom_ref[key]:
-                    raise ValueError("The VCF reference does not match the genome sequence")
-                seq = seq[:(key - interval.start)] + variants_hom_alt[key] + \
-                      seq[(key + len(variants_hom_alt[key]) - interval.start):]
-                tupl = tupl + (key,)
-                # seq = initial sequence with all homozygous variants in it
-            output.append((seq, tupl))
+            mutated = len(variants_hom_alt) + len(variants_het_alt)
 
-            for n in range(len(variants_het_alt)):
-                for combs in combinations(variants_het_alt, n + 1):
-                    seq_temp = seq
-                    tuple_temp = tupl
-                    for key in combs:
-                        if seq[key - interval.start: key - interval.start +
-                                                         len(variants_het_ref[key])] != variants_het_ref[key]:
-                            raise ValueError("The VCF reference does not match the genome sequence")
-                        seq_temp = seq_temp[:(key - interval.start)] + variants_het_alt[key] + \
-                            seq_temp[(key + len(variants_het_alt[key]) - interval.start):]
-                    tuple_temp = tupl + combs
-                    output.append((seq_temp, tuple_temp))  # Note that the tuple is unsorted
+            if 0 < mutated < 14:
 
-            if interval.strand == "-":
-                temp_output = []
-                for i in range(len(output)):
-                    temp_output.append((reverse_complement(output[i][0]), output[i][1]))
-                output = temp_output
+                tupl = ()
+                output = []
+                for key in variants_hom_alt:
+                    if seq[key - interval.start: key - interval.start +
+                                                     len(variants_hom_ref[key])] != variants_hom_ref[key]:
+                        raise ValueError("The VCF reference does not match the genome sequence")
+                    seq = seq[:(key - interval.start)] + variants_hom_alt[key] + \
+                          seq[(key + len(variants_hom_alt[key]) - interval.start):]
+                    tupl = tupl + (key,)
+                    # seq = initial sequence with all homozygous variants in it
+                output.append((seq, tupl))
+
+                for n in range(len(variants_het_alt)):
+                    for combs in combinations(variants_het_alt, n + 1):
+                        seq_temp = seq
+                        tuple_temp = tupl
+                        for key in combs:
+                            if seq[key - interval.start: key - interval.start +
+                                                             len(variants_het_ref[key])] != variants_het_ref[key]:
+                                raise ValueError("The VCF reference does not match the genome sequence")
+                            seq_temp = seq_temp[:(key - interval.start)] + variants_het_alt[key] + \
+                                seq_temp[(key + len(variants_het_alt[key]) - interval.start):]
+                        tuple_temp = tupl + combs
+                        output.append((seq_temp, tuple_temp))  # Note that the tuple is unsorted
+
+                if interval.strand == "-":
+                    temp_output = []
+                    for i in range(len(output)):
+                        temp_output.append((reverse_complement(output[i][0]), output[i][1]))
+                    output = temp_output
+
+            else:
+                if interval.strand == "-":
+                    output = [(reverse_complement(seq),)]
+                else:
+                    output = [(seq,)]
+
         except:
             if interval.strand == "-":
                 output = [(reverse_complement(seq),)]
@@ -339,4 +353,4 @@ def mutate_sequence_Interval_vcf(interval, seq, vcf_file, vcf=None):
             output = [(reverse_complement(seq),)]
         else:
             output = [(seq,)]
-    return output
+    return output, mutated
