@@ -4,20 +4,8 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42634b39-5467-43b6-ab3d-357c28d3d096" name="Default" comment="- added documentation to all functions&#10;- changed FivePrimeUTRSeq tests as the function signature has changed&#10;– dumped score_UTRs result to CSVs&#10;– added additional pd.DataFrame &quot;mutated&quot; that shows only those transcripts &#10;  where an AUG was introduced/deleted&#10;_ &quot;too_many_mutated&quot; instead of &quot; Pyensembl error&quot;">
+    <list default="true" id="42634b39-5467-43b6-ab3d-357c28d3d096" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/gfeat/UTR.py" afterPath="$PROJECT_DIR$/gfeat/UTR.py" />
-      <change beforePath="$PROJECT_DIR$/gfeat/score_UTRs.py" afterPath="$PROJECT_DIR$/gfeat/score_UTRs.py" />
-      <change beforePath="$PROJECT_DIR$/gfeat/units.py" afterPath="$PROJECT_DIR$/gfeat/units.py" />
-      <change beforePath="$PROJECT_DIR$/gfeat/upstreamATG.py" afterPath="$PROJECT_DIR$/gfeat/upstreamAUG.py" />
-      <change beforePath="$PROJECT_DIR$/tests/UTR/config_UTR.py" afterPath="$PROJECT_DIR$/tests/UTR/config_UTR.py" />
-      <change beforePath="$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_constructor.py" afterPath="$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_constructor.py" />
-      <change beforePath="$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_getitem.py" afterPath="$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_getitem.py" />
-      <change beforePath="$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_len.py" afterPath="$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_len.py" />
-      <change beforePath="$PROJECT_DIR$/tests/uATG/config_uATG.py" afterPath="$PROJECT_DIR$/tests/uATG/config_uATG.py" />
-      <change beforePath="$PROJECT_DIR$/tests/uATG/test_predict_on_batch.py" afterPath="$PROJECT_DIR$/tests/uATG/test_predict_on_batch.py" />
-      <change beforePath="$PROJECT_DIR$/tests/uATG/test_predict_on_sample.py" afterPath="$PROJECT_DIR$/tests/uATG/test_predict_on_sample.py" />
-      <change beforePath="$PROJECT_DIR$/tests/uATG/test_predict_on_sample_with_pos.py" afterPath="$PROJECT_DIR$/tests/uATG/test_predict_on_sample_with_pos.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -485,13 +473,6 @@
       <option name="presentableId" value="Default" />
       <updated>1509657925889</updated>
     </task>
-    <task id="LOCAL-00009" summary="– fixed error with importing in tests">
-      <created>1517256231785</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1517256231785</updated>
-    </task>
     <task id="LOCAL-00010" summary="– added file UTR to gfeat and class FivePrimeUTRSeq into it&#10;- added folder UTR to tests and 3 tests to check class FivePrimeUTRSeq&#10;- added gtf file for the tests">
       <created>1520956631428</created>
       <option name="number" value="00010" />
@@ -828,7 +809,14 @@
       <option name="project" value="LOCAL" />
       <updated>1523536884734</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="- added documentation to all functions&#10;- changed FivePrimeUTRSeq tests as the function signature has changed&#10;– dumped score_UTRs result to CSVs&#10;– added additional pd.DataFrame &quot;mutated&quot; that shows only those transcripts &#10;  where an AUG was introduced/deleted&#10;_ &quot;too_many_mutated&quot; instead of &quot; Pyensembl error&quot;">
+      <created>1523620490768</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1523620490769</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
