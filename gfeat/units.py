@@ -200,8 +200,7 @@ def mutate_sequence_Interval(interval, seq, vcf=None):
         variants_het_alt = OrderedDict()
         variants_het_ref = OrderedDict()
 
-        # assumption: interval.chrom looks like "chrNo"
-        if (interval.chrom).find("chr") == -1:
+        if interval.chrom.find("chr") == -1:
             chr = "chr" + interval.chrom
         else:
             chr = interval.chrom
@@ -263,31 +262,36 @@ def mutate_sequence_Interval(interval, seq, vcf=None):
             output = [(seq,)]
     return output
 
-def mutate_sequence_Interval_vcf(interval, seq, vcf_file, vcf=None):
+
+def mutate_sequence_Interval_vcf(interval, seq, vcf_file=None):
     """
+    The difference from mutate_sequence_Interval is that an already "opened" vcf file is passed to the function.
+
     :param interval: pybedtools.Interval interval object
     :param seq: sequence that we want to mutate
-    :param vcf: path to the vcf.gz
+    :param vcf_file: "opened" vcf file
     :return list of tuples [(DNA string, variant ids), ...] consisting of a DNA sequence and
             the positions of variants that were substituted
+            if the number of mutations is bigger than 14, returns only the not mutated sequence since the number of
+            possible sequences is to large to be processed on a laptop (as for March 2018)
+    :return number of mutations
     """
 
-    if vcf is not None:
+    if vcf_file is not None:
         variants_hom_alt = OrderedDict()
         variants_hom_ref = OrderedDict()
         variants_het_alt = OrderedDict()
         variants_het_ref = OrderedDict()
 
-        # assumption: interval.chrom looks like "chrNo"
-        if (interval.chrom).find("chr") == -1:
-            chr = "chr" + interval.chrom
+        if interval.chrom.find("chr") == -1:
+            chromosome = "chr" + interval.chrom
         else:
-            chr = interval.chrom
+            chromosome = interval.chrom
 
         mutated = 0
 
         try:
-            for variant in vcf_file(chr + ":" + str(interval.start) + "-" + str(interval.end)):
+            for variant in vcf_file(chromosome + ":" + str(interval.start) + "-" + str(interval.end)):
                 if not variant.num_het:
                     variants_hom_alt[variant.POS] = variant.ALT[0]
                     variants_hom_ref[variant.POS] = variant.REF
