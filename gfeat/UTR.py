@@ -1,5 +1,5 @@
 from pybedtools import Interval
-from gfeat.common_methods import reverse_complement
+from common_methods import reverse_complement
 
 
 class FivePrimeUTRSeq:
@@ -199,6 +199,9 @@ class FivePrimeUTRSeq:
                 for transcript in data.transcripts(contig, '-'):
                     if transcript.contains_start_codon:
 
+                        # if transcript.id == 'ENST00000547691':
+                        #     print("herer")
+
                         temp_exon_list = []
                         end = transcript.end
                         temp_reverse_seq = reverse_complement(transcript.five_prime_utr_sequence)
@@ -230,10 +233,8 @@ class FivePrimeUTRSeq:
 
                         if curent_transcript_seq not in self.seq_exons:
                             self.seq_exons.append(curent_transcript_seq)
-                            self.intervals.append(Interval(transcript.contig, transcript.exons[0].start,
-                                                           transcript.exons[len(transcript.exons) - 1].end,
-                                                           "5' UTR", 0,
-                                                           "-"))  # Todo dummy score
+                            self.intervals.append(Interval(transcript.contig, transcript.start_codon_positions[2] + 1,
+                                                           transcript.end, "5' UTR", 0, "-"))  # Todo dummy score
                             self.exons[count] = temp_exon_list
                             self.transcripts[transcript.id] = count
                             count = count + 1
@@ -243,9 +244,8 @@ class FivePrimeUTRSeq:
                                 (self.intervals[pos].start != transcript.exons[len(transcript.exons) - 1].end):
                                 self.seq_exons.append(curent_transcript_seq)
                                 self.intervals.append(
-                                    Interval(transcript.contig, transcript.exons[0].start,
-                                             transcript.exons[len(transcript.exons) - 1].end, "5' UTR", 0,
-                                             "-"))  # Todo dummy score
+                                    Interval(transcript.contig, transcript.start_codon_positions[2] + 1, transcript.end,
+                                             "5' UTR", 0, "-"))  # Todo dummy score
                                 self.exons[count] = temp_exon_list
                                 self.transcripts[transcript.id] = count
                                 count = count + 1
