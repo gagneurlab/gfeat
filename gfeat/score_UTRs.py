@@ -19,8 +19,8 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                 can be provided
     :param fasta: string, path to the Fasta file, string, as an alternative to the Ensembl version, user gtf
            and Fasta files can be provided
-    :return pd.DataFrame with 4 columns: Gene, Transcript, Position, Type (in-frame_no_uORF, in-frame_uORF,
-            not_in-frame_no_uORF, not_in-frame_uORF)
+    :return pd.DataFrame with 6 columns: Gene, Transcript, in-frame_no_uORF, in-frame_uORF, not_in-frame_no_uORF,
+            not_in-frame_uORF
     """
     model = UpstreamAUG(True, True)  # True: in frame, True: ORF
 
@@ -45,9 +45,11 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
         vcf_file.add_info_to_header({"ID": field, "Number": 1, "Type": "String", "Description": "dummy"})
 
     if save_to_csv:
-        dictionary = {'Gene': [], 'Transcript': [], 'not_in-frame_no_uORF': [], 'not_in-frame_uORF': [], 'in-frame_no_uORF': [], 'in-frame_uORF': []}
+        dictionary = {'Gene': [], 'Transcript': [], 'not_in-frame_no_uORF': [], 'not_in-frame_uORF': [],
+                      'in-frame_no_uORF': [], 'in-frame_uORF': []}
         error_dictionary = {'More_than_14_mutations': []}
-        sum_dictionary = {'Contig': [], 'Total_transcript_num': [], 'Mutated_transcript_num': [], 'not_in-frame_no_uORF_num': [],
+        sum_dictionary = {'Contig': [], 'Total_transcript_num': [], 'Mutated_transcript_num': [],
+                          'not_in-frame_no_uORF_num': [],
                           'not_in-frame_uORF': [], 'in-frame_no_uORF_num': [], 'in-frame_uORF_num': []}
         mutated_dictionary = {'Gene': [], 'Transcript': [], 'Type': [], 'Position': []}
 
@@ -61,10 +63,12 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
 
     for contig in contigs:
 
-        ds = FivePrimeUTRSeq(data, False, contig, '+')
+        ds = FivePrimeUTRSeq(data, False, contig, '+')  # Todo: check
 
-        dictionary = {'Gene': [], 'Transcript': [], 'not_in-frame_no_uORF': [], 'not_in-frame_uORF': [], 'in-frame_no_uORF': [], 'in-frame_uORF': []}
-        sum_dictionary = {'Contig': [contig], 'Total_transcript_num': [len(ds) - 2], 'Mutated_transcript_num': [0], 'not_in-frame_no_uORF_num': [0],
+        dictionary = {'Gene': [], 'Transcript': [], 'not_in-frame_no_uORF': [], 'not_in-frame_uORF': [],
+                      'in-frame_no_uORF': [], 'in-frame_uORF': []}
+        sum_dictionary = {'Contig': [contig], 'Total_transcript_num': [len(ds) - 2], 'Mutated_transcript_num': [0],
+                          'not_in-frame_no_uORF_num': [0],
                           'not_in-frame_uORF_num': [0], 'in-frame_no_uORF_num': [0], 'in-frame_uORF_num': [0]}
 
         list_many_mut = []
@@ -107,28 +111,25 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                     indexes[0] = indexes[0] + 1
                     counter = counter + 1
 
-                if sample["transcripts"][0] == 'ENST00000335742':
-                    print("herer")
-
                 dictionary["Transcript"].append(sample["transcripts"])
                 genes = []
                 temp = ''
                 for transcript in sample["transcripts"]:
-                    gene = data.transcript_by_id(transcript).gene_id
+                    gene = data.transcript_by_id(transcript).gene.name
                     if gene != temp:
                         genes.append(gene)
                         temp = gene
                 dictionary["Gene"].append(genes)
 
                 if sample[ref_seq].strand == "-":
-                    model.predict_on_sample_with_pos_pandas(reverse_complement(ref_seq), dictionary,
+                    model.predict_on_sample_with_pos_pandas(reverse_complement(ref_seq), dictionary, '-',
                                                             sample[ref_seq].start)
                     cur_0_0 = dictionary['not_in-frame_no_uORF'][len(dictionary['not_in-frame_no_uORF']) - 1]
                     cur_0_1 = dictionary['not_in-frame_uORF'][len(dictionary['not_in-frame_uORF']) - 1]
                     cur_1_0 = dictionary['in-frame_no_uORF'][len(dictionary['in-frame_no_uORF']) - 1]
                     cur_1_1 = dictionary['in-frame_uORF'][len(dictionary['in-frame_uORF']) - 1]
                 else:
-                    model.predict_on_sample_with_pos_pandas(ref_seq, dictionary, sample[ref_seq].start)
+                    model.predict_on_sample_with_pos_pandas(ref_seq, dictionary,'+', sample[ref_seq].start)
                     cur_0_0 = dictionary['not_in-frame_no_uORF'][len(dictionary['not_in-frame_no_uORF']) - 1]
                     cur_0_1 = dictionary['not_in-frame_uORF'][len(dictionary['not_in-frame_uORF']) - 1]
                     cur_1_0 = dictionary['in-frame_no_uORF'][len(dictionary['in-frame_no_uORF']) - 1]
@@ -137,14 +138,19 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                 for seq in list_mut_seq:
                     dictionary["Transcript"].append(sample["transcripts"])
                     dictionary["Gene"].append(genes)
-                    model.predict_on_sample_with_pos_pandas(seq, dictionary, sample[ref_seq].start)
+                    if sample[ref_seq].strand == "-":
+                        model.predict_on_sample_with_pos_pandas(seq, dictionary, '-', sample[ref_seq].start)
+                    else:
+                        model.predict_on_sample_with_pos_pandas(seq, dictionary, '+', sample[ref_seq].start)
                     mut_0_0 = dictionary['not_in-frame_no_uORF'][len(dictionary['not_in-frame_no_uORF']) - 1]
                     if not np.array_equal(mut_0_0, cur_0_0):
-                        sum_dictionary['not_in-frame_no_uORF_num'][0] = sum_dictionary['not_in-frame_no_uORF_num'][0] + 1
+                        sum_dictionary['not_in-frame_no_uORF_num'][0] = sum_dictionary['not_in-frame_no_uORF_num'][
+                                                                            0] + 1
                         mutated_dictionary['Gene'].append(genes)
                         mutated_dictionary['Transcript'].append(sample["transcripts"])
                         mutated_dictionary['Type'].append("not_in-frame_no_uORF")
-                        mutated_dictionary['Position'].append(np.setdiff1d(np.union1d(mut_0_0, cur_0_0), np.intersect1d(mut_0_0, cur_0_0)))
+                        mutated_dictionary['Position'].append(
+                            np.setdiff1d(np.union1d(mut_0_0, cur_0_0), np.intersect1d(mut_0_0, cur_0_0)))
                     mut_0_1 = dictionary['not_in-frame_uORF'][len(dictionary['not_in-frame_uORF']) - 1]
                     if not np.array_equal(mut_0_1, cur_0_1):
                         sum_dictionary['not_in-frame_uORF_num'][0] = sum_dictionary['not_in-frame_uORF_num'][0] + 1
@@ -187,7 +193,8 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
 
         ds = FivePrimeUTRSeq(data, False, contig, '-')
 
-        dictionary = {'Gene': [], 'Transcript': [], 'not_in-frame_no_uORF': [], 'not_in-frame_uORF': [], 'in-frame_no_uORF': [], 'in-frame_uORF': []}
+        dictionary = {'Gene': [], 'Transcript': [], 'not_in-frame_no_uORF': [], 'not_in-frame_uORF': [],
+                      'in-frame_no_uORF': [], 'in-frame_uORF': []}
 
         sum_dictionary['Total_transcript_num'][0] = sum_dictionary['Total_transcript_num'][0] + len(ds) - 2
 
@@ -230,29 +237,25 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                     sequence = ""
                     indexes[0] = indexes[0] + 1
                     counter = counter + 1
-
-                if sample["transcripts"][0] == 'ENST00000335742':
-                    print("herer")
-
                 dictionary["Transcript"].append(sample["transcripts"])
                 genes = []
                 temp = ''
                 for transcript in sample["transcripts"]:
-                    gene = data.transcript_by_id(transcript).gene_id
+                    gene = data.transcript_by_id(transcript).gene.name
                     if gene != temp:
                         genes.append(gene)
                         temp = gene
                 dictionary["Gene"].append(genes)
 
                 if sample[ref_seq].strand == "-":
-                    model.predict_on_sample_with_pos_pandas(reverse_complement(ref_seq), dictionary,
+                    model.predict_on_sample_with_pos_pandas(reverse_complement(ref_seq), dictionary, '-',
                                                             sample[ref_seq].start)
                     cur_0_0 = dictionary['not_in-frame_no_uORF'][len(dictionary['not_in-frame_no_uORF']) - 1]
                     cur_0_1 = dictionary['not_in-frame_uORF'][len(dictionary['not_in-frame_uORF']) - 1]
                     cur_1_0 = dictionary['in-frame_no_uORF'][len(dictionary['in-frame_no_uORF']) - 1]
                     cur_1_1 = dictionary['in-frame_uORF'][len(dictionary['in-frame_uORF']) - 1]
                 else:
-                    model.predict_on_sample_with_pos_pandas(ref_seq, dictionary, sample[ref_seq].start)
+                    model.predict_on_sample_with_pos_pandas(ref_seq, dictionary, '+', sample[ref_seq].start)
                     cur_0_0 = dictionary['not_in-frame_no_uORF'][len(dictionary['not_in-frame_no_uORF']) - 1]
                     cur_0_1 = dictionary['not_in-frame_uORF'][len(dictionary['not_in-frame_uORF']) - 1]
                     cur_1_0 = dictionary['in-frame_no_uORF'][len(dictionary['in-frame_no_uORF']) - 1]
@@ -261,10 +264,14 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                 for seq in list_mut_seq:
                     dictionary["Transcript"].append(sample["transcripts"])
                     dictionary["Gene"].append(genes)
-                    model.predict_on_sample_with_pos_pandas(seq, dictionary, sample[ref_seq].start)
+                    if sample[ref_seq].strand == "-":
+                        model.predict_on_sample_with_pos_pandas(seq, dictionary, '-', sample[ref_seq].start)
+                    else:
+                        model.predict_on_sample_with_pos_pandas(seq, dictionary, '+', sample[ref_seq].start)
                     mut_0_0 = dictionary['not_in-frame_no_uORF'][len(dictionary['not_in-frame_no_uORF']) - 1]
                     if not np.array_equal(mut_0_0, cur_0_0):
-                        sum_dictionary['not_in-frame_no_uORF_num'][0] = sum_dictionary['not_in-frame_no_uORF_num'][0] + 1
+                        sum_dictionary['not_in-frame_no_uORF_num'][0] = sum_dictionary['not_in-frame_no_uORF_num'][
+                                                                            0] + 1
                         mutated_dictionary['Gene'].append(genes)
                         mutated_dictionary['Transcript'].append(sample["transcripts"])
                         mutated_dictionary['Type'].append("not_in-frame_no_uORF")
