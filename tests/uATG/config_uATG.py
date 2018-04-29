@@ -1,5 +1,5 @@
 import pytest
-from gfeat.upstreamATG import UpstreamATG
+from gfeat.upstreamAUG import UpstreamAUG
 
 
 @pytest.fixture()
