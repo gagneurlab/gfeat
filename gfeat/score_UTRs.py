@@ -9,11 +9,11 @@ import pandas as pd
 import numpy as np
 
 
-def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=None):
-    """
+def score_utrs(vcf, save_to_csv, path, sample_id, ensembl_version=None, gtf=None, fasta=None):
+    """ 
     :param vcf: string, path to the vcf.gz
     :param save_to_csv: bool, whether to save the pd.DataFrame output table to a csv file or not
-    :param path: string, path to the folder where to save the pd.DataFrame output table
+    :param path: string, path to tыhe folder where to save the pd.DataFrame output table
     :param ensembl_versio:, int, Ensembl version
     :param grf: string, path to the gtf file, as an alternative to the Ensembl version, user gtf and Fasta files
                 can be provided
@@ -35,6 +35,7 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
 
     contigs = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
                '20', '21', '22', 'X', 'Y']
+    # contigs = ['12']
 
     vcf_fields = ["G5", "GENEINFO", "GMAF", "GNO", "KGPilot123", "RSPOS", "SAO", "SLO", "SSR", "VC", "VLD", "WGT",
                   "dbSNPBuildID", "HD", "PH2", "G5A", "PM", "PMC", "ASP", "RV", "S3D", "GCF", "CLN", "LSD", "NOV",
@@ -51,15 +52,15 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
         sum_dictionary = {'Contig': [], 'Total_transcript_num': [], 'Mutated_transcript_num': [],
                           'not_in-frame_no_uORF_num': [],
                           'not_in-frame_uORF': [], 'in-frame_no_uORF_num': [], 'in-frame_uORF_num': []}
-        mutated_dictionary = {'Gene': [], 'Transcript': [], 'Type': [], 'Position': []}
+        mutated_dictionary = {'Gene': [], 'Transcript': [], 'Sample': [], 'Type': [], 'Position': []}
 
         df0 = pd.DataFrame(data=dictionary)
         df1 = pd.DataFrame(data=error_dictionary)
         df2 = pd.DataFrame(data=sum_dictionary)
-
-        df0.to_csv(path + "/AUGs.csv")
-        df1.to_csv(path + "/too_many_mutated.csv")
-        df2.to_csv(path + "/summary.csv")
+        
+        df0.to_csv(path + "/" + sample_id+ "_AUGs.csv")
+        df1.to_csv(path + "/" + sample_id+ "_too_many_mutated.csv")
+        df2.to_csv(path + "/" + sample_id+ "_summary.csv")
 
     for contig in contigs:
 
@@ -78,6 +79,10 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
             ref_seq = ""
             if (list(sample.keys())[0] != "transcripts") and (list(sample.keys())[0] != "exons"):
                 ref_seq = list(sample.keys())[0]
+            elif (list(sample.keys())[1] != "transcripts") and (list(sample.keys())[1] != "exons"):
+                ref_seq = list(sample.keys())[1]
+            else:
+                ref_seq = list(sample.keys())[2]
 
             list_exon_mut_seq = []
 
@@ -111,6 +116,9 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                     indexes[0] = indexes[0] + 1
                     counter = counter + 1
 
+                # if sample["transcripts"][0] == 'ENST00000547691':
+                #     print("herer")
+
                 dictionary["Transcript"].append(sample["transcripts"])
                 genes = []
                 temp = ''
@@ -121,9 +129,14 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                         temp = gene
                 dictionary["Gene"].append(genes)
 
+                # print(sample)
+                # print(ref_seq)
+                # print(sample[ref_seq].strand)
                 if sample[ref_seq].strand == "-":
                     model.predict_on_sample_with_pos_pandas(reverse_complement(ref_seq), dictionary, '-',
                                                             sample[ref_seq].start)
+                    # model.predict_on_sample_with_pos_pandas(ref_seq, dictionary,
+                    #                                         sample[ref_seq].start)
                     cur_0_0 = dictionary['not_in-frame_no_uORF'][len(dictionary['not_in-frame_no_uORF']) - 1]
                     cur_0_1 = dictionary['not_in-frame_uORF'][len(dictionary['not_in-frame_uORF']) - 1]
                     cur_1_0 = dictionary['in-frame_no_uORF'][len(dictionary['in-frame_no_uORF']) - 1]
@@ -148,6 +161,7 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                                                                             0] + 1
                         mutated_dictionary['Gene'].append(genes)
                         mutated_dictionary['Transcript'].append(sample["transcripts"])
+                        mutated_dictionary['Sample'].append(sample_id)
                         mutated_dictionary['Type'].append("not_in-frame_no_uORF")
                         mutated_dictionary['Position'].append(
                             np.setdiff1d(np.union1d(mut_0_0, cur_0_0), np.intersect1d(mut_0_0, cur_0_0)))
@@ -156,6 +170,7 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                         sum_dictionary['not_in-frame_uORF_num'][0] = sum_dictionary['not_in-frame_uORF_num'][0] + 1
                         mutated_dictionary['Gene'].append(genes)
                         mutated_dictionary['Transcript'].append(sample["transcripts"])
+                        mutated_dictionary['Sample'].append(sample_id)
                         mutated_dictionary['Type'].append("not_in-frame_uORF")
                         mutated_dictionary['Position'].append(
                             np.setdiff1d(np.union1d(mut_0_1, cur_0_1), np.intersect1d(mut_0_1, cur_0_1)))
@@ -164,6 +179,7 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                         sum_dictionary['in-frame_no_uORF_num'][0] = sum_dictionary['in-frame_no_uORF_num'][0] + 1
                         mutated_dictionary['Gene'].append(genes)
                         mutated_dictionary['Transcript'].append(sample["transcripts"])
+                        mutated_dictionary['Sample'].append(sample_id)
                         mutated_dictionary['Type'].append("in-frame_no_uORF")
                         mutated_dictionary['Position'].append(
                             np.setdiff1d(np.union1d(mut_1_0, cur_1_0), np.intersect1d(mut_1_0, cur_1_0)))
@@ -172,6 +188,7 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                         sum_dictionary['in-frame_uORF_num'][0] = sum_dictionary['in-frame_uORF_num'][0] + 1
                         mutated_dictionary['Gene'].append(genes)
                         mutated_dictionary['Transcript'].append(sample["transcripts"])
+                        mutated_dictionary['Sample'].append(sample_id)
                         mutated_dictionary['Type'].append("in-frame_uORF")
                         mutated_dictionary['Position'].append(
                             np.setdiff1d(np.union1d(mut_1_1, cur_1_1), np.intersect1d(mut_1_1, cur_1_1)))
@@ -185,10 +202,10 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
             error_dictionary = {"More_than_14_mutations": error_list}
             df1 = pd.DataFrame(data=error_dictionary)
 
-            with open(path + "/AUGs.csv", 'a') as f:
+            with open(path + "/" + sample_id+ "_AUGs.csv", 'a') as f:
                 df0.to_csv(f, header=False)
 
-            with open(path + "/too_many_mutated.csv", 'a') as f:
+            with open(path + "/" + sample_id+ "_too_many_mutated.csv", 'a') as f:
                 df1.to_csv(f, header=False)
 
         ds = FivePrimeUTRSeq(data, False, contig, '-')
@@ -205,6 +222,10 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
             ref_seq = ""
             if (list(sample.keys())[0] != "transcripts") and (list(sample.keys())[0] != "exons"):
                 ref_seq = list(sample.keys())[0]
+            elif (list(sample.keys())[1] != "transcripts") and (list(sample.keys())[1] != "exons"):
+                ref_seq = list(sample.keys())[1]
+            else:
+                ref_seq = list(sample.keys())[2]
 
             list_exon_mut_seq = []
 
@@ -237,6 +258,10 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                     sequence = ""
                     indexes[0] = indexes[0] + 1
                     counter = counter + 1
+                #
+                # if sample["transcripts"][0] == 'ENST00000547691':
+                #     print("herer")
+
                 dictionary["Transcript"].append(sample["transcripts"])
                 genes = []
                 temp = ''
@@ -250,6 +275,8 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                 if sample[ref_seq].strand == "-":
                     model.predict_on_sample_with_pos_pandas(reverse_complement(ref_seq), dictionary, '-',
                                                             sample[ref_seq].start)
+                    # model.predict_on_sample_with_pos_pandas(ref_seq, dictionary,
+                    #                                         sample[ref_seq].start)
                     cur_0_0 = dictionary['not_in-frame_no_uORF'][len(dictionary['not_in-frame_no_uORF']) - 1]
                     cur_0_1 = dictionary['not_in-frame_uORF'][len(dictionary['not_in-frame_uORF']) - 1]
                     cur_1_0 = dictionary['in-frame_no_uORF'][len(dictionary['in-frame_no_uORF']) - 1]
@@ -274,6 +301,7 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                                                                             0] + 1
                         mutated_dictionary['Gene'].append(genes)
                         mutated_dictionary['Transcript'].append(sample["transcripts"])
+                        mutated_dictionary['Sample'].append(sample_id)
                         mutated_dictionary['Type'].append("not_in-frame_no_uORF")
                         mutated_dictionary['Position'].append(
                             np.setdiff1d(np.union1d(mut_0_0, cur_0_0), np.intersect1d(mut_0_0, cur_0_0)))
@@ -282,6 +310,7 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                         sum_dictionary['not_in-frame_uORF_num'][0] = sum_dictionary['not_in-frame_uORF_num'][0] + 1
                         mutated_dictionary['Gene'].append(genes)
                         mutated_dictionary['Transcript'].append(sample["transcripts"])
+                        mutated_dictionary['Sample'].append(sample_id)
                         mutated_dictionary['Type'].append("not_in-frame_uORF")
                         mutated_dictionary['Position'].append(
                             np.setdiff1d(np.union1d(mut_0_1, cur_0_1), np.intersect1d(mut_0_1, cur_0_1)))
@@ -290,6 +319,7 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                         sum_dictionary['in-frame_no_uORF_num'][0] = sum_dictionary['in-frame_no_uORF_num'][0] + 1
                         mutated_dictionary['Gene'].append(genes)
                         mutated_dictionary['Transcript'].append(sample["transcripts"])
+                        mutated_dictionary['Sample'].append(sample_id)
                         mutated_dictionary['Type'].append("in-frame_no_uORF")
                         mutated_dictionary['Position'].append(
                             np.setdiff1d(np.union1d(mut_1_0, cur_1_0), np.intersect1d(mut_1_0, cur_1_0)))
@@ -298,6 +328,7 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
                         sum_dictionary['in-frame_uORF_num'][0] = sum_dictionary['in-frame_uORF_num'][0] + 1
                         mutated_dictionary['Gene'].append(genes)
                         mutated_dictionary['Transcript'].append(sample["transcripts"])
+                        mutated_dictionary['Sample'].append(sample_id)
                         mutated_dictionary['Type'].append("in-frame_uORF")
                         mutated_dictionary['Position'].append(
                             np.setdiff1d(np.union1d(mut_1_1, cur_1_1), np.intersect1d(mut_1_1, cur_1_1)))
@@ -312,16 +343,17 @@ def score_utrs(vcf, save_to_csv, path, ensembl_version=None, gtf=None, fasta=Non
             df2 = pd.DataFrame(data=sum_dictionary)
             df1 = pd.DataFrame(data=error_dictionary)
 
-            with open(path + "/AUGs.csv", 'a') as f:
+            with open(path + "/" + sample_id+ "_AUGs.csv", 'a') as f:
                 df0.to_csv(f, header=False)
 
-            with open(path + "/too_many_mutated.csv", 'a') as f:
+            with open(path + "/" + sample_id+ "_too_many_mutated.csv", 'a') as f:
                 df1.to_csv(f, header=False)
 
-            with open(path + "/summary.csv", 'a') as f:
+            with open(path + "/" + sample_id+ "_summary.csv", 'a') as f:
                 df2.to_csv(f, header=False)
 
     df3 = pd.DataFrame(data=mutated_dictionary)
-    df3.to_csv(path + "/mutated.csv")
-
-    return df3
+    file = path + "/mutated.csv"
+    with open(file, 'a') as f:
+        df3.to_csv(f, header=False)
+    pass
