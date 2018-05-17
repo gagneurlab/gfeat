@@ -4,7 +4,7 @@ from pybedtools import BedTool
 from cyvcf2 import VCF
 from collections import OrderedDict
 from itertools import combinations
-from common_methods import reverse_complement
+from gfeat.common_methods import reverse_complement
 
 """Define the basic classess
 """
