@@ -234,6 +234,133 @@ class UpstreamAUG:
         else:
             pass  # Todo what should it do in this case?
 
+    def predict_on_sample_with_stop_pandas(self, seq, result_dict, strand, start=None):
+        """
+        In comparison to predict_on_sample(), additionally returns as positions of AUGs and outputs everything to the
+        passed to it dictionary
+
+        :param seq: string utr's sequence
+        :param result_dict: dictionary with 4 mandatory keys "not_in-frame_no_uORF", "not_in-frame_uORF", "in-frame_no_uORF", "in-frame_uORF", where to append the found values
+        :param start: integer, position relatively to the whole genome (in contrast to position relative to the exon)
+
+        """
+
+        if self.allow_ORF:
+            if strand == '+':
+                if self.verbose_output:
+
+                    list_00 = []  # not_in-frame_no_uORF
+                    list_01 = []  # not_in-frame_uORF
+                    list_10 = []  # in-frame_no_uORF
+                    list_11 = []  # in-frame_uORF
+
+                    # print(seq)
+
+                    for ATG in re.finditer('ATG', seq):
+                        # if ATG.start() + start == 88497907:
+                        #     print('herer')
+                        ORF = 0
+                        seq_remainder = seq[ATG.start() + 3:]
+
+                        for TAA in re.finditer('TAA', seq_remainder):
+                            if not (TAA.start() % 3):
+                                ORF = TAA.start()
+                                break
+                        if not ORF:
+                            for TAG in re.finditer('TAG', seq_remainder):
+                                if not (TAG.start() % 3):
+                                    ORF = TAG.start()
+                                    break
+                            if not ORF:
+                                for TGA in re.finditer('TGA', seq_remainder):
+                                    if not (TGA.start() % 3):
+                                        ORF = TGA.start()
+                                        break
+                        if ORF:
+                            if (len(seq) - ATG.start()) % 3:
+                                list_01.append(ATG.start() + start)
+                                list_01.append(ORF + start)
+                            else:
+                                list_11.append(ATG.start() + start)
+                                list_11.append(ORF + start)
+                        else:
+                            if (len(seq) - ATG.start()) % 3:
+                                list_00.append(ATG.start() + start)
+                            else:
+                                list_10.append(ATG.start() + start)
+
+                    result_dict["not_in-frame_no_uORF"].append(np.array(list_00))
+                    result_dict["not_in-frame_uORF"].append(np.array(list_01))
+                    result_dict["in-frame_no_uORF"].append(np.array(list_10))
+                    result_dict["in-frame_uORF"].append(np.array(list_11))
+
+                    pass
+
+                else:
+
+                    ATG_pos = [ATG.start() for ATG in re.finditer('ATG', seq)]
+                    ATG_frame = [((len(seq) - pos) % 3) for pos in ATG_pos]
+                    ATG_frame[:] = [(math.ceil(res / 2) ^ 1) for res in ATG_frame]
+                    pass
+            else:
+                if self.verbose_output:
+
+                    list_00 = []  # not_in-frame_no_uORF
+                    list_01 = []  # not_in-frame_uORF
+                    list_10 = []  # in-frame_no_uORF
+                    list_11 = []  # in-frame_uORF
+
+                    # print(seq)
+
+                    for ATG in re.finditer('ATG', seq):
+                        # if ATG.start() + start == 88497907:
+                        #     print('herer')
+                        ORF = 0
+                        seq_remainder = seq[ATG.start() + 3:]
+
+                        for TAA in re.finditer('TAA', seq_remainder):
+                            if not (TAA.start() % 3):
+                                ORF = TAA.start()
+                                break
+                        if not ORF:
+                            for TAG in re.finditer('TAG', seq_remainder):
+                                if not (TAG.start() % 3):
+                                    ORF = TAG.start()
+                                    break
+                            if not ORF:
+                                for TGA in re.finditer('TGA', seq_remainder):
+                                    if not (TGA.start() % 3):
+                                        ORF = TGA.start()
+                                        break
+                        if ORF:
+                            if (len(seq) - ATG.start()) % 3:
+                                list_01.append(start + (len(seq) - ATG.start()) - 1)
+                                list_01.append(start + (len(seq) - ORF) - 1)
+                            else:
+                                list_11.append(start + (len(seq) - ATG.start()) - 1)
+                                list_11.append(start + (len(seq) - ORF) - 1)
+                        else:
+                            if (len(seq) - ATG.start()) % 3:
+                                list_00.append(start + (len(seq) - ATG.start()) - 1)
+                            else:
+                                list_10.append(start + (len(seq) - ATG.start()) - 1)
+
+                    result_dict["not_in-frame_no_uORF"].append(np.array(list_00))
+                    result_dict["not_in-frame_uORF"].append(np.array(list_01))
+                    result_dict["in-frame_no_uORF"].append(np.array(list_10))
+                    result_dict["in-frame_uORF"].append(np.array(list_11))
+
+                    pass
+
+                else:
+
+                    ATG_pos = [ATG.start() for ATG in re.finditer('ATG', seq)]
+                    ATG_frame = [((len(seq) - pos) % 3) for pos in ATG_pos]
+                    ATG_frame[:] = [(math.ceil(res / 2) ^ 1) for res in ATG_frame]
+                    pass
+        else:
+            pass  # Todo what should it do in this case?
+
     def predict_on_batch(self, seq_list):
         """
         :param seq_list: list of string utr's sequences

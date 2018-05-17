@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="42634b39-5467-43b6-ab3d-357c28d3d096" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/gfeat/UTR.py" afterPath="$PROJECT_DIR$/gfeat/UTR.py" />
       <change beforePath="$PROJECT_DIR$/gfeat/score_UTRs.py" afterPath="$PROJECT_DIR$/gfeat/score_UTRs.py" />
       <change beforePath="$PROJECT_DIR$/gfeat/units.py" afterPath="$PROJECT_DIR$/gfeat/units.py" />
     </list>
@@ -18,7 +17,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/gfeat$testing.coverage" NAME="testing Coverage Results" MODIFIED="1523907390353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gfeat" />
+    <SUITE FILE_PATH="coverage/gfeat$testing.coverage" NAME="testing Coverage Results" MODIFIED="1525969046930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gfeat" />
     <SUITE FILE_PATH="coverage/gfeat$units.coverage" NAME="UTR Coverage Results" MODIFIED="1521042425942" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gfeat" />
     <SUITE FILE_PATH="coverage/gfeat$UTR.coverage" NAME="UTR Coverage Results" MODIFIED="1522065815984" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gfeat" />
     <SUITE FILE_PATH="coverage/gfeat$gene.coverage" NAME="gene Coverage Results" MODIFIED="1513681408407" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gfeat" />
@@ -28,11 +27,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="score_UTRs.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="score_UTRs.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gfeat/score_UTRs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="327" column="0" lean-forward="false" selection-start-line="327" selection-start-column="0" selection-end-line="327" selection-end-column="0" />
+            <state relative-caret-position="6090">
+              <caret line="406" column="16" lean-forward="false" selection-start-line="406" selection-start-column="16" selection-end-line="406" selection-end-column="16" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -40,55 +39,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testing" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gfeat/testing">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="345" column="0" lean-forward="false" selection-start-line="345" selection-start-column="0" selection-end-line="654" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="units.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="units.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gfeat/units.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="21" lean-forward="false" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UTR.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gfeat/UTR.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="11" lean-forward="false" selection-start-line="1" selection-start-column="11" selection-end-line="1" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="common_methods.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gfeat/common_methods.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="upstreamAUG.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gfeat/upstreamAUG.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3540">
-              <caret line="236" column="8" lean-forward="false" selection-start-line="236" selection-start-column="8" selection-end-line="236" selection-end-column="24" />
+            <state relative-caret-position="159">
+              <caret line="11" column="9" lean-forward="true" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
               <folding>
-                <element signature="e#0#9#0" expanded="true" />
+                <element signature="e#0#16#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -105,22 +62,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>dict</find>
-      <find>pandas</find>
-      <find>mutated</find>
-      <find>then</find>
-      <find>upst</find>
-      <find>vc</find>
-      <find>vcf</find>
-      <find>prin</find>
-      <find>rela</find>
-      <find>dictionary</find>
-      <find>vcf_file</find>
-      <find>return</find>
       <find>0-0</find>
       <find>0-1</find>
       <find>1-0</find>
-      <find>predict_on_sample_with_pos_pandas</find>
       <find>summary</find>
       <find>sum_dictionary</find>
       <find>/mutated.csv</find>
@@ -135,6 +79,19 @@
       <find>predict</find>
       <find>np</find>
       <find>print</find>
+      <find>mutated_dict</find>
+      <find>stra</find>
+      <find>stran</find>
+      <find>mutate_se</find>
+      <find>pre</find>
+      <find>Position</find>
+      <find>mutated</find>
+      <find>combinations</find>
+      <find>predict_on_sample_with_pos_pandas</find>
+      <find>with_</find>
+      <find>reverse</find>
+      <find>mutate_sequence_Interval_vcf_with_pos_alt_ref</find>
+      <find>mutated_dictionary</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -187,11 +144,12 @@
         <option value="$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_constructor.py" />
         <option value="$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_getitem.py" />
         <option value="$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_len.py" />
+        <option value="$PROJECT_DIR$/gfeat/testing_jupyter.py" />
         <option value="$PROJECT_DIR$/gfeat/upstreamAUG.py" />
-        <option value="$PROJECT_DIR$/gfeat/score_UTRs.py" />
-        <option value="$PROJECT_DIR$/gfeat/testing" />
-        <option value="$PROJECT_DIR$/gfeat/units.py" />
         <option value="$PROJECT_DIR$/gfeat/UTR.py" />
+        <option value="$PROJECT_DIR$/gfeat/units.py" />
+        <option value="$PROJECT_DIR$/gfeat/testing" />
+        <option value="$PROJECT_DIR$/gfeat/score_UTRs.py" />
       </list>
     </option>
   </component>
@@ -236,7 +194,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -258,12 +215,6 @@
               <item name="gfeat" type="b2602c69:ProjectViewProjectNode" />
               <item name="gfeat" type="462c0819:PsiDirectoryNode" />
               <item name="tests" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="gfeat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="gfeat" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
               <item name="units" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -276,6 +227,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -475,34 +427,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1509657925889</updated>
-    </task>
-    <task id="LOCAL-00013" summary="– added retrieval of 5'UTR sequences for the minus strand &#10;– added the corresponding tests">
-      <created>1521122283806</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1521122283806</updated>
-    </task>
-    <task id="LOCAL-00014" summary="– added configuration file for testing FivePrimeUTRSeq&#10;– added gtf file for testing FivePrimeUTRSeq for a &quot;-&quot; strand">
-      <created>1521127960134</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1521127960134</updated>
-    </task>
-    <task id="LOCAL-00015" summary="– minor package changes to FivePrimeUTRSeq">
-      <created>1521128109778</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1521128109778</updated>
-    </task>
-    <task id="LOCAL-00016" summary="– pyensembl 1.1.0">
-      <created>1521131413954</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1521131413954</updated>
     </task>
     <task id="LOCAL-00017" summary="– pyensembl 1.1.0">
       <created>1521131594767</created>
@@ -819,7 +743,35 @@
       <option name="project" value="LOCAL" />
       <updated>1523907703348</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="- right before experimenting on all mitoMultiOmics patients">
+      <created>1524850552583</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1524850552583</updated>
+    </task>
+    <task id="LOCAL-00063" summary="- added chr, ALT and REF for each postition&#10;– Changed the outputed number from the position of the beginning of the lost codon to the position of the mutation&#10;– broke the lines in such a way that 1 line corresponds to 1 transcript">
+      <created>1526473599341</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1526473599341</updated>
+    </task>
+    <task id="LOCAL-00064" summary="- prettifying">
+      <created>1526473703816</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1526473703816</updated>
+    </task>
+    <task id="LOCAL-00065" summary="- changed the number of allowed mutations per the whole transcript (not per exon)">
+      <created>1526542706440</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1526542706440</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -838,17 +790,17 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16506189" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3122421" sideWeight="0.5226171" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="0" y="0" width="270" height="600" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24759285" sideWeight="0.7964459" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2008253" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17469051" sideWeight="0.47738287" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2517194" sideWeight="0.7964459" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21458046" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25201938" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3823934" sideWeight="0.47738287" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20770289" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3029079" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959871" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22145805" sideWeight="0.8812601" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33562586" sideWeight="0.8812601" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -894,9 +846,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="– minor package changes to FivePrimeUTRSeq" />
-    <MESSAGE value="– pyensembl 1.1.0" />
-    <MESSAGE value="– pyensembl 1.1.0 and the included libraries" />
     <MESSAGE value="– added database creation in test files" />
     <MESSAGE value="– changed .gitlab-ci.yml" />
     <MESSAGE value="– changed .gitlab-ci.yml back" />
@@ -909,7 +858,6 @@
     <MESSAGE value="- fixed constructor of FivePrimeUTRSeq for reverse_complement_bool = False for minus strands&#10;- added predict_on_sample_with_pos to upstreamATG.py" />
     <MESSAGE value="- apparently 2 5'UTRs can have the same exonic sequences but different exonic+intronic sequences" />
     <MESSAGE value="- same for the minus strand" />
-    <MESSAGE value="- prettifying" />
     <MESSAGE value="- fixed FivePrimeUTRSeq" />
     <MESSAGE value="- score_UTRs v1" />
     <MESSAGE value="- &quot;mutate_sequence&quot; added ignoring &quot;.&quot;" />
@@ -919,7 +867,11 @@
     <MESSAGE value="- working version before removing the addition of transcripts that have less than 8 exons" />
     <MESSAGE value="- added documentation to all functions&#10;- changed FivePrimeUTRSeq tests as the function signature has changed&#10;– dumped score_UTRs result to CSVs&#10;– added additional pd.DataFrame &quot;mutated&quot; that shows only those transcripts &#10;  where an AUG was introduced/deleted&#10;_ &quot;too_many_mutated&quot; instead of &quot; Pyensembl error&quot;" />
     <MESSAGE value="- fixed upstreamAUG bug with positions for '-' strand" />
-    <option name="LAST_COMMIT_MESSAGE" value="- fixed upstreamAUG bug with positions for '-' strand" />
+    <MESSAGE value="- right before experimenting on all mitoMultiOmics patients" />
+    <MESSAGE value="- added chr, ALT and REF for each postition&#10;– Changed the outputed number from the position of the beginning of the lost codon to the position of the mutation&#10;– broke the lines in such a way that 1 line corresponds to 1 transcript" />
+    <MESSAGE value="- prettifying" />
+    <MESSAGE value="- changed the number of allowed mutations per the whole transcript (not per exon)" />
+    <option name="LAST_COMMIT_MESSAGE" value="- changed the number of allowed mutations per the whole transcript (not per exon)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -930,29 +882,9 @@
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/gfeat/testing</url>
-          <line>119</line>
-          <option name="timeStamp" value="112" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/gfeat/testing</url>
-          <line>251</line>
-          <option name="timeStamp" value="117" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/gfeat/upstreamAUG.py</url>
-          <line>149</line>
+          <line>260</line>
           <option name="timeStamp" value="118" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/gfeat/testing</url>
-          <line>692</line>
-          <option name="timeStamp" value="119" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/gfeat/testing</url>
-          <line>732</line>
-          <option name="timeStamp" value="120" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -965,7 +897,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="121" />
+      <option name="time" value="128" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -974,13 +906,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/uATG/config_uATG.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="6" column="4" lean-forward="false" selection-start-line="6" selection-start-column="4" selection-end-line="16" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/GFGene" />
     <entry file="file://$PROJECT_DIR$/tests/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -1054,13 +979,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/units/test_mutate_sequence_BedTool.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="22" column="33" lean-forward="false" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/data/check_scoreUTRs.gtf">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
@@ -1114,7 +1032,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="5" lean-forward="false" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1143,7 +1060,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="166">
           <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1151,7 +1067,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="173">
           <caret line="317" column="0" lean-forward="false" selection-start-line="317" selection-start-column="0" selection-end-line="317" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1159,7 +1074,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="173">
           <caret line="771" column="0" lean-forward="false" selection-start-line="771" selection-start-column="0" selection-end-line="771" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1184,20 +1098,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_constructor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="33" column="27" lean-forward="true" selection-start-line="33" selection-start-column="27" selection-end-line="33" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_getitem.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="34" lean-forward="false" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_len.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -1209,7 +1109,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
           <caret line="2597" column="0" lean-forward="false" selection-start-line="2597" selection-start-column="0" selection-end-line="2597" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1263,7 +1162,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="268">
           <caret line="26" column="14" lean-forward="true" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1288,21 +1186,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gfeat/upstreamAUG.py">
+    <entry file="file://$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_constructor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3540">
-          <caret line="236" column="8" lean-forward="false" selection-start-line="236" selection-start-column="8" selection-end-line="236" selection-end-column="24" />
+        <state relative-caret-position="465">
+          <caret line="33" column="27" lean-forward="true" selection-start-line="33" selection-start-column="27" selection-end-line="33" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/units/test_mutate_sequence_BedTool.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="15" column="11" lean-forward="false" selection-start-line="15" selection-start-column="11" selection-end-line="18" selection-end-column="103" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/UTR/test_FivePrimeUTRSeq_getitem.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="11" column="18" lean-forward="false" selection-start-line="11" selection-start-column="18" selection-end-line="20" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gfeat/testing">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6465">
+          <caret line="431" column="0" lean-forward="false" selection-start-line="431" selection-start-column="0" selection-end-line="431" selection-end-column="48" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gfeat/common_methods.py">
+    <entry file="file://$PROJECT_DIR$/gfeat/testing_jupyter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="5250">
+          <caret line="350" column="0" lean-forward="false" selection-start-line="350" selection-start-column="0" selection-end-line="350" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1314,30 +1235,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gfeat/units.py">
+    <entry file="file://$PROJECT_DIR$/gfeat/common_methods.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
-          <caret line="6" column="21" lean-forward="false" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gfeat/testing">
+    <entry file="file://$PROJECT_DIR$/gfeat/upstreamAUG.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="345" column="0" lean-forward="false" selection-start-line="345" selection-start-column="0" selection-end-line="654" selection-end-column="0" />
+        <state relative-caret-position="4304">
+          <caret line="287" column="38" lean-forward="false" selection-start-line="287" selection-start-column="38" selection-end-line="287" selection-end-column="38" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gfeat/score_UTRs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="327" column="0" lean-forward="false" selection-start-line="327" selection-start-column="0" selection-end-line="327" selection-end-column="0" />
+        <state relative-caret-position="6090">
+          <caret line="406" column="16" lean-forward="false" selection-start-line="406" selection-start-column="16" selection-end-line="406" selection-end-column="16" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gfeat/units.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="11" column="9" lean-forward="true" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
           </folding>
         </state>
       </provider>
