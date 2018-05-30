@@ -1,5 +1,5 @@
 from pybedtools import Interval
-from gfeat.common_methods import reverse_complement
+from gfeat.utils import reverse_complement
 
 
 class FivePrimeUTRSeq:

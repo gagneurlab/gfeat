@@ -1,13 +1,15 @@
+import pybedtools
 import pyensembl
 from pysam import FastaFile
-from pybedtools import BedTool
 from cyvcf2 import VCF
 from collections import OrderedDict
 from itertools import combinations
-from gfeat.common_methods import reverse_complement
+from gfeat.utils import reverse_complement
 
 """Define the basic classess
 """
+
+
 # basic units:
 # - genes
 # - transcripts
@@ -22,6 +24,7 @@ from gfeat.common_methods import reverse_complement
 # - end
 # - strand
 
+
 class IndexUnit(object):
 
     @classmethod
@@ -33,78 +36,107 @@ class IndexUnit(object):
         raise NotImplementedError
 
 
-def extract_sequence_BedTool(interval, fasta, vcf=None):
-    """
-    :param interval: pybedtools.BedTool interval object
-    :param fasta: path to the Fasta file
-    :param vcf: path to the vcf.gz
-    :return list of tuples [(DNA string, variant ids), ...] consisting of a DNA sequence and
+class VCFMutator:
+    def __init__(self, BedTool, mutations_amount, vcf=None, pos_alt_ref=None):
+        """
+        constructor
+        :param BedTool: bool, True if BedTool intervals are used
+        :param mutations_amount: bool, True, if the number of mutations withing the interval is needed
+        :param vcf: string or an "opened" file, path to the vcf.gz or file opened using cyvcf2
+        :param pos_alt_ref: bool, True if positions of mutations together with alternative and reference values
+         of the nucleobase are needed
+        """
+        self.BedTool = BedTool
+        self.mutations_amount = mutations_amount
+        self.vcf = vcf
+        self.pos_alt_ref = pos_alt_ref
+
+    def mutate_sequence(self, interval, fasta=None, seq_whole=None):
+        """
+        function that takes an interval, fasta/seq and vcf and return all possible mutated sequences and the
+        positions of mutations
+        :param interval: pybedtools.cbedtools.Interval, interval object
+        :param fasta: sequence, path to the Fasta file
+        :param seq: sequence, sequence that we want to mutate
+        :return depends on what was the constructor's input.
+        case1: list with one tupe in it [(seq,)]
+        case2: list of tuples [(DNA string, tuple with variants positions, tuple with reference values,
+        tuple with alternative values), ...] and the number of all mutations withing the interval
+        if the number of mutations is bigger than 14, returns only the not mutated sequence since the number of
+        possible sequences is to large to be processed on a laptop (as for March 2018)
+        case 3: list of tuples [(DNA string, variant ids), ...] consisting of a DNA sequence and
             the positions of variants that were substituted
-    """
-    seq = fasta.fetch(str(interval.chrom), interval.start,
-                       interval.stop)
-
-    if vcf is not None:
-        variants_hom_alt = OrderedDict()
-        variants_hom_ref = OrderedDict()
-        variants_het_alt = OrderedDict()
-        variants_het_ref = OrderedDict()
-
-        # assumption: interval.chrom looks like "chrNo"
-        for variant in VCF(vcf)(interval.chrom + ":" + str(interval.start + 1) + "-" + str(interval.end)):
-            if not variant.num_het:
-                variants_hom_alt[variant.POS] = variant.ALT[0]
-                variants_hom_ref[variant.POS] = variant.REF
+        """
+        if self.vcf == None:
+            # case 1: only extraction of a sequence from a fasta file is required, no vcf file is supplied
+            if not fasta == None:
+                if interval.strand == "-":
+                    return [(reverse_complement(fasta.fetch(str(interval.chrom), interval.start,
+                                    interval.stop)),)]
+                else:
+                    return [(fasta.fetch(str(interval.chrom), interval.start,
+                                    interval.stop),)]
             else:
-                # note at the moment we work only with alterations that do
-                # not introduce deletions or insertions
-                if len(variant.ALT[0]) == len(variant.REF):
-                    # assumption: 1 ALT per 1 REF
-                    if len(variant.ALT) != 1:
-                        raise ValueError("Variant in position %d has 2 alternate "
-                                         "non-reference alleles" %variant.POS)
-                    variants_het_alt[variant.POS] = variant.ALT[0]
-                    variants_het_ref[variant.POS] = variant.REF
-
-        tupl = ()
-        output = []
-        for key in variants_hom_alt:
-            if seq[key - interval.start - 1: key - interval.start - 1 +
-                                             len(variants_hom_ref[key])] != variants_hom_ref[key]:
-                raise ValueError("The VCF reference does not match the genome sequence")
-            seq = seq[:(key - interval.start - 1)] + variants_hom_alt[key] + \
-                  seq[(key + len(variants_hom_alt[key]) - interval.start - 1):]
-            tupl = tupl + (key,)
-            # seq = initial sequence with all homozygous variants in it
-        output.append((seq, tupl))
-
-        for n in range(len(variants_het_alt)):
-            for combs in combinations(variants_het_alt, n + 1):
-                seq_temp = seq
-                tuple_temp = tupl
-                for key in combs:
-                    if seq[key - interval.start - 1: key - interval.start - 1 +
-                                                     len(variants_het_ref[key])] != variants_het_ref[key]:
-                        raise ValueError("The VCF reference does not match the genome sequence")
-                    seq_temp = seq_temp[:(key - interval.start - 1)] + variants_het_alt[key] + \
-                        seq_temp[(key + len(variants_het_alt[key]) - interval.start - 1):]
-                tuple_temp = tupl + combs
-                output.append((seq_temp, tuple_temp))  # Note that the tuple is unsorted
-
-        if interval.strand == "-":
-            temp_output = []
-            for i in range(len(output)):
-                temp_output.append((reverse_complement(output[i][0]), output[i][1]))
-            output = temp_output
-    else:
-        if interval.strand == "-":
-            output = [(reverse_complement(seq),)]
+                return [(seq_whole,)]
         else:
-            output = [(seq,)]
-    return output
+            # case 2: mutated sequences together with positions, reference and alternative values of mutations
+            # are required
+            if self.pos_alt_ref:
+                # case 2.1: fasta file is provided
+                if (not fasta == None) and (seq_whole == None):
+                    seq_whole = fasta.fetch(str(interval.chrom), interval.start,
+                                    interval.stop)
+                # case 2.2: the path to the vcf file is provided
+                if type(self.vcf) == str:
+                    vcf_file = VCF(self.vcf)
+                # case 2.3: the opened vcf file is provided
+                else:
+                    vcf_file = self.vcf
+                # case 2.4: interval is of type pybedtools.cbedtools.Interval
+                if not self.BedTool:
+                    return _mutate_sequence_Interval_vcf_with_pos_alt_ref(interval, seq_whole, vcf_file)
+                # case 2.5: interval is of type pybedtools.bedtool.BedTool
+                else:
+                    return _mutate_sequence_BedTool_vcf_with_pos_alt_ref(interval, seq_whole, vcf_file)
+            # case 3: only mutated sequences are required
+            else:
+                if self.mutations_amount:
+                    # case 3.1: fasta file is provided
+                    if (not fasta == None) and (seq_whole == None):
+                        seq_whole = fasta.fetch(str(interval.chrom), interval.start,
+                                        interval.stop)
+                    # case 3.2: the path to the vcf file is provided
+                    if type(self.vcf) == str:
+                        vcf_file = VCF(self.vcf)
+                    # case 3.3: the opened vcf file is provided
+                    else:
+                        vcf_file = self.vcf
+                    # case 3.4: interval is of type pybedtools.bedtool.BedTool
+                    if self.BedTool:
+                        return _mutate_sequence_BedTool_vcf(interval, seq_whole, vcf_file)
+                    # case 3.5: interval is of type pybedtools.cbedtools.Interval
+                    else:
+                        return _mutate_sequence_Interval_vcf(interval, seq_whole, vcf_file)
+                else:
+                    # case 3.1: fasta file is provided
+                    if (not fasta == None) and (seq_whole == None):
+                        seq_whole = fasta.fetch(str(interval.chrom), interval.start,
+                                        interval.stop)
+                    # case 3.2: the path to the vcf file is provided
+                    if type(self.vcf) == str:
+                        vcf_file = VCF(self.vcf)
+                    # case 3.3: the opened vcf file is provided
+                    else:
+                        vcf_file = self.vcf
+                    # case 3.4: interval is of type pybedtools.bedtool.BedTool
+                    if self.BedTool:
+                        return _mutate_sequence_BedTool(interval, seq_whole, vcf_file)
+                    # case 3.5: interval is of type pybedtools.cbedtools.Interval
+                    else:
+                        return _mutate_sequence_Interval(interval, seq_whole, vcf_file)
 
 
-def mutate_sequence_BedTool(interval, seq, vcf=None):
+def _mutate_sequence_BedTool(interval, seq, vcf_file=None):
     """
     :param interval: pybedtools.BedTool interval object
     :param seq: sequence that we want to mutate
@@ -113,7 +145,7 @@ def mutate_sequence_BedTool(interval, seq, vcf=None):
             the positions of variants that were substituted
     """
 
-    if vcf is not None:
+    if vcf_file is not None:
         variants_hom_alt = OrderedDict()
         variants_hom_ref = OrderedDict()
         variants_het_alt = OrderedDict()
@@ -125,7 +157,7 @@ def mutate_sequence_BedTool(interval, seq, vcf=None):
         else:
             chr = interval.chrom
         try:
-            for variant in VCF(vcf)(chr + ":" + str(interval.start + 1) + "-" + str(interval.end)):
+            for variant in vcf_file(chr + ":" + str(interval.start + 1) + "-" + str(interval.end)):
                 if not variant.num_het:
                     variants_hom_alt[variant.POS] = variant.ALT[0]
                     variants_hom_ref[variant.POS] = variant.REF
@@ -136,7 +168,7 @@ def mutate_sequence_BedTool(interval, seq, vcf=None):
                         # assumption: 1 ALT per 1 REF
                         if len(variant.ALT) != 1:
                             raise ValueError("Variant in position %d has 2 alternate "
-                                             "non-reference alleles" %variant.POS)
+                                             "non-reference alleles" % variant.POS)
                         variants_het_alt[variant.POS] = variant.ALT[0]
                         variants_het_ref[variant.POS] = variant.REF
 
@@ -160,10 +192,10 @@ def mutate_sequence_BedTool(interval, seq, vcf=None):
                         if seq[key - interval.start - 1: key - interval.start - 1 +
                                                          len(variants_het_ref[key])] != variants_het_ref[key]:
                             temp = seq[key - interval.start - 1: key - interval.start - 1 +
-                                                         len(variants_het_ref[key])]
+                                                                 len(variants_het_ref[key])]
                             raise ValueError("The VCF reference does not match the genome sequence")
                         seq_temp = seq_temp[:(key - interval.start - 1)] + variants_het_alt[key] + \
-                            seq_temp[(key + len(variants_het_alt[key]) - interval.start - 1):]
+                                   seq_temp[(key + len(variants_het_alt[key]) - interval.start - 1):]
                     tuple_temp = tupl + combs
                     output.append((seq_temp, tuple_temp))  # Note that the tuple is unsorted
 
@@ -185,7 +217,7 @@ def mutate_sequence_BedTool(interval, seq, vcf=None):
     return output
 
 
-def mutate_sequence_Interval(interval, seq, vcf=None):
+def _mutate_sequence_Interval(interval, seq, vcf_file=None):
     """
     :param interval: pybedtools.Interval interval object
     :param seq: sequence that we want to mutate
@@ -194,7 +226,7 @@ def mutate_sequence_Interval(interval, seq, vcf=None):
             the positions of variants that were substituted
     """
 
-    if vcf is not None:
+    if vcf_file is not None:
         variants_hom_alt = OrderedDict()
         variants_hom_ref = OrderedDict()
         variants_het_alt = OrderedDict()
@@ -205,7 +237,7 @@ def mutate_sequence_Interval(interval, seq, vcf=None):
         else:
             chr = interval.chrom
         try:
-            for variant in VCF(vcf)(chr + ":" + str(interval.start) + "-" + str(interval.end)):
+            for variant in vcf_file(chr + ":" + str(interval.start) + "-" + str(interval.end)):
                 if not variant.num_het:
                     variants_hom_alt[variant.POS] = variant.ALT[0]
                     variants_hom_ref[variant.POS] = variant.REF
@@ -216,7 +248,7 @@ def mutate_sequence_Interval(interval, seq, vcf=None):
                         # assumption: 1 ALT per 1 REF
                         if len(variant.ALT) != 1:
                             raise ValueError("Variant in position %d has 2 alternate "
-                                             "non-reference alleles" %variant.POS)
+                                             "non-reference alleles" % variant.POS)
                         variants_het_alt[variant.POS] = variant.ALT[0]
                         variants_het_ref[variant.POS] = variant.REF
 
@@ -224,7 +256,7 @@ def mutate_sequence_Interval(interval, seq, vcf=None):
             output = []
             for key in variants_hom_alt:
                 if seq[key - interval.start: key - interval.start +
-                                                 len(variants_hom_ref[key])] != variants_hom_ref[key]:
+                                             len(variants_hom_ref[key])] != variants_hom_ref[key]:
                     raise ValueError("The VCF reference does not match the genome sequence")
                 seq = seq[:(key - interval.start)] + variants_hom_alt[key] + \
                       seq[(key + len(variants_hom_alt[key]) - interval.start):]
@@ -238,10 +270,10 @@ def mutate_sequence_Interval(interval, seq, vcf=None):
                     tuple_temp = tupl
                     for key in combs:
                         if seq[key - interval.start: key - interval.start +
-                                                         len(variants_het_ref[key])] != variants_het_ref[key]:
+                                                     len(variants_het_ref[key])] != variants_het_ref[key]:
                             raise ValueError("The VCF reference does not match the genome sequence")
                         seq_temp = seq_temp[:(key - interval.start)] + variants_het_alt[key] + \
-                            seq_temp[(key + len(variants_het_alt[key]) - interval.start):]
+                                   seq_temp[(key + len(variants_het_alt[key]) - interval.start):]
                     tuple_temp = tupl + combs
                     output.append((seq_temp, tuple_temp))  # Note that the tuple is unsorted
 
@@ -263,7 +295,7 @@ def mutate_sequence_Interval(interval, seq, vcf=None):
     return output
 
 
-def mutate_sequence_Interval_vcf(interval, seq, vcf_file=None):
+def _mutate_sequence_Interval_vcf(interval, seq, vcf_file=None):
     """
     The difference from mutate_sequence_Interval is that an already "opened" vcf file is passed to the function.
 
@@ -302,7 +334,7 @@ def mutate_sequence_Interval_vcf(interval, seq, vcf_file=None):
                         # assumption: 1 ALT per 1 REF
                         if len(variant.ALT) != 1:
                             raise ValueError("Variant in position %d has 2 alternate "
-                                             "non-reference alleles" %variant.POS)
+                                             "non-reference alleles" % variant.POS)
                         variants_het_alt[variant.POS] = variant.ALT[0]
                         variants_het_ref[variant.POS] = variant.REF
 
@@ -314,7 +346,7 @@ def mutate_sequence_Interval_vcf(interval, seq, vcf_file=None):
                 output = []
                 for key in variants_hom_alt:
                     if seq[key - interval.start: key - interval.start +
-                                                     len(variants_hom_ref[key])] != variants_hom_ref[key]:
+                                                 len(variants_hom_ref[key])] != variants_hom_ref[key]:
                         raise ValueError("The VCF reference does not match the genome sequence")
                     seq = seq[:(key - interval.start)] + variants_hom_alt[key] + \
                           seq[(key + len(variants_hom_alt[key]) - interval.start):]
@@ -328,10 +360,10 @@ def mutate_sequence_Interval_vcf(interval, seq, vcf_file=None):
                         tuple_temp = tupl
                         for key in combs:
                             if seq[key - interval.start: key - interval.start +
-                                                             len(variants_het_ref[key])] != variants_het_ref[key]:
+                                                         len(variants_het_ref[key])] != variants_het_ref[key]:
                                 raise ValueError("The VCF reference does not match the genome sequence")
                             seq_temp = seq_temp[:(key - interval.start)] + variants_het_alt[key] + \
-                                seq_temp[(key + len(variants_het_alt[key]) - interval.start):]
+                                       seq_temp[(key + len(variants_het_alt[key]) - interval.start):]
                         tuple_temp = tupl + combs
                         output.append((seq_temp, tuple_temp))  # Note that the tuple is unsorted
 
@@ -360,7 +392,104 @@ def mutate_sequence_Interval_vcf(interval, seq, vcf_file=None):
     return output, mutated
 
 
-def mutate_sequence_Interval_vcf_with_pos_alt_ref(interval, seq, vcf_file=None):
+def _mutate_sequence_BedTool_vcf(interval, seq, vcf_file=None):
+    """
+    The difference from mutate_sequence_Interval is that an already "opened" vcf file is passed to the function.
+
+    :param interval: pybedtools.Interval interval object
+    :param seq: sequence that we want to mutate
+    :param vcf_file: "opened" vcf file
+    :return list of tuples [(DNA string, variant ids), ...] consisting of a DNA sequence and
+            the positions of variants that were substituted
+            if the number of mutations is bigger than 14, returns only the not mutated sequence since the number of
+            possible sequences is to large to be processed on a laptop (as for March 2018)
+    :return number of mutations
+    """
+
+    if vcf_file is not None:
+        variants_hom_alt = OrderedDict()
+        variants_hom_ref = OrderedDict()
+        variants_het_alt = OrderedDict()
+        variants_het_ref = OrderedDict()
+
+        if interval.chrom.find("chr") == -1:
+            chromosome = "chr" + interval.chrom
+        else:
+            chromosome = interval.chrom
+
+        mutated = 0
+
+        try:
+            for variant in vcf_file(chromosome + ":" + str(interval.start + 1) + "-" + str(interval.end)):
+                if not variant.num_het:
+                    variants_hom_alt[variant.POS] = variant.ALT[0]
+                    variants_hom_ref[variant.POS] = variant.REF
+                else:
+                    # note at the moment we work only with alterations that do
+                    # not introduce deletions or insertions
+                    if len(variant.ALT[0]) == len(variant.REF) and variant.REF != ".":
+                        # assumption: 1 ALT per 1 REF
+                        if len(variant.ALT) != 1:
+                            raise ValueError("Variant in position %d has 2 alternate "
+                                             "non-reference alleles" % variant.POS)
+                        variants_het_alt[variant.POS] = variant.ALT[0]
+                        variants_het_ref[variant.POS] = variant.REF
+
+            mutated = len(variants_hom_alt) + len(variants_het_alt)
+
+            if 0 < mutated < 14:
+
+                tupl = ()
+                output = []
+                for key in variants_hom_alt:
+                    if seq[key - interval.start - 1: key - interval.start +
+                                                 len(variants_hom_ref[key]) - 1] != variants_hom_ref[key]:
+                        raise ValueError("The VCF reference does not match the genome sequence")
+                    seq = seq[:(key - interval.start) - 1] + variants_hom_alt[key] + \
+                          seq[(key + len(variants_hom_alt[key]) - interval.start - 1):]
+                    tupl = tupl + (key,)
+                    # seq = initial sequence with all homozygous variants in it
+                output.append((seq, tupl))
+
+                for n in range(len(variants_het_alt)):
+                    for combs in combinations(variants_het_alt, n + 1):
+                        seq_temp = seq
+                        tuple_temp = tupl
+                        for key in combs:
+                            if seq[key - interval.start - 1: key - interval.start +
+                                                         len(variants_het_ref[key]) - 1] != variants_het_ref[key]:
+                                raise ValueError("The VCF reference does not match the genome sequence")
+                            seq_temp = seq_temp[:(key - interval.start - 1)] + variants_het_alt[key] + \
+                                       seq_temp[(key + len(variants_het_alt[key]) - interval.start - 1):]
+                        tuple_temp = tupl + combs
+                        output.append((seq_temp, tuple_temp))  # Note that the tuple is unsorted
+
+                if interval.strand == "-":
+                    temp_output = []
+                    for i in range(len(output)):
+                        temp_output.append((reverse_complement(output[i][0]), output[i][1]))
+                    output = temp_output
+
+            else:
+                if interval.strand == "-":
+                    output = [(reverse_complement(seq),)]
+                else:
+                    output = [(seq,)]
+
+        except:
+            if interval.strand == "-":
+                output = [(reverse_complement(seq),)]
+            else:
+                output = [(seq,)]
+    else:
+        if interval.strand == "-":
+            output = [(reverse_complement(seq),)]
+        else:
+            output = [(seq,)]
+    return output, mutated
+
+
+def _mutate_sequence_Interval_vcf_with_pos_alt_ref(interval, seq, vcf_file=None):
     """
     The difference from mutate_sequence_Interval is that an already "opened" vcf file is passed to the function.
 
@@ -396,7 +525,7 @@ def mutate_sequence_Interval_vcf_with_pos_alt_ref(interval, seq, vcf_file=None):
                         # assumption: 1 ALT per 1 REF
                         if len(variant.ALT) != 1:
                             raise ValueError("Variant in position %d has 2 alternate "
-                                             "non-reference alleles" %variant.POS)
+                                             "non-reference alleles" % variant.POS)
                         variants_hom_alt[variant.POS] = variant.ALT[0]
                         variants_hom_ref[variant.POS] = variant.REF
                 else:
@@ -406,7 +535,7 @@ def mutate_sequence_Interval_vcf_with_pos_alt_ref(interval, seq, vcf_file=None):
                         # assumption: 1 ALT per 1 REF
                         if len(variant.ALT) != 1:
                             raise ValueError("Variant in position %d has 2 alternate "
-                                             "non-reference alleles" %variant.POS)
+                                             "non-reference alleles" % variant.POS)
                         variants_het_alt[variant.POS] = variant.ALT[0]
                         variants_het_ref[variant.POS] = variant.REF
 
@@ -420,7 +549,7 @@ def mutate_sequence_Interval_vcf_with_pos_alt_ref(interval, seq, vcf_file=None):
                 output = []
                 for key in variants_hom_alt:
                     if seq[key - interval.start: key - interval.start +
-                                                     len(variants_hom_ref[key])] != variants_hom_ref[key]:
+                                                 len(variants_hom_ref[key])] != variants_hom_ref[key]:
                         raise ValueError("The VCF reference does not match the genome sequence")
                     seq = seq[:(key - interval.start)] + variants_hom_alt[key] + \
                           seq[(key + len(variants_hom_alt[key]) - interval.start):]
@@ -438,14 +567,129 @@ def mutate_sequence_Interval_vcf_with_pos_alt_ref(interval, seq, vcf_file=None):
                         tupl_alt_temp = tupl_alt
                         for key in combs:
                             if seq[key - interval.start: key - interval.start +
-                                                             len(variants_het_ref[key])] != variants_het_ref[key]:
+                                                         len(variants_het_ref[key])] != variants_het_ref[key]:
                                 raise ValueError("The VCF reference does not match the genome sequence")
                             seq_temp = seq_temp[:(key - interval.start)] + variants_het_alt[key] + \
-                                seq_temp[(key + len(variants_het_alt[key]) - interval.start):]
+                                       seq_temp[(key + len(variants_het_alt[key]) - interval.start):]
                             tupl_ref_temp = tupl_ref_temp + (variants_het_ref[key],)
                             tupl_alt_temp = tupl_alt_temp + (variants_het_alt[key],)
                         tuple_temp = tupl + combs
-                        output.append((seq_temp, tuple_temp, tupl_ref_temp, tupl_alt_temp))  # Note that the tuple is unsorted
+                        output.append(
+                            (seq_temp, tuple_temp, tupl_ref_temp, tupl_alt_temp))  # Note that the tuple is unsorted
+
+                if interval.strand == "-":
+                    temp_output = []
+                    for i in range(len(output)):
+                        temp_output.append((reverse_complement(output[i][0]), output[i][1], output[i][2], output[i][3]))
+                    output = temp_output
+
+            else:
+                if interval.strand == "-":
+                    output = [(reverse_complement(seq),)]
+                else:
+                    output = [(seq,)]
+
+        except Exception as e:
+            print(str(e))
+            if interval.strand == "-":
+                output = [(reverse_complement(seq), (), (), ())]
+            else:
+                output = [(seq, (), (), ())]
+    else:
+        if interval.strand == "-":
+            output = [(reverse_complement(seq),)]
+        else:
+            output = [(seq,)]
+    return output, mutated
+
+
+def _mutate_sequence_BedTool_vcf_with_pos_alt_ref(interval, seq, vcf_file=None):
+    """
+    The difference from mutate_sequence_Interval is that an already "opened" vcf file is passed to the function.
+
+    :param interval: pybedtools.Interval interval object
+    :param seq: sequence that we want to mutate
+    :param vcf_file: "opened" vcf file
+    :return list of tuples [(DNA string, variant ids), ...] consisting of a DNA sequence and
+            the positions of variants that were substituted
+            if the number of mutations is bigger than 14, returns only the not mutated sequence since the number of
+            possible sequences is to large to be processed on a laptop (as for March 2018)
+    :return number of mutations
+    """
+
+    if vcf_file is not None:
+        variants_hom_alt = OrderedDict()
+        variants_hom_ref = OrderedDict()
+        variants_het_alt = OrderedDict()
+        variants_het_ref = OrderedDict()
+
+        if interval.chrom.find("chr") == -1:
+            chromosome = "chr" + interval.chrom
+        else:
+            chromosome = interval.chrom
+
+        mutated = 0
+
+        try:
+            for variant in vcf_file(chromosome + ":" + str(interval.start + 1) + "-" + str(interval.end)):
+                if not variant.num_het:
+                    # note at the moment we work only with alterations that do
+                    # not introduce deletions or insertions
+                    if len(variant.ALT[0]) == len(variant.REF) and variant.REF != "." and len(variant.ALT[0]) != ".":
+                        # assumption: 1 ALT per 1 REF
+                        if len(variant.ALT) != 1:
+                            raise ValueError("Variant in position %d has 2 alternate "
+                                             "non-reference alleles" % variant.POS)
+                        variants_hom_alt[variant.POS] = variant.ALT[0]
+                        variants_hom_ref[variant.POS] = variant.REF
+                else:
+                    # note at the moment we work only with alterations that do
+                    # not introduce deletions or insertions
+                    if len(variant.ALT[0]) == len(variant.REF) and variant.REF != "." and len(variant.ALT[0]) != ".":
+                        # assumption: 1 ALT per 1 REF
+                        if len(variant.ALT) != 1:
+                            raise ValueError("Variant in position %d has 2 alternate "
+                                             "non-reference alleles" % variant.POS)
+                        variants_het_alt[variant.POS] = variant.ALT[0]
+                        variants_het_ref[variant.POS] = variant.REF
+
+            mutated = len(variants_hom_alt) + len(variants_het_alt)
+
+            if 0 <= mutated < 14:
+
+                tupl = ()
+                tupl_ref = ()
+                tupl_alt = ()
+                output = []
+                for key in variants_hom_alt:
+                    if seq[key - interval.start - 1: key - interval.start +
+                                                 len(variants_hom_ref[key]) - 1] != variants_hom_ref[key]:
+                        raise ValueError("The VCF reference does not match the genome sequence")
+                    seq = seq[:(key - interval.start) - 1] + variants_hom_alt[key] + \
+                          seq[(key + len(variants_hom_alt[key]) - interval.start - 1):]
+                    tupl = tupl + (key,)
+                    tupl_ref = tupl_ref + (variants_hom_ref[key],)
+                    tupl_alt = tupl_alt + (variants_hom_alt[key],)
+                    # seq = initial sequence with all homozygous variants in it
+                output.append((seq, tupl, tupl_ref, tupl_alt))
+
+                for n in range(len(variants_het_alt)):
+                    for combs in combinations(variants_het_alt, n + 1):
+                        seq_temp = seq
+                        tuple_temp = tupl
+                        tupl_ref_temp = tupl_ref
+                        tupl_alt_temp = tupl_alt
+                        for key in combs:
+                            if seq[key - interval.start - 1: key - interval.start +
+                                                         len(variants_het_ref[key]) - 1] != variants_het_ref[key]:
+                                raise ValueError("The VCF reference does not match the genome sequence")
+                            seq_temp = seq_temp[:(key - interval.start - 1)] + variants_het_alt[key] + \
+                                       seq_temp[(key + len(variants_het_alt[key]) - interval.start - 1):]
+                            tupl_ref_temp = tupl_ref_temp + (variants_het_ref[key],)
+                            tupl_alt_temp = tupl_alt_temp + (variants_het_alt[key],)
+                        tuple_temp = tupl + combs
+                        output.append(
+                            (seq_temp, tuple_temp, tupl_ref_temp, tupl_alt_temp))  # Note that the tuple is unsorted
 
                 if interval.strand == "-":
                     temp_output = []
