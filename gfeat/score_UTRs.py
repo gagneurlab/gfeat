@@ -1,8 +1,8 @@
 from gfeat.upstreamAUG import UpstreamAUG
 from gfeat.UTR import FivePrimeUTRSeq
-from gfeat.units import mutate_sequence_Interval_vcf_with_pos_alt_ref
+from gfeat.units import VCFMutator
 from gfeat.genome import GFGenome
-from gfeat.common_methods import reverse_complement
+from gfeat.utils import reverse_complement
 from pyensembl import EnsemblRelease
 from cyvcf2 import VCF
 import pandas as pd
@@ -11,18 +11,22 @@ import numpy as np
 
 def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=None, fasta=None):
     """
+    1 possible model built using gfeat
+    Looks for creation and deletion of AUGs which are located upstream from the corresponding canonical start.
+    Writes down to the file "mutated.csv" geneId, position of an AUG loss/creation, transcriptID,
+    AUGType (in-frame_no_uORF, in-frame_uORF, not_in-frame_no_uORF, not_in-frame_uORF),
+    alternative value of the nucleobase, chromosome, reference value of the nucleobase, sampleID
     :param vcf: string, path to the vcf.gz
     :param save_to_csv: bool, whether to save the pd.DataFrame output table to a csv file or not
-    :param path: string, path to tыhe folder where to save the pd.DataFrame output table
-    :param ensembl_versio:, int, Ensembl version
-    :param grf: string, path to the gtf file, as an alternative to the Ensembl version, user gtf and Fasta files
+    :param path: string, path to the folder where to save the pd.DataFrame output table
+    :param ensembl_version:, int, Ensembl version
+    :param gtf: string, path to the gtf file, as an alternative to the Ensembl version, user gtf and Fasta files
                 can be provided
     :param fasta: string, path to the Fasta file, string, as an alternative to the Ensembl version, user gtf
            and Fasta files can be provided
-    :return pd.DataFrame with 6 columns: Gene, Transcript, in-frame_no_uORF, in-frame_uORF, not_in-frame_no_uORF,
-            not_in-frame_uORF
+    :return pd.DataFrame with 6 columns: geneId, position, transcriptID, AUGType, alt, chr, ref, sampleID
     """
-    model = UpstreamAUG(True, True)  # True: in frame, True: ORF
+    model = UpstreamAUG(True, True)
 
     if ensembl_version != None:
         data = EnsemblRelease(ensembl_version)
@@ -35,7 +39,6 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
 
     contigs = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
                '20', '21', '22', 'X', 'Y']
-    # contigs = ['12']
 
     vcf_fields = ["G5", "GENEINFO", "GMAF", "GNO", "KGPilot123", "RSPOS", "SAO", "SLO", "SSR", "VC", "VLD", "WGT",
                   "dbSNPBuildID", "HD", "PH2", "G5A", "PM", "PMC", "ASP", "RV", "S3D", "GCF", "CLN", "LSD", "NOV",
@@ -89,8 +92,10 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
 
             mutated = 0
 
+            mutator = VCFMutator(False, True, vcf_file, True)
+
             for exon in sample["exons"]:
-                e, m = mutate_sequence_Interval_vcf_with_pos_alt_ref(exon[1], exon[0], vcf_file)
+                e, m = mutator.mutate_sequence(exon[1], False, exon[0])
                 mutated = m < 14
                 list_exon_mut_seq.append(e)
 
@@ -126,14 +131,11 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
                     indexes[0] = indexes[0] + 1
                     counter = counter + 1
 
-                # if sample["transcripts"][0] == 'ENST00000547691':
-                #     print("herer")
-
                 dictionary["Transcript"].append(sample["transcripts"])
                 genes = []
                 temp = ''
                 for transcript in sample["transcripts"]:
-                    gene = data.transcript_by_id(transcript).gene.name
+                    gene = data.transcript_by_id(transcript).gene.id
                     if gene != temp:
                         genes.append(gene)
                         temp = gene
@@ -142,8 +144,6 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
                 if sample[ref_seq].strand == "-":
                     model.predict_on_sample_with_stop_pandas(reverse_complement(ref_seq), dictionary, '-',
                                                             sample[ref_seq].start)
-                    # model.predict_on_sample_with_pos_pandas(ref_seq, dictionary,
-                    #                                         sample[ref_seq].start)
                     cur_0_0 = dictionary['not_in-frame_no_uORF'][len(dictionary['not_in-frame_no_uORF']) - 1]
                     cur_0_1 = dictionary['not_in-frame_uORF'][len(dictionary['not_in-frame_uORF']) - 1]
                     cur_1_0 = dictionary['in-frame_no_uORF'][len(dictionary['in-frame_no_uORF']) - 1]
@@ -227,7 +227,6 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
                                         mutated_dictionary['chr'].append(contig)
                                         mutated_dictionary['sample'].append(patient_id)
             else:
-                # if mutated > 14:
                 list_many_mut.append((ds[i])["transcripts"][0])
 
         if save_to_csv:
@@ -265,8 +264,10 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
 
             mutated = 0
 
+            mutator = VCFMutator(False, True, vcf_file, True)
+
             for exon in sample["exons"]:
-                e, m = mutate_sequence_Interval_vcf_with_pos_alt_ref(exon[1], exon[0], vcf_file)
+                e, m = mutator.mutate_sequence(exon[1], False, exon[0])
                 mutated = m < 14
                 list_exon_mut_seq.append(e)
 
@@ -301,15 +302,12 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
                     tupl_pos = ()
                     indexes[0] = indexes[0] + 1
                     counter = counter + 1
-                #
-                # if sample["transcripts"][0] == 'ENST00000547691':
-                #     print("herer")
 
                 dictionary["Transcript"].append(sample["transcripts"])
                 genes = []
                 temp = ''
                 for transcript in sample["transcripts"]:
-                    gene = data.transcript_by_id(transcript).gene.name
+                    gene = data.transcript_by_id(transcript).gene.id
                     if gene != temp:
                         genes.append(gene)
                         temp = gene
@@ -318,8 +316,6 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
                 if sample[ref_seq].strand == "-":
                     model.predict_on_sample_with_stop_pandas(reverse_complement(ref_seq), dictionary, '-',
                                                             sample[ref_seq].start)
-                    # model.predict_on_sample_with_pos_pandas(ref_seq, dictionary,
-                    #                                         sample[ref_seq].start)
                     cur_0_0 = dictionary['not_in-frame_no_uORF'][len(dictionary['not_in-frame_no_uORF']) - 1]
                     cur_0_1 = dictionary['not_in-frame_uORF'][len(dictionary['not_in-frame_uORF']) - 1]
                     cur_1_0 = dictionary['in-frame_no_uORF'][len(dictionary['in-frame_no_uORF']) - 1]
@@ -403,7 +399,6 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
                                         mutated_dictionary['chr'].append(contig)
                                         mutated_dictionary['sample'].append(patient_id)
             else:
-                # if mutated > 14:
                 list_many_mut.append((ds[i])["transcripts"][0])
 
         if save_to_csv:

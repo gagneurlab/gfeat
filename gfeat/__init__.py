@@ -10,5 +10,5 @@ from . import gfeat
 from . import splice_junction
 from . import transcript
 from . import units
-from . import common_methods
+from . import utils
 from . import UTR
