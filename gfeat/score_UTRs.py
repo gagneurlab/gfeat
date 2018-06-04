@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 
 
-def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=None, fasta=None):
+def score_utrs(vcf, save_extra_to_csv, path, patient_id, ensembl_version=None, gtf=None, fasta=None):
     """
     1 possible model built using gfeat
     Looks for creation and deletion of AUGs which are located upstream from the corresponding canonical start.
@@ -17,13 +17,14 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
     AUGType (in-frame_no_uORF, in-frame_uORF, not_in-frame_no_uORF, not_in-frame_uORF),
     alternative value of the nucleobase, chromosome, reference value of the nucleobase, sampleID
     :param vcf: string, path to the vcf.gz
-    :param save_to_csv: bool, whether to save the pd.DataFrame output table to a csv file or not
+    :param save_extra_to_csv: bool, whether to save intermediate information (all AUGs, transcripts with too many
+                              mutations and some very basic statistics) to a csv file or not
     :param path: string, path to the folder where to save the pd.DataFrame output table
     :param ensembl_version:, int, Ensembl version
     :param gtf: string, path to the gtf file, as an alternative to the Ensembl version, user gtf and Fasta files
                 can be provided
     :param fasta: string, path to the Fasta file, string, as an alternative to the Ensembl version, user gtf
-           and Fasta files can be provided
+                  and Fasta files can be provided
     :return pd.DataFrame with 6 columns: geneId, position, transcriptID, AUGType, alt, chr, ref, sampleID
     """
     model = UpstreamAUG(True, True)
@@ -48,7 +49,7 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
     for field in vcf_fields:
         vcf_file.add_info_to_header({"ID": field, "Number": 1, "Type": "String", "Description": "dummy"})
 
-    if save_to_csv:
+    if save_extra_to_csv:
         dictionary = {'Gene': [], 'Transcript': [], 'not_in-frame_no_uORF': [], 'not_in-frame_uORF': [],
                       'in-frame_no_uORF': [], 'in-frame_uORF': []}
         error_dictionary = {'More_than_14_mutations': []}
@@ -143,13 +144,13 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
 
                 if sample[ref_seq].strand == "-":
                     model.predict_on_sample_with_stop_pandas(reverse_complement(ref_seq), dictionary, '-',
-                                                            sample[ref_seq].start)
+                                                             sample[ref_seq].start)
                     cur_0_0 = dictionary['not_in-frame_no_uORF'][len(dictionary['not_in-frame_no_uORF']) - 1]
                     cur_0_1 = dictionary['not_in-frame_uORF'][len(dictionary['not_in-frame_uORF']) - 1]
                     cur_1_0 = dictionary['in-frame_no_uORF'][len(dictionary['in-frame_no_uORF']) - 1]
                     cur_1_1 = dictionary['in-frame_uORF'][len(dictionary['in-frame_uORF']) - 1]
                 else:
-                    model.predict_on_sample_with_stop_pandas(ref_seq, dictionary,'+', sample[ref_seq].start)
+                    model.predict_on_sample_with_stop_pandas(ref_seq, dictionary, '+', sample[ref_seq].start)
                     cur_0_0 = dictionary['not_in-frame_no_uORF'][len(dictionary['not_in-frame_no_uORF']) - 1]
                     cur_0_1 = dictionary['not_in-frame_uORF'][len(dictionary['not_in-frame_uORF']) - 1]
                     cur_1_0 = dictionary['in-frame_no_uORF'][len(dictionary['in-frame_no_uORF']) - 1]
@@ -167,8 +168,9 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
                         for pos in np.setdiff1d(np.union1d(mut_0_0, cur_0_0), np.intersect1d(mut_0_0, cur_0_0)):
                             for i in range(0, len(info['pos'])):
                                 if (info['pos'][i] >= pos) and (info['pos'][i] < pos + 3):
-                                    sum_dictionary['not_in-frame_no_uORF_num'][0] = sum_dictionary['not_in-frame_no_uORF_num'][
-                                                                            0] + 1
+                                    sum_dictionary['not_in-frame_no_uORF_num'][0] = \
+                                    sum_dictionary['not_in-frame_no_uORF_num'][
+                                        0] + 1
                                     for transcript_id in sample["transcripts"]:
                                         mutated_dictionary['Gene'].append(genes)
                                         mutated_dictionary['Transcript'].append(transcript_id)
@@ -183,8 +185,9 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
                         for pos in np.setdiff1d(np.union1d(mut_0_1, cur_0_1), np.intersect1d(mut_0_1, cur_0_1)):
                             for i in range(0, len(info['pos'])):
                                 if (info['pos'][i] >= pos) and (info['pos'][i] < pos + 3):
-                                    sum_dictionary['not_in-frame_uORF_num'][0] = sum_dictionary['not_in-frame_uORF_num'][
-                                                                            0] + 1
+                                    sum_dictionary['not_in-frame_uORF_num'][0] = \
+                                    sum_dictionary['not_in-frame_uORF_num'][
+                                        0] + 1
                                     for transcript_id in sample["transcripts"]:
                                         mutated_dictionary['Gene'].append(genes)
                                         mutated_dictionary['Transcript'].append(transcript_id)
@@ -200,7 +203,7 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
                             for i in range(0, len(info['pos'])):
                                 if (info['pos'][i] >= pos) and (info['pos'][i] < pos + 3):
                                     sum_dictionary['in-frame_no_uORF_num'][0] = sum_dictionary['in-frame_no_uORF_num'][
-                                                                            0] + 1
+                                                                                    0] + 1
                                     for transcript_id in sample["transcripts"]:
                                         mutated_dictionary['Gene'].append(genes)
                                         mutated_dictionary['Transcript'].append(transcript_id)
@@ -216,7 +219,7 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
                             for i in range(0, len(info['pos'])):
                                 if (info['pos'][i] >= pos) and (info['pos'][i] < pos + 3):
                                     sum_dictionary['in-frame_uORF_num'][0] = sum_dictionary['in-frame_uORF_num'][
-                                                                            0] + 1
+                                                                                 0] + 1
                                     for transcript_id in sample["transcripts"]:
                                         mutated_dictionary['Gene'].append(genes)
                                         mutated_dictionary['Transcript'].append(transcript_id)
@@ -229,7 +232,7 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
             else:
                 list_many_mut.append((ds[i])["transcripts"][0])
 
-        if save_to_csv:
+        if save_extra_to_csv:
             df0 = pd.DataFrame(data=dictionary)
             error_list = list_many_mut
             error_dictionary = {"More_than_14_mutations": error_list}
@@ -315,7 +318,7 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
 
                 if sample[ref_seq].strand == "-":
                     model.predict_on_sample_with_stop_pandas(reverse_complement(ref_seq), dictionary, '-',
-                                                            sample[ref_seq].start)
+                                                             sample[ref_seq].start)
                     cur_0_0 = dictionary['not_in-frame_no_uORF'][len(dictionary['not_in-frame_no_uORF']) - 1]
                     cur_0_1 = dictionary['not_in-frame_uORF'][len(dictionary['not_in-frame_uORF']) - 1]
                     cur_1_0 = dictionary['in-frame_no_uORF'][len(dictionary['in-frame_no_uORF']) - 1]
@@ -339,8 +342,9 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
                         for pos in np.setdiff1d(np.union1d(mut_0_0, cur_0_0), np.intersect1d(mut_0_0, cur_0_0)):
                             for i in range(0, len(info['pos'])):
                                 if (info['pos'][i] <= pos) and (info['pos'][i] > pos - 3):
-                                    sum_dictionary['not_in-frame_no_uORF_num'][0] = sum_dictionary['not_in-frame_no_uORF_num'][
-                                                                            0] + 1
+                                    sum_dictionary['not_in-frame_no_uORF_num'][0] = \
+                                    sum_dictionary['not_in-frame_no_uORF_num'][
+                                        0] + 1
                                     for transcript_id in sample["transcripts"]:
                                         mutated_dictionary['Gene'].append(genes)
                                         mutated_dictionary['Transcript'].append(transcript_id)
@@ -355,8 +359,9 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
                         for pos in np.setdiff1d(np.union1d(mut_0_1, cur_0_1), np.intersect1d(mut_0_1, cur_0_1)):
                             for i in range(0, len(info['pos'])):
                                 if (info['pos'][i] <= pos) and (info['pos'][i] > pos - 3):
-                                    sum_dictionary['not_in-frame_uORF_num'][0] = sum_dictionary['not_in-frame_uORF_num'][
-                                                                            0] + 1
+                                    sum_dictionary['not_in-frame_uORF_num'][0] = \
+                                    sum_dictionary['not_in-frame_uORF_num'][
+                                        0] + 1
                                     for transcript_id in sample["transcripts"]:
                                         mutated_dictionary['Gene'].append(genes)
                                         mutated_dictionary['Transcript'].append(transcript_id)
@@ -372,7 +377,7 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
                             for i in range(0, len(info['pos'])):
                                 if (info['pos'][i] <= pos) and (info['pos'][i] > pos - 3):
                                     sum_dictionary['in-frame_no_uORF_num'][0] = sum_dictionary['in-frame_no_uORF_num'][
-                                                                            0] + 1
+                                                                                    0] + 1
                                     for transcript_id in sample["transcripts"]:
                                         mutated_dictionary['Gene'].append(genes)
                                         mutated_dictionary['Transcript'].append(transcript_id)
@@ -388,7 +393,7 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
                             for i in range(0, len(info['pos'])):
                                 if (info['pos'][i] <= pos) and (info['pos'][i] > pos - 3):
                                     sum_dictionary['in-frame_uORF_num'][0] = sum_dictionary['in-frame_uORF_num'][
-                                                                            0] + 1
+                                                                                 0] + 1
                                     for transcript_id in sample["transcripts"]:
                                         mutated_dictionary['Gene'].append(genes)
                                         mutated_dictionary['Transcript'].append(transcript_id)
@@ -401,7 +406,7 @@ def score_utrs(vcf, save_to_csv, path, patient_id, ensembl_version=None, gtf=Non
             else:
                 list_many_mut.append((ds[i])["transcripts"][0])
 
-        if save_to_csv:
+        if save_extra_to_csv:
             df0 = pd.DataFrame(data=dictionary)
             error_list = list_many_mut
             error_dictionary = {"More_than_14_mutations": error_list}
