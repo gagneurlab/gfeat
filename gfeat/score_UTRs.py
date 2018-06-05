@@ -423,6 +423,7 @@ def score_utrs(vcf, save_extra_to_csv, path, patient_id, ensembl_version=None, g
                 df2.to_csv(f, header=False)
 
     df3 = pd.DataFrame(data=mutated_dictionary)
+    df3 = df3.iloc[df3.astype(str).drop_duplicates().index]
     file = path + "/mutated.csv"
     with open(file, 'a') as f:
         df3.to_csv(f, header=False)
