@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42634b39-5467-43b6-ab3d-357c28d3d096" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/veronikakotova.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/tests/transcript/test_CDS.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/tests/transcript/test_codon_usage.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/tests/transcript/test_GC_content.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/gfeat/score_UTRs.py" afterPath="$PROJECT_DIR$/gfeat/score_UTRs.py" />
       <change beforePath="$PROJECT_DIR$/gfeat/transcript.py" afterPath="$PROJECT_DIR$/gfeat/transcript.py" />
-      <change beforePath="$PROJECT_DIR$/tests/transcript/config.py" afterPath="$PROJECT_DIR$/tests/transcript/config.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -31,11 +27,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="transcript.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="transcript.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gfeat/transcript.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="644">
-              <caret line="51" column="8" lean-forward="true" selection-start-line="51" selection-start-column="8" selection-end-line="51" selection-end-column="19" />
+            <state relative-caret-position="191">
+              <caret line="87" column="20" lean-forward="true" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="62" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
               </folding>
@@ -43,14 +39,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_codon_usage.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/transcript/test_codon_usage.py">
+      <file leaf-file-name="test_GC_content.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/transcript/test_GC_content.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1125">
-              <caret line="75" column="39" lean-forward="false" selection-start-line="75" selection-start-column="39" selection-end-line="75" selection-end-column="39" />
-              <folding>
-                <element signature="e#26#73#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="105">
+              <caret line="7" column="9" lean-forward="false" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="19" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -88,7 +82,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>herer</find>
       <find>model</find>
       <find>rever</find>
       <find>predict</find>
@@ -118,6 +111,7 @@
       <find>mutated.csv</find>
       <find>ENST00000000233</find>
       <find>UTR</find>
+      <find>self</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -126,7 +120,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/gfeat/tesst.py" />
         <option value="$PROJECT_DIR$/gfeat/.ipynb_checkpoints/common_methods.py" />
         <option value="$PROJECT_DIR$/tests/gene/test_.py" />
         <option value="$PROJECT_DIR$/tests/gene/test_coding_sequence_codon_coun.py" />
@@ -174,9 +167,10 @@
         <option value="$PROJECT_DIR$/gfeat/testing" />
         <option value="$PROJECT_DIR$/gfeat/score_UTRs.py" />
         <option value="$PROJECT_DIR$/tests/transcript/test_CDS.py" />
-        <option value="$PROJECT_DIR$/gfeat/transcript.py" />
         <option value="$PROJECT_DIR$/tests/transcript/config.py" />
         <option value="$PROJECT_DIR$/tests/transcript/test_codon_usage.py" />
+        <option value="$PROJECT_DIR$/gfeat/transcript.py" />
+        <option value="$PROJECT_DIR$/tests/transcript/test_GC_content.py" />
       </list>
     </option>
   </component>
@@ -474,13 +468,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1509657925889</updated>
-    </task>
-    <task id="LOCAL-00022" summary="– pyensembl 1.1.0">
-      <created>1521133675221</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1521133675221</updated>
     </task>
     <task id="LOCAL-00023" summary="– pyensembl 1.1.0">
       <created>1521133941240</created>
@@ -818,7 +805,14 @@
       <option name="project" value="LOCAL" />
       <updated>1528177285146</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="– added 2 new method to the class GFTranscript: CDS(), codon_usage()&#10;– tested the methods">
+      <created>1530266333012</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1530266333013</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -893,7 +887,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="– experementing with .gitlab-ci.yml" />
     <MESSAGE value="- added - pip install 'pyensembl==1.1.0' and - pip install 'gtfparse==0.0.6' to .gitlab-ci.yml&#10;- refactored FivePrimeUTRSeq for &quot;-&quot; strand" />
     <MESSAGE value="- putting requirements to requirements_dev.txt" />
     <MESSAGE value="- fixing the version of pyensembl and other required by it libraries in .gitlab-ci.yml" />
@@ -918,7 +911,8 @@
     <MESSAGE value="- combined diverse mutate_sequence() methods into 1 class - VCFMutator" />
     <MESSAGE value="- prettifying" />
     <MESSAGE value="- droping duplicates in the mutated table" />
-    <option name="LAST_COMMIT_MESSAGE" value="- droping duplicates in the mutated table" />
+    <MESSAGE value="– added 2 new method to the class GFTranscript: CDS(), codon_usage()&#10;– tested the methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="– added 2 new method to the class GFTranscript: CDS(), codon_usage()&#10;– tested the methods" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -958,7 +952,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/uATG/test_predict_on_sample_pos.py" />
     <entry file="file://$PROJECT_DIR$/tests/uATG/test_predict_on_sample_with_pos.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -1300,14 +1293,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/transcript/test_CDS.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" column="19" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/transcript/config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="279">
@@ -1323,18 +1308,34 @@
         <state relative-caret-position="1125">
           <caret line="75" column="39" lean-forward="false" selection-start-line="75" selection-start-column="39" selection-end-line="75" selection-end-column="39" />
           <folding>
-            <element signature="e#26#73#0" expanded="true" />
+            <element signature="e#26#73#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/transcript/test_CDS.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="19" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gfeat/transcript.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="644">
-          <caret line="51" column="8" lean-forward="true" selection-start-line="51" selection-start-column="8" selection-end-line="51" selection-end-column="19" />
+        <state relative-caret-position="191">
+          <caret line="87" column="20" lean-forward="true" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="62" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/transcript/test_GC_content.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="9" lean-forward="false" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>

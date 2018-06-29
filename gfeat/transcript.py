@@ -65,7 +65,7 @@ class GFTranscript(pyensembl.Transcript):
 
         df_codon_frequency = pd.DataFrame(np.full((1, 61), 0, dtype=int), columns=combs)
 
-        CDS_codon_list = [self.CDS()[i:i+3] for i in range(0, len(self.CDS()), 3)]
+        CDS_codon_list = [self.CDS().upper()[i:i+3] for i in range(0, len(self.CDS()), 3)]
 
         # adding 1 in order to take the logarithm
         for comb in combs:
@@ -76,6 +76,25 @@ class GFTranscript(pyensembl.Transcript):
         df_codon_frequency = np.log2(df_codon_frequency)
 
         return df_codon_frequency
+
+    def GC_content(self, region):
+        """
+        TODO
+        :param pattern: string motif to be found in the 5' UTR sequence
+        :return: how many times a given motif is presented in the 5' UTR sequence
+        """
+        if region == 0:
+            CDS = self.CDS().upper()
+            ratio = (CDS.count("C") + CDS.count("G"))/len(CDS)
+        elif region == 1:
+            CDS = self.five_prime_utr_sequence.upper()
+            ratio = (CDS.count("C") + CDS.count("G")) / len(CDS)
+        elif region == 2:
+            CDS = self.three_prime_utr_sequence.upper()
+            ratio = (CDS.count("C") + CDS.count("G")) / len(CDS)
+        else:
+            raise ValueError('Unknown value is provided to GC_content function.')
+        return ratio
 
     @classmethod
     def from_pyensembl(cls, obj):
