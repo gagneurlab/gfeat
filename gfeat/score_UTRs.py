@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 
 
-def score_utrs(vcf, save_extra_to_csv, path, patient_id, ensembl_version=None, gtf=None, fasta=None):
+def score_utrs(vcf, save_extra_to_csv, save_to, patient_id, ensembl_version=None, gtf=None, fasta=None):
     """
     1 possible model built using gfeat
     Looks for creation and deletion of AUGs which are located upstream from the corresponding canonical start.
@@ -19,8 +19,11 @@ def score_utrs(vcf, save_extra_to_csv, path, patient_id, ensembl_version=None, g
     :param vcf: string, path to the vcf.gz
     :param save_extra_to_csv: bool, whether to save intermediate information (all AUGs, transcripts with too many
                               mutations and some very basic statistics) to a csv file or not
-    :param path: string, path to the folder where to save the pd.DataFrame output table
+           currently work only if save_to is the name of the folder
+    :param save_to: string, path to the folder or the file name where to save the pd.DataFrame output table
     :param ensembl_version:, int, Ensembl version
+           MIN_ENSEMBL_RELEASE = 54
+           MAX_ENSEMBL_RELEASE = 85
     :param gtf: string, path to the gtf file, as an alternative to the Ensembl version, user gtf and Fasta files
                 can be provided
     :param fasta: string, path to the Fasta file, string, as an alternative to the Ensembl version, user gtf
@@ -49,23 +52,26 @@ def score_utrs(vcf, save_extra_to_csv, path, patient_id, ensembl_version=None, g
     for field in vcf_fields:
         vcf_file.add_info_to_header({"ID": field, "Number": 1, "Type": "String", "Description": "dummy"})
 
-    if save_extra_to_csv:
-        dictionary = {'Gene': [], 'Transcript': [], 'not_in-frame_no_uORF': [], 'not_in-frame_uORF': [],
+
+    dictionary = {'Gene': [], 'Transcript': [], 'not_in-frame_no_uORF': [], 'not_in-frame_uORF': [],
                       'in-frame_no_uORF': [], 'in-frame_uORF': []}
-        error_dictionary = {'More_than_14_mutations': []}
-        sum_dictionary = {'Contig': [], 'Total_transcript_num': [], 'Mutated_transcript_num': [],
+    error_dictionary = {'More_than_14_mutations': []}
+    sum_dictionary = {'Contig': [], 'Total_transcript_num': [], 'Mutated_transcript_num': [],
                           'not_in-frame_no_uORF_num': [],
                           'not_in-frame_uORF': [], 'in-frame_no_uORF_num': [], 'in-frame_uORF_num': []}
-        mutated_dictionary = {'Gene': [], 'Transcript': [], 'Type': [], 'Position': [], 'ref': [],
+    mutated_dictionary = {'Gene': [], 'Transcript': [], 'Type': [], 'Position': [], 'ref': [],
                               'alt': [], 'chr': [], 'sample': []}
+    if save_extra_to_csv:
 
-        df0 = pd.DataFrame(data=dictionary)
-        df1 = pd.DataFrame(data=error_dictionary)
-        df2 = pd.DataFrame(data=sum_dictionary)
+        pass
 
-        df0.to_csv(path + "/" + patient_id + "_AUGs.csv")
-        df1.to_csv(path + "/" + patient_id + "_too_many_mutated.csv")
-        df2.to_csv(path + "/" + patient_id + "_summary.csv")
+        # df0 = pd.DataFrame(data=dictionary)
+        # df1 = pd.DataFrame(data=error_dictionary)
+        # df2 = pd.DataFrame(data=sum_dictionary)
+        #
+        # df0.to_csv(save_to + "/" + patient_id + "_AUGs.csv")
+        # df1.to_csv(save_to + "/" + patient_id + "_too_many_mutated.csv")
+        # df2.to_csv(save_to + "/" + patient_id + "_summary.csv")
 
     for contig in contigs:
 
@@ -233,16 +239,19 @@ def score_utrs(vcf, save_extra_to_csv, path, patient_id, ensembl_version=None, g
                 list_many_mut.append((ds[i])["transcripts"][0])
 
         if save_extra_to_csv:
-            df0 = pd.DataFrame(data=dictionary)
-            error_list = list_many_mut
-            error_dictionary = {"More_than_14_mutations": error_list}
-            df1 = pd.DataFrame(data=error_dictionary)
 
-            with open(path + "/" + patient_id + "_AUGs.csv", 'a') as f:
-                df0.to_csv(f, header=False)
+            pass
 
-            with open(path + "/" + patient_id + "_too_many_mutated.csv", 'a') as f:
-                df1.to_csv(f, header=False)
+            # df0 = pd.DataFrame(data=dictionary)
+            # error_list = list_many_mut
+            # error_dictionary = {"More_than_14_mutations": error_list}
+            # df1 = pd.DataFrame(data=error_dictionary)
+            #
+            # with open(save_to + "/" + patient_id + "_AUGs.csv", 'a') as f:
+            #     df0.to_csv(f, header=False)
+            #
+            # with open(save_to + "/" + patient_id + "_too_many_mutated.csv", 'a') as f:
+            #     df1.to_csv(f, header=False)
 
         ds = FivePrimeUTRSeq(data, False, contig, '-')
 
@@ -407,24 +416,32 @@ def score_utrs(vcf, save_extra_to_csv, path, patient_id, ensembl_version=None, g
                 list_many_mut.append((ds[i])["transcripts"][0])
 
         if save_extra_to_csv:
-            df0 = pd.DataFrame(data=dictionary)
-            error_list = list_many_mut
-            error_dictionary = {"More_than_14_mutations": error_list}
-            df2 = pd.DataFrame(data=sum_dictionary)
-            df1 = pd.DataFrame(data=error_dictionary)
 
-            with open(path + "/" + patient_id + "_AUGs.csv", 'a') as f:
-                df0.to_csv(f, header=False)
+            pass
 
-            with open(path + "/" + patient_id + "_too_many_mutated.csv", 'a') as f:
-                df1.to_csv(f, header=False)
-
-            with open(path + "/" + patient_id + "_summary.csv", 'a') as f:
-                df2.to_csv(f, header=False)
+            # df0 = pd.DataFrame(data=dictionary)
+            # error_list = list_many_mut
+            # error_dictionary = {"More_than_14_mutations": error_list}
+            # df2 = pd.DataFrame(data=sum_dictionary)
+            # df1 = pd.DataFrame(data=error_dictionary)
+            #
+            # with open(save_to + "/" + patient_id + "_AUGs.csv", 'a') as f:
+            #     df0.to_csv(f, header=False)
+            #
+            # with open(save_to + "/" + patient_id + "_too_many_mutated.csv", 'a') as f:
+            #     df1.to_csv(f, header=False)
+            #
+            # with open(save_to + "/" + patient_id + "_summary.csv", 'a') as f:
+            #     df2.to_csv(f, header=False)
 
     df3 = pd.DataFrame(data=mutated_dictionary)
     df3 = df3.iloc[df3.astype(str).drop_duplicates().index]
-    file = path + "/mutated.csv"
+
+    if save_to.endswith('.csv'):
+        file = save_to
+    else:
+        file = save_to + "/mutated.csv"
+
     with open(file, 'a') as f:
         df3.to_csv(f, header=False)
     pass
