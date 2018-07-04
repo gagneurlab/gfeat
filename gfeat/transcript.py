@@ -151,19 +151,34 @@ class GFTranscript(pyensembl.Transcript):
         :param pattern: string motif to be found in the 5' UTR sequence
         :return: how many times a given motif is presented in the 5' UTR sequence
         """
+        dict_Kozak = {"0A": [0], "0C": [0], "0G": [0], "0T": [0],
+                            "1A": [0], "1C": [0], "1G": [0], "1T": [0],
+                            "2A": [0], "2C": [0], "2G": [0], "2T": [0],
+                            "3A": [0], "3C": [0], "3G": [0], "3T": [0],
+                            "4A": [0], "4C": [0], "4G": [0], "4T": [0],
+                            "5A": [0], "5C": [0], "5G": [0], "5T": [0],
+                            "6A": [0], "6C": [0], "6G": [0], "6T": [0],
+                            "7A": [0], "7C": [0], "7G": [0], "7T": [0],
+                            "8A": [0], "8C": [0], "8G": [0], "8T": [0],
+                            "9A": [0], "9C": [0], "9G": [0], "9T": [0],
+                            "10A": [0], "10C": [0], "10G": [0], "10T": [0],
+                            "11A": [0], "11C": [0], "11G": [0], "11T": [0],
+                            "12A": [0], "12C": [0], "12G": [0], "12T": [0],
+                            "13A": [0], "13C": [0], "13G": [0], "13T": [0],
+                            "14A": [0], "14C": [0], "14G": [0], "14T": [0]}
 
-        # return ratio
-        pass
+        Kozak_seq = self.get_Kozak_seq()
 
-    def get_Kozak_matrix(self):
-        """
-        TODO
-        :param pattern: string motif to be found in the 5' UTR sequence
-        :return: how many times a given motif is presented in the 5' UTR sequence
-        """
+        # apparently there are transcripts without 5'UTR regions, therefore we want to leave
+        # the correcponding columns of dict_Kozak empty
+        i = 15 - len(Kozak_seq)
+        for c in Kozak_seq:
+            dict_Kozak[str(i) + c][0] = 1
+            i = i + 1
 
-        # return ratio
-        pass
+        df_Kozak = pd.DataFrame(data=dict_Kozak)
+
+        return df_Kozak
 
     @classmethod
     def from_pyensembl(cls, obj):

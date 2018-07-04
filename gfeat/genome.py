@@ -8,6 +8,7 @@ from pyensembl import memory_cache
 from pyensembl import download_cache
 from pyensembl.common import dump_pickle
 from gfeat.transcript import GFTranscript
+import pandas as pd
 
 
 class GFGenome(pyensembl.Genome):
@@ -124,3 +125,29 @@ class GFGenome(pyensembl.Genome):
                 consensus_seq = consensus_seq + str(temp_list.index(max(temp_list)))
 
         return consensus_seq
+
+    def get_Kozak_matrix(self):
+        """
+        TODO
+        :param pattern: string motif to be found in the 5' UTR sequence
+        :return: how many times a given motif is presented in the 5' UTR sequence
+        """
+
+        lines = []
+        for contig in self.contigs():
+            for transcript in self.transcripts(contig, '+'):
+                if transcript.contains_start_codon and transcript.contains_stop_codon:
+                    lines.append(transcript.get_line_Kozak_matrix())
+            for transcript in self.transcripts(contig, '-'):
+                if transcript.contains_start_codon and transcript.contains_stop_codon:
+                    lines.append(transcript.get_line_Kozak_matrix())
+
+        df_Kozak_matrix = pd.concat(lines)
+        consensus_Kozak_seq = self.get_consensus_Kozak_seq(True)
+
+        i = 0
+        for c in consensus_Kozak_seq:
+            df_Kozak_matrix = df_Kozak_matrix.drop(columns=[str(i)+c])
+            i = i + 1
+
+        return df_Kozak_matrix
