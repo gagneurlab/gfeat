@@ -7,6 +7,16 @@ from gfeat.transcript import GFTranscript
 
 
 @pytest.fixture()
+def genome():
+    data = GFGenome(reference_name='hg38_test',
+                     annotation_name='hg38_chr22_test',
+                     gtf_path_or_url="./tests/data/gencode.v24.annotation_chr22.gtf",
+                     transcript_fasta_paths_or_urls="./tests/data/hg38_chr22.fa",
+                     )
+    return data
+
+
+@pytest.fixture()
 def transcript():
     data = GFGenome(reference_name='hg38_test',
                      annotation_name='hg38_chr22_test',
