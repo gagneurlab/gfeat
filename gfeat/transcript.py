@@ -170,7 +170,7 @@ class GFTranscript(pyensembl.Transcript):
         Kozak_seq = self.get_Kozak_seq()
 
         # apparently there are transcripts without 5'UTR regions, therefore we want to leave
-        # the correcponding columns of dict_Kozak empty
+        # the corresponding columns of dict_Kozak empty
         i = 15 - len(Kozak_seq)
         for c in Kozak_seq:
             dict_Kozak[str(i) + c][0] = 1

@@ -7,6 +7,7 @@ from pyensembl import EnsemblRelease
 from cyvcf2 import VCF
 import pandas as pd
 import numpy as np
+import os
 
 
 def score_utrs(vcf, save_extra_to_csv, save_to, patient_id, ensembl_version=None, gtf=None, fasta=None):
@@ -60,7 +61,7 @@ def score_utrs(vcf, save_extra_to_csv, save_to, patient_id, ensembl_version=None
                           'not_in-frame_no_uORF_num': [],
                           'not_in-frame_uORF': [], 'in-frame_no_uORF_num': [], 'in-frame_uORF_num': []}
     mutated_dictionary = {'Gene': [], 'Transcript': [], 'Type': [], 'Position': [], 'ref': [],
-                              'alt': [], 'chr': [], 'sample': []}
+                              'alt': [], 'chr': [], 'Sample': [], 'Creation': []}
     if save_extra_to_csv:
 
         pass
@@ -103,7 +104,7 @@ def score_utrs(vcf, save_extra_to_csv, save_to, patient_id, ensembl_version=None
 
             for exon in sample["exons"]:
                 e, m = mutator.mutate_sequence(exon[1], False, exon[0])
-                mutated = m < 14
+                mutated = m < 5  # Todo change back to 14!!!
                 list_exon_mut_seq.append(e)
 
             if mutated:
@@ -185,7 +186,11 @@ def score_utrs(vcf, save_extra_to_csv, save_to, patient_id, ensembl_version=None
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(patient_id)
+                                        if pos in mut_0_0:
+                                            mutated_dictionary['Creation'].append(1)
+                                        else:
+                                            mutated_dictionary['Creation'].append(0)
                     mut_0_1 = dictionary['not_in-frame_uORF'][len(dictionary['not_in-frame_uORF']) - 1]
                     if not np.array_equal(mut_0_1, cur_0_1):
                         for pos in np.setdiff1d(np.union1d(mut_0_1, cur_0_1), np.intersect1d(mut_0_1, cur_0_1)):
@@ -202,7 +207,11 @@ def score_utrs(vcf, save_extra_to_csv, save_to, patient_id, ensembl_version=None
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(patient_id)
+                                        if pos in mut_0_1:
+                                            mutated_dictionary['Creation'].append(1)
+                                        else:
+                                            mutated_dictionary['Creation'].append(0)
                     mut_1_0 = dictionary['in-frame_no_uORF'][len(dictionary['in-frame_no_uORF']) - 1]
                     if not np.array_equal(mut_1_0, cur_1_0):
                         for pos in np.setdiff1d(np.union1d(mut_1_0, cur_1_0), np.intersect1d(mut_1_0, cur_1_0)):
@@ -218,7 +227,11 @@ def score_utrs(vcf, save_extra_to_csv, save_to, patient_id, ensembl_version=None
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(patient_id)
+                                        if pos in mut_1_0:
+                                            mutated_dictionary['Creation'].append(1)
+                                        else:
+                                            mutated_dictionary['Creation'].append(0)
                     mut_1_1 = dictionary['in-frame_uORF'][len(dictionary['in-frame_uORF']) - 1]
                     if not np.array_equal(mut_1_1, cur_1_1):
                         for pos in np.setdiff1d(np.union1d(mut_1_1, cur_1_1), np.intersect1d(mut_1_1, cur_1_1)):
@@ -234,7 +247,11 @@ def score_utrs(vcf, save_extra_to_csv, save_to, patient_id, ensembl_version=None
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(patient_id)
+                                        if pos in mut_1_1:
+                                            mutated_dictionary['Creation'].append(1)
+                                        else:
+                                            mutated_dictionary['Creation'].append(0)
             else:
                 list_many_mut.append((ds[i])["transcripts"][0])
 
@@ -362,7 +379,11 @@ def score_utrs(vcf, save_extra_to_csv, save_to, patient_id, ensembl_version=None
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(patient_id)
+                                        if pos in mut_0_0:
+                                            mutated_dictionary['Creation'].append(1)
+                                        else:
+                                            mutated_dictionary['Creation'].append(0)
                     mut_0_1 = dictionary['not_in-frame_uORF'][len(dictionary['not_in-frame_uORF']) - 1]
                     if not np.array_equal(mut_0_1, cur_0_1):
                         for pos in np.setdiff1d(np.union1d(mut_0_1, cur_0_1), np.intersect1d(mut_0_1, cur_0_1)):
@@ -379,7 +400,11 @@ def score_utrs(vcf, save_extra_to_csv, save_to, patient_id, ensembl_version=None
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(patient_id)
+                                        if pos in mut_0_1:
+                                            mutated_dictionary['Creation'].append(1)
+                                        else:
+                                            mutated_dictionary['Creation'].append(0)
                     mut_1_0 = dictionary['in-frame_no_uORF'][len(dictionary['in-frame_no_uORF']) - 1]
                     if not np.array_equal(mut_1_0, cur_1_0):
                         for pos in np.setdiff1d(np.union1d(mut_1_0, cur_1_0), np.intersect1d(mut_1_0, cur_1_0)):
@@ -395,7 +420,11 @@ def score_utrs(vcf, save_extra_to_csv, save_to, patient_id, ensembl_version=None
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(patient_id)
+                                        if pos in mut_1_0:
+                                            mutated_dictionary['Creation'].append(1)
+                                        else:
+                                            mutated_dictionary['Creation'].append(0)
                     mut_1_1 = dictionary['in-frame_uORF'][len(dictionary['in-frame_uORF']) - 1]
                     if not np.array_equal(mut_1_1, cur_1_1):
                         for pos in np.setdiff1d(np.union1d(mut_1_1, cur_1_1), np.intersect1d(mut_1_1, cur_1_1)):
@@ -411,7 +440,11 @@ def score_utrs(vcf, save_extra_to_csv, save_to, patient_id, ensembl_version=None
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(patient_id)
+                                        if pos in mut_1_1:
+                                            mutated_dictionary['Creation'].append(1)
+                                        else:
+                                            mutated_dictionary['Creation'].append(0)
             else:
                 list_many_mut.append((ds[i])["transcripts"][0])
 
@@ -442,6 +475,9 @@ def score_utrs(vcf, save_extra_to_csv, save_to, patient_id, ensembl_version=None
     else:
         file = save_to + "/mutated.csv"
 
-    with open(file, 'a') as f:
-        df3.to_csv(f, header=False)
+    if os.path.isfile(file):
+        with open(file, 'a') as f:
+            df3.to_csv(f, header=False)
+    else:
+        df3.to_csv(file)
     pass

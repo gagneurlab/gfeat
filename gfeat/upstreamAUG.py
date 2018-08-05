@@ -254,11 +254,7 @@ class UpstreamAUG:
                     list_10 = []  # in-frame_no_uORF
                     list_11 = []  # in-frame_uORF
 
-                    # print(seq)
-
                     for ATG in re.finditer('ATG', seq):
-                        # if ATG.start() + start == 88497907:
-                        #     print('herer')
                         ORF = 0
                         seq_remainder = seq[ATG.start() + 3:]
 
