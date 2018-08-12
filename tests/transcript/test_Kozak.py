@@ -18,7 +18,7 @@ def test_get_consensus_Kozak_seq_numbers(genome):
     assert res == "222211032212212"
 
 
-def test_get_consensus_Kozak_seq_sequence(genome):
+def test_get_consensus_Kozak_seq(genome):
     res = genome.get_consensus_Kozak_seq(True)
     assert res == "GGGGCCATGGCGGCG"
 

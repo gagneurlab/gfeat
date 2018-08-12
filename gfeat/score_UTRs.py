@@ -104,7 +104,7 @@ def score_utrs(vcf, save_extra_to_csv, save_to, patient_id, ensembl_version=None
 
             for exon in sample["exons"]:
                 e, m = mutator.mutate_sequence(exon[1], False, exon[0])
-                mutated = m < 5  # Todo change back to 14!!!
+                mutated = m < 14
                 list_exon_mut_seq.append(e)
 
             if mutated:

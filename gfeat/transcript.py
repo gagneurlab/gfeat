@@ -100,13 +100,13 @@ class GFTranscript(pyensembl.Transcript):
 
         df_codon_frequency = pd.DataFrame(np.full((1, 61), 0, dtype=int), columns=combs)
 
-        CDS_codon_list = [self.CDS().upper()[i:i + 3] for i in range(0, len(self.CDS()), 3)]
+        CDS_codon_list = [self.coding_sequence.upper()[i:i + 3] for i in range(0, len(self.coding_sequence), 3)]
+
+        for comb in combs:
+            df_codon_frequency[comb][0] = CDS_codon_list.count(comb)
 
         # adding 1 in order to take the logarithm
-        for comb in combs:
-            df_codon_frequency[comb][0] = CDS_codon_list.count(comb) + 1
-
-        df_codon_frequency = df_codon_frequency / len(self.CDS())
+        df_codon_frequency = (df_codon_frequency + 1) / len(self.coding_sequence)
 
         df_codon_frequency = np.log2(df_codon_frequency)
 
@@ -119,7 +119,7 @@ class GFTranscript(pyensembl.Transcript):
         :return: how many times a given motif is presented in the 5' UTR sequence
         """
         if region == 0:
-            CDS = self.CDS().upper()
+            CDS = self.coding_sequence.upper()
             ratio = (CDS.count("C") + CDS.count("G")) / len(CDS)
         elif region == 1:
             CDS = self.five_prime_utr_sequence.upper()
@@ -139,7 +139,7 @@ class GFTranscript(pyensembl.Transcript):
         """
 
         utr5_seq = self.five_prime_utr_sequence.upper()
-        CDS_seq = self.CDS().upper()
+        CDS_seq = self.coding_sequence.upper()
 
         seq = utr5_seq[len(utr5_seq) - 6:] + CDS_seq[:9]
 
@@ -152,20 +152,20 @@ class GFTranscript(pyensembl.Transcript):
         :return: how many times a given motif is presented in the 5' UTR sequence
         """
         dict_Kozak = {"0A": [0], "0C": [0], "0G": [0], "0T": [0],
-                            "1A": [0], "1C": [0], "1G": [0], "1T": [0],
-                            "2A": [0], "2C": [0], "2G": [0], "2T": [0],
-                            "3A": [0], "3C": [0], "3G": [0], "3T": [0],
-                            "4A": [0], "4C": [0], "4G": [0], "4T": [0],
-                            "5A": [0], "5C": [0], "5G": [0], "5T": [0],
-                            "6A": [0], "6C": [0], "6G": [0], "6T": [0],
-                            "7A": [0], "7C": [0], "7G": [0], "7T": [0],
-                            "8A": [0], "8C": [0], "8G": [0], "8T": [0],
-                            "9A": [0], "9C": [0], "9G": [0], "9T": [0],
-                            "10A": [0], "10C": [0], "10G": [0], "10T": [0],
-                            "11A": [0], "11C": [0], "11G": [0], "11T": [0],
-                            "12A": [0], "12C": [0], "12G": [0], "12T": [0],
-                            "13A": [0], "13C": [0], "13G": [0], "13T": [0],
-                            "14A": [0], "14C": [0], "14G": [0], "14T": [0]}
+                      "1A": [0], "1C": [0], "1G": [0], "1T": [0],
+                      "2A": [0], "2C": [0], "2G": [0], "2T": [0],
+                      "3A": [0], "3C": [0], "3G": [0], "3T": [0],
+                      "4A": [0], "4C": [0], "4G": [0], "4T": [0],
+                      "5A": [0], "5C": [0], "5G": [0], "5T": [0],
+                      "6A": [0], "6C": [0], "6G": [0], "6T": [0],
+                      "7A": [0], "7C": [0], "7G": [0], "7T": [0],
+                      "8A": [0], "8C": [0], "8G": [0], "8T": [0],
+                      "9A": [0], "9C": [0], "9G": [0], "9T": [0],
+                      "10A": [0], "10C": [0], "10G": [0], "10T": [0],
+                      "11A": [0], "11C": [0], "11G": [0], "11T": [0],
+                      "12A": [0], "12C": [0], "12G": [0], "12T": [0],
+                      "13A": [0], "13C": [0], "13G": [0], "13T": [0],
+                      "14A": [0], "14C": [0], "14G": [0], "14T": [0]}
 
         Kozak_seq = self.get_Kozak_seq()
 
@@ -179,6 +179,82 @@ class GFTranscript(pyensembl.Transcript):
         df_Kozak = pd.DataFrame(data=dict_Kozak)
 
         return df_Kozak
+
+    def get_stop_codon_context(self):
+        """
+        TODO
+        :param pattern: string motif to be found in the 5' UTR sequence
+        :return: how many times a given motif is presented in the 5' UTR sequence
+        """
+
+        utr3_seq = self.three_prime_utr_sequence.upper()
+        CDS_seq = self.coding_sequence.upper()
+
+        seq = CDS_seq[len(CDS_seq)-9:] + utr3_seq[:6]
+
+        return seq
+
+    def get_line_stop_codon_context_matrix(self):
+        """
+        TODO
+        :param pattern: string motif to be found in the 5' UTR sequence
+        :return: how many times a given motif is presented in the 5' UTR sequence
+        """
+        dict_stop_codon_context = {"0A": [0], "0C": [0], "0G": [0], "0T": [0],
+                      "1A": [0], "1C": [0], "1G": [0], "1T": [0],
+                      "2A": [0], "2C": [0], "2G": [0], "2T": [0],
+                      "3A": [0], "3C": [0], "3G": [0], "3T": [0],
+                      "4A": [0], "4C": [0], "4G": [0], "4T": [0],
+                      "5A": [0], "5C": [0], "5G": [0], "5T": [0],
+                      "6A": [0], "6C": [0], "6G": [0], "6T": [0],
+                      "7A": [0], "7C": [0], "7G": [0], "7T": [0],
+                      "8A": [0], "8C": [0], "8G": [0], "8T": [0],
+                      "9A": [0], "9C": [0], "9G": [0], "9T": [0],
+                      "10A": [0], "10C": [0], "10G": [0], "10T": [0],
+                      "11A": [0], "11C": [0], "11G": [0], "11T": [0],
+                      "12A": [0], "12C": [0], "12G": [0], "12T": [0],
+                      "13A": [0], "13C": [0], "13G": [0], "13T": [0],
+                      "14A": [0], "14C": [0], "14G": [0], "14T": [0]}
+
+        stop_codon_context = self.get_stop_codon_context()
+
+        # apparently there are transcripts without 3'UTR regions, therefore we want to leave
+        # the corresponding columns of dict_stop_codon_context empty
+        i = 15 - len(stop_codon_context)
+        for c in stop_codon_context:
+            dict_stop_codon_context[str(i) + c][0] = 1
+            i = i + 1
+
+        df_stop_codon_context = pd.DataFrame(data=dict_stop_codon_context)
+
+        return df_stop_codon_context
+
+    def get_codon_pairs_frequency(self):
+        """
+        TODO
+        :param pattern: string motif to be found in the 5' UTR sequence
+        :return: how many times a given motif is presented in the 5' UTR sequence
+        """
+        nucleobases = ['A', 'C', 'G', "T"]
+        combs = [''.join(comb) for comb in product(*([nucleobases] * 6))]
+
+        iter_combs = combs.copy()
+
+        for comb in iter_combs:
+            if comb.startswith("ATG") or comb.startswith("TAA") or comb.startswith("TAG") or comb.startswith("TGA") \
+                or comb.endswith("ATG") or comb.endswith("TAA") or comb.endswith("TAG") or comb.endswith("TGA"):
+                combs.remove(comb)
+
+        df_codon_pairs_count = pd.DataFrame(np.full((1, 3600), 0, dtype=int), columns=combs)
+
+        CDS_codon_list = [self.coding_sequence.upper()[i:i + 6] for i in range(0, len(self.coding_sequence), 6)]
+
+        for comb in combs:
+            df_codon_pairs_count[comb][0] = CDS_codon_list.count(comb)
+
+        df_codon_pairs_count = (df_codon_pairs_count + 1) / len(self.coding_sequence)
+
+        return df_codon_pairs_count
 
     @classmethod
     def from_pyensembl(cls, obj):
