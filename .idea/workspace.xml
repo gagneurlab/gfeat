@@ -4,10 +4,8 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42634b39-5467-43b6-ab3d-357c28d3d096" name="Default" comment="- Added and tested codon usage ans stop codon context features">
+    <list default="true" id="42634b39-5467-43b6-ab3d-357c28d3d096" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/gfeat/score_UTRs.py" afterPath="$PROJECT_DIR$/gfeat/score_UTRs.py" />
-      <change beforePath="$PROJECT_DIR$/tests/transcript/test_stop_codon_context.py" afterPath="$PROJECT_DIR$/tests/transcript/test_stop_codon_context.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -492,13 +490,6 @@
       <option name="presentableId" value="Default" />
       <updated>1509657925889</updated>
     </task>
-    <task id="LOCAL-00028" summary="– pyensembl 1.1.0 and the included libraries">
-      <created>1521141770461</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1521141770461</updated>
-    </task>
     <task id="LOCAL-00029" summary="– added database creation in test files">
       <created>1521141950330</created>
       <option name="number" value="00029" />
@@ -835,7 +826,14 @@
       <option name="project" value="LOCAL" />
       <updated>1534096211674</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="- score_UTRs: deleted save_extra parameter">
+      <created>1534766290168</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1534766290169</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TodoView">
@@ -909,7 +907,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- fixed constructor of FivePrimeUTRSeq for reverse_complement_bool = False for minus strands&#10;- added predict_on_sample_with_pos to upstreamATG.py" />
     <MESSAGE value="- apparently 2 5'UTRs can have the same exonic sequences but different exonic+intronic sequences" />
     <MESSAGE value="- same for the minus strand" />
     <MESSAGE value="- fixed FivePrimeUTRSeq" />
@@ -934,7 +931,8 @@
     <MESSAGE value="- GFTranscript.get_Kozak_sequence() can work now with transcript which don't have 5'UTR sequences&#10;- added and tested GFTranscript.get_line_Kozak_matrix&#10;- added and manually tested GFGenome.get_Kozak_matrix" />
     <MESSAGE value="- Added &quot;Creation&quot; column which shows whether the uORF was created or deleted" />
     <MESSAGE value="- Added and tested codon usage ans stop codon context features" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added and tested codon usage ans stop codon context features" />
+    <MESSAGE value="- score_UTRs: deleted save_extra parameter" />
+    <option name="LAST_COMMIT_MESSAGE" value="- score_UTRs: deleted save_extra parameter" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
