@@ -7,6 +7,16 @@ from gfeat.transcript import GFTranscript
 
 
 @pytest.fixture()
+def genome():
+    data = GFGenome(reference_name='hg38_test',
+                     annotation_name='hg38_chr22_test',
+                     gtf_path_or_url="./tests/data/gencode.v24.annotation_chr22.gtf",
+                     transcript_fasta_paths_or_urls="./tests/data/hg38_chr22.fa",
+                     )
+    return data
+
+
+@pytest.fixture()
 def transcript():
     data = GFGenome(reference_name='hg38_test',
                      annotation_name='hg38_chr22_test',
@@ -14,6 +24,17 @@ def transcript():
                      transcript_fasta_paths_or_urls="./tests/data/hg38_chr22.fa",
                      )
     test_transcript = GFTranscript('ENST00000624155.1', 'BAGE5-201', '22', 11066501, 11068089, '-', 'None', 'ENSG00000279973.1', data)
+    return test_transcript
+
+
+@pytest.fixture()
+def transcript2():
+    data = GFGenome(reference_name='hg38_test',
+                     annotation_name='hg38_chr22_test',
+                     gtf_path_or_url="./tests/data/gencode.v24.annotation_chr22.gtf",
+                     transcript_fasta_paths_or_urls="./tests/data/hg38_chr22.fa",
+                     )
+    test_transcript = GFTranscript('ENST00000343518.10', 'POTEH-001', '22', 15690026, 15721522, '+', 'None', 'ENSG00000198062.14', data)
     return test_transcript
 
 
