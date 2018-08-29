@@ -1,39 +1,8 @@
-import pybedtools
-import pyensembl
-from pysam import FastaFile
 from cyvcf2 import VCF
 from collections import OrderedDict
 from itertools import combinations
 from gfeat.utils import reverse_complement
-
-"""Define the basic classess
-"""
-
-
-# basic units:
-# - genes
-# - transcripts
-# - exons
-# - introns
-# - splice_junctions
-
-
-# Locus:
-# - contig
-# - start
-# - end
-# - strand
-
-
-class IndexUnit(object):
-
-    @classmethod
-    def from_pyensembl(cls, obj):
-        raise NotImplementedError
-
-    @classmethod
-    def iter_all(cls, genome):
-        raise NotImplementedError
+import pandas as pd
 
 
 class VCFMutator:
@@ -67,15 +36,15 @@ class VCFMutator:
         case 3: list of tuples [(DNA string, variant ids), ...] consisting of a DNA sequence and
             the positions of variants that were substituted
         """
-        if self.vcf == None:
+        if self.vcf is None:
             # case 1: only extraction of a sequence from a fasta file is required, no vcf file is supplied
-            if not fasta == None:
+            if not fasta is None:
                 if interval.strand == "-":
                     return [(reverse_complement(fasta.fetch(str(interval.chrom), interval.start,
-                                    interval.stop)),)]
+                                                            interval.stop)),)]
                 else:
                     return [(fasta.fetch(str(interval.chrom), interval.start,
-                                    interval.stop),)]
+                                         interval.stop),)]
             else:
                 return [(seq_whole,)]
         else:
@@ -85,7 +54,7 @@ class VCFMutator:
                 # case 2.1: fasta file is provided
                 if (not fasta == None) and (seq_whole == None):
                     seq_whole = fasta.fetch(str(interval.chrom), interval.start,
-                                    interval.stop)
+                                            interval.stop)
                 # case 2.2: the path to the vcf file is provided
                 if type(self.vcf) == str:
                     vcf_file = VCF(self.vcf)
@@ -104,7 +73,7 @@ class VCFMutator:
                     # case 3.1: fasta file is provided
                     if (not fasta == None) and (seq_whole == None):
                         seq_whole = fasta.fetch(str(interval.chrom), interval.start,
-                                        interval.stop)
+                                                interval.stop)
                     # case 3.2: the path to the vcf file is provided
                     if type(self.vcf) == str:
                         vcf_file = VCF(self.vcf)
@@ -121,7 +90,7 @@ class VCFMutator:
                     # case 3.1: fasta file is provided
                     if (not fasta == None) and (seq_whole == None):
                         seq_whole = fasta.fetch(str(interval.chrom), interval.start,
-                                        interval.stop)
+                                                interval.stop)
                     # case 3.2: the path to the vcf file is provided
                     if type(self.vcf) == str:
                         vcf_file = VCF(self.vcf)
@@ -134,6 +103,55 @@ class VCFMutator:
                     # case 3.5: interval is of type pybedtools.cbedtools.Interval
                     else:
                         return _mutate_sequence_Interval(interval, seq_whole, vcf_file)
+
+    def mutate_codon_context(self, intervals, seqs, column_names, ):
+        if self.BedTool:
+            raise ValueError("Sorry! This functionality does not exist yet. Feel free to add it!")
+        else:
+            # column_no = 0
+            # for seq in seqs:
+            #     column_no = column_no + len(seq)
+            df_codon_context = pd.DataFrame({"name":[intervals[0].name]})
+            # df_codon_context = pd.DataFrame(pd.np.empty((1, column_no)) * pd.np.ma.zeros(1))
+            # path to the vcf is provided
+            if type(self.vcf) == str:
+                vcf_file = VCF(self.vcf)
+            # the opened vcf file is provided
+            else:
+                vcf_file = self.vcf
+            i = 0
+            for interval in intervals:
+                vcf_interval = interval.chrom + ":" + str(interval.start) + "-" + str(interval.end - 1)
+                if interval.strand == "+":
+                    for variant in vcf_file(vcf_interval):
+                        if variant.is_snp:
+                            if (seqs[0])[variant.POS - interval.start: variant.POS - interval.start + 1] != variant.REF:
+                                if (variant.POS - interval.start + 1) < 0:
+                                    print("The VCF reference does not match the genome sequence")
+                            else:
+                                if not variant.num_het:
+                                    df_codon_context[column_names[i] + str(variant.POS - interval.start)] = 2
+                                else:
+                                    df_codon_context[column_names[i] + str(variant.POS - interval.start)] = 1
+                        else:
+                            print("The variant is not a SNP")
+                    i = i + 1
+                    # return df_codon_context
+                else:
+                    for variant in vcf_file(vcf_interval):
+                        if variant.is_snp:
+                            if seqs[i][variant.POS - interval.start: variant.POS - interval.start + 1] != variant.REF:
+                                if (variant.POS - interval.start + 1) < 0:
+                                    print("The VCF reference does not match the genome sequence")
+                            else:
+                                if not variant.num_het:
+                                    df_codon_context[column_names[i] + str(len(seqs[i]) - (variant.POS - interval.start + 1))] = 2
+                                else:
+                                    df_codon_context[column_names[i] + str(len(seqs[i]) - (variant.POS - interval.start + 1))] = 1
+                        else:
+                            print("The variant is not a SNP")
+                    i = i + 1
+            return df_codon_context
 
 
 def _mutate_sequence_BedTool(interval, seq, vcf_file=None):
@@ -443,7 +461,7 @@ def _mutate_sequence_BedTool_vcf(interval, seq, vcf_file=None):
                 output = []
                 for key in variants_hom_alt:
                     if seq[key - interval.start - 1: key - interval.start +
-                                                 len(variants_hom_ref[key]) - 1] != variants_hom_ref[key]:
+                                                     len(variants_hom_ref[key]) - 1] != variants_hom_ref[key]:
                         raise ValueError("The VCF reference does not match the genome sequence")
                     seq = seq[:(key - interval.start) - 1] + variants_hom_alt[key] + \
                           seq[(key + len(variants_hom_alt[key]) - interval.start - 1):]
@@ -457,7 +475,7 @@ def _mutate_sequence_BedTool_vcf(interval, seq, vcf_file=None):
                         tuple_temp = tupl
                         for key in combs:
                             if seq[key - interval.start - 1: key - interval.start +
-                                                         len(variants_het_ref[key]) - 1] != variants_het_ref[key]:
+                                                             len(variants_het_ref[key]) - 1] != variants_het_ref[key]:
                                 raise ValueError("The VCF reference does not match the genome sequence")
                             seq_temp = seq_temp[:(key - interval.start - 1)] + variants_het_alt[key] + \
                                        seq_temp[(key + len(variants_het_alt[key]) - interval.start - 1):]
@@ -663,7 +681,7 @@ def _mutate_sequence_BedTool_vcf_with_pos_alt_ref(interval, seq, vcf_file=None):
                 output = []
                 for key in variants_hom_alt:
                     if seq[key - interval.start - 1: key - interval.start +
-                                                 len(variants_hom_ref[key]) - 1] != variants_hom_ref[key]:
+                                                     len(variants_hom_ref[key]) - 1] != variants_hom_ref[key]:
                         raise ValueError("The VCF reference does not match the genome sequence")
                     seq = seq[:(key - interval.start) - 1] + variants_hom_alt[key] + \
                           seq[(key + len(variants_hom_alt[key]) - interval.start - 1):]
@@ -681,7 +699,7 @@ def _mutate_sequence_BedTool_vcf_with_pos_alt_ref(interval, seq, vcf_file=None):
                         tupl_alt_temp = tupl_alt
                         for key in combs:
                             if seq[key - interval.start - 1: key - interval.start +
-                                                         len(variants_het_ref[key]) - 1] != variants_het_ref[key]:
+                                                             len(variants_het_ref[key]) - 1] != variants_het_ref[key]:
                                 raise ValueError("The VCF reference does not match the genome sequence")
                             seq_temp = seq_temp[:(key - interval.start - 1)] + variants_het_alt[key] + \
                                        seq_temp[(key + len(variants_het_alt[key]) - interval.start - 1):]

@@ -1,21 +1,11 @@
 import pyensembl
-import unicodedata
 import re
 from itertools import product
 import pandas as pd
 import numpy as np
 
 
-# from .units import IndexUnit
-
-
-# class GFTranscript(IndexUnit, pyensembl.Transcript):
-# Transcript class inherited from pyensembl's Transcript class
 class GFTranscript(pyensembl.Transcript):
-
-    # Init already implemented by `pyensembl.Transcript`
-    # TODO  implement the feature extractors
-
     def __init__(self,
                  transcript_id: object = None,
                  transcript_name: object = None,
@@ -51,7 +41,7 @@ class GFTranscript(pyensembl.Transcript):
 
     def CDS(self):
         """
-        TODO
+        TODO DELETE?
         :return:
         """
         # The CDS includes the start and stop codon
@@ -60,37 +50,35 @@ class GFTranscript(pyensembl.Transcript):
 
     def codon_counts(self):
         """
-
-        :return: the number of codons found in the CDS
+        Calculate how many codons the coding sequence has
+        :return: the number of codons constituting the coding sequence
         """
         # Removing 5' UTR and 3' UTR sequences
-        # Important: pyensembl 1.1.0 does not wprk correctly with user GTF and Fasta files
         sequence = self.sequence.replace(self.five_prime_utr_sequence, "").replace(self.three_prime_utr_sequence, "")
         return len(sequence) / 3
 
     def utr3_motif_counts(self, pattern):
         """
-
-        :param pattern: string motif to be found in the 3' UTR sequence
-        :return: how many times a given motif is presented in the 3' UTR sequence
+        Calculate how many times a given motif is presented in the 3' UTR sequence
+        :param pattern: string, motif to be found in the 3' UTR sequence
+        :return: int, how many times a given motif is presented in the 3' UTR sequence
         """
         return len(re.findall(pattern.upper(), self.three_prime_utr_sequence.upper()))
 
     def utr5_motif_counts(self, pattern):
         """
-
-        :param pattern: string motif to be found in the 5' UTR sequence
-        :return: how many times a given motif is presented in the 5' UTR sequence
+        Calculate how many times a given motif is presented in the 5' UTR sequence
+        :param pattern: string, motif to be found in the 5' UTR sequence
+        :return: int, how many times a given motif is presented in the 5' UTR sequence
         """
         return len(re.findall(pattern.upper(), self.five_prime_utr_sequence.upper()))
 
     def codon_usage(self):
         """
-        TODO
-        :param pattern: string motif to be found in the 5' UTR sequence
-        :return: how many times a given motif is presented in the 5' UTR sequence
+        Calculate the frequency of all codons in the transcript
+        :return: pandas.DataFrame, column names – 61 codons (all possible codons except for 3 stop codons),
+                                    rows – log2 of the corresponding codon frequency
         """
-
         nucleobases = ['A', 'C', 'G', "T"]
         combs = [''.join(comb) for comb in product(*([nucleobases] * 3))]
         # remove stop codons
@@ -112,11 +100,11 @@ class GFTranscript(pyensembl.Transcript):
 
         return df_codon_frequency
 
-    def GC_content(self, region):
+    def gc_content(self, region):
         """
-        TODO
-        :param pattern: string motif to be found in the 5' UTR sequence
-        :return: how many times a given motif is presented in the 5' UTR sequence
+        Calculate the percentage of Cs and Gs in the specified region divided by 100
+        :param region: int, 0 – coding sequence, 1 – 5'UTR sequence, 2 – 3'UTR sequence
+        :return: float, percentage of Cs and Gs in the specified region divided by 100
         """
         if region == 0:
             CDS = self.coding_sequence.upper()
@@ -128,28 +116,29 @@ class GFTranscript(pyensembl.Transcript):
             CDS = self.three_prime_utr_sequence.upper()
             ratio = (CDS.count("C") + CDS.count("G")) / len(CDS)
         else:
-            raise ValueError('Unknown value is provided to GC_content function.')
+            raise ValueError('Unknown value is provided to gc_content function.')
         return ratio
 
     def get_Kozak_seq(self):
         """
-        TODO
-        :param pattern: string motif to be found in the 5' UTR sequence
-        :return: how many times a given motif is presented in the 5' UTR sequence
+        Get the Kozak sequence for this transcript (6 elements upstream, start codon and 6 elements downstream)
+        :return: str, Kozak sequence
         """
-
         utr5_seq = self.five_prime_utr_sequence.upper()
         CDS_seq = self.coding_sequence.upper()
 
-        seq = utr5_seq[len(utr5_seq) - 6:] + CDS_seq[:9]
-
+        if len(utr5_seq) > 6:
+            seq = utr5_seq[len(utr5_seq) - 6:] + CDS_seq[:9]
+        else:
+            seq = utr5_seq + CDS_seq[:9]
         return seq
 
     def get_line_Kozak_matrix(self):
         """
-        TODO
-        :param pattern: string motif to be found in the 5' UTR sequence
-        :return: how many times a given motif is presented in the 5' UTR sequence
+        Get a line of Kozak matrix for this transcript (6 elements upstream, start codon and 6 elements downstream)
+        :return: pandas.DataFrame, column names – first number corresponds to the base position in the Kozak sequence,
+                                                    e.g. 0A means base A 5 bases upstream from the start codon
+                                    rows – 1 if it has the corresponding base, 0 otherwise
         """
         dict_Kozak = {"0A": [0], "0C": [0], "0G": [0], "0T": [0],
                       "1A": [0], "1C": [0], "1G": [0], "1T": [0],
@@ -182,9 +171,8 @@ class GFTranscript(pyensembl.Transcript):
 
     def get_stop_codon_context(self):
         """
-        TODO
-        :param pattern: string motif to be found in the 5' UTR sequence
-        :return: how many times a given motif is presented in the 5' UTR sequence
+        Get the stop codon context  sequence for this transcript (6 elements upstream, start codon and 6 elements downstream)
+        :return: str, stop codon context  sequence
         """
 
         utr3_seq = self.three_prime_utr_sequence.upper()
@@ -196,9 +184,12 @@ class GFTranscript(pyensembl.Transcript):
 
     def get_line_stop_codon_context_matrix(self):
         """
-        TODO
-        :param pattern: string motif to be found in the 5' UTR sequence
-        :return: how many times a given motif is presented in the 5' UTR sequence
+        Get a line of stop codon context matrix for this transcript (6 elements upstream, start codon and 6 elements
+         downstream)
+        :return: pandas.DataFrame, column names – first number corresponds to the base position in the stop codon context
+                                                  sequence,
+                                                    e.g. 0A means base A 5 bases upstream from the start codon
+                                    rows – 1 if it has the corresponding base, 0 otherwise
         """
         dict_stop_codon_context = {"0A": [0], "0C": [0], "0G": [0], "0T": [0],
                       "1A": [0], "1C": [0], "1G": [0], "1T": [0],
@@ -231,9 +222,11 @@ class GFTranscript(pyensembl.Transcript):
 
     def get_codon_pairs_frequency(self):
         """
-        TODO
-        :param pattern: string motif to be found in the 5' UTR sequence
-        :return: how many times a given motif is presented in the 5' UTR sequence
+        Calculate the frequency of 2 codons being present together in the transcript coding sequence
+        :return: pandas.DataFrame, column names – a pair of codons
+                                                    e.g. AAACAA
+                                    rows – the frequency of the corresponding 2 codons being present together in the
+                                           transcript coding sequence
         """
         nucleobases = ['A', 'C', 'G', "T"]
         combs = [''.join(comb) for comb in product(*([nucleobases] * 6))]
@@ -256,10 +249,10 @@ class GFTranscript(pyensembl.Transcript):
 
         return df_codon_pairs_count
 
-    @classmethod
-    def from_pyensembl(cls, obj):
-        pass
-
-    @classmethod
-    def iter_all(cls, genome):
-        pass
+    def get_nucleobase_mutation_table(self):
+        """
+        Todo
+        :return:
+        """
+        max_transcript_length = 11000
+        nucleobase_mutation_table = pd.DataFrame(pd.np.empty((1, max_transcript_length)) * pd.np.nan)

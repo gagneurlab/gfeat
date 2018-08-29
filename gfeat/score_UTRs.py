@@ -10,7 +10,7 @@ import numpy as np
 import os
 
 
-def score_utrs(vcf, save_to, patient_id, ensembl_version=None, gtf=None, fasta=None):
+def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=None):
     """
     1 possible model built using gfeat
     Looks for creation and deletion of AUGs which are located upstream from the corresponding canonical start.
@@ -18,9 +18,8 @@ def score_utrs(vcf, save_to, patient_id, ensembl_version=None, gtf=None, fasta=N
     AUGType (in-frame_no_uORF, in-frame_uORF, not_in-frame_no_uORF, not_in-frame_uORF),
     alternative value of the nucleobase, chromosome, reference value of the nucleobase, sampleID
     :param vcf: string, path to the vcf.gz
-
-           currently work only if save_to is the name of the folder
     :param save_to: string, path to the folder or the file name where to save the pd.DataFrame output table
+    :param sample_id: string, id of the sample
     :param ensembl_version:, int, Ensembl version
            MIN_ENSEMBL_RELEASE = 54
            MAX_ENSEMBL_RELEASE = 85
@@ -167,7 +166,7 @@ def score_utrs(vcf, save_to, patient_id, ensembl_version=None, gtf=None, fasta=N
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['Sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(sample_id)
                                         if pos in mut_0_0:
                                             mutated_dictionary['Creation'].append(1)
                                         else:
@@ -188,7 +187,7 @@ def score_utrs(vcf, save_to, patient_id, ensembl_version=None, gtf=None, fasta=N
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['Sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(sample_id)
                                         if pos in mut_0_1:
                                             mutated_dictionary['Creation'].append(1)
                                         else:
@@ -208,7 +207,7 @@ def score_utrs(vcf, save_to, patient_id, ensembl_version=None, gtf=None, fasta=N
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['Sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(sample_id)
                                         if pos in mut_1_0:
                                             mutated_dictionary['Creation'].append(1)
                                         else:
@@ -228,7 +227,7 @@ def score_utrs(vcf, save_to, patient_id, ensembl_version=None, gtf=None, fasta=N
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['Sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(sample_id)
                                         if pos in mut_1_1:
                                             mutated_dictionary['Creation'].append(1)
                                         else:
@@ -345,7 +344,7 @@ def score_utrs(vcf, save_to, patient_id, ensembl_version=None, gtf=None, fasta=N
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['Sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(sample_id)
                                         if pos in mut_0_0:
                                             mutated_dictionary['Creation'].append(1)
                                         else:
@@ -366,7 +365,7 @@ def score_utrs(vcf, save_to, patient_id, ensembl_version=None, gtf=None, fasta=N
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['Sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(sample_id)
                                         if pos in mut_0_1:
                                             mutated_dictionary['Creation'].append(1)
                                         else:
@@ -386,7 +385,7 @@ def score_utrs(vcf, save_to, patient_id, ensembl_version=None, gtf=None, fasta=N
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['Sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(sample_id)
                                         if pos in mut_1_0:
                                             mutated_dictionary['Creation'].append(1)
                                         else:
@@ -406,7 +405,7 @@ def score_utrs(vcf, save_to, patient_id, ensembl_version=None, gtf=None, fasta=N
                                         mutated_dictionary['ref'].append(info['ref'][i])
                                         mutated_dictionary['alt'].append(info['alt'][i])
                                         mutated_dictionary['chr'].append(contig)
-                                        mutated_dictionary['Sample'].append(patient_id)
+                                        mutated_dictionary['Sample'].append(sample_id)
                                         if pos in mut_1_1:
                                             mutated_dictionary['Creation'].append(1)
                                         else:
@@ -420,7 +419,7 @@ def score_utrs(vcf, save_to, patient_id, ensembl_version=None, gtf=None, fasta=N
     if save_to.endswith('.csv'):
         file = save_to
     else:
-        file = save_to + "/" + patient_id + "_mutated.csv"
+        file = save_to + "/" + sample_id + "_mutated.csv"
 
     if os.path.isfile(file):
         with open(file, 'a') as f:
