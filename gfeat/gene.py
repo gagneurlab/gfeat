@@ -1,13 +1,8 @@
 import pyensembl
-from gfeat.genome import GFGenome
 import re
 
 
-# class GFGene(IndexUnit, pyensembl.Gene):
 class GFGene(pyensembl.Gene):
-
-    # Init already implemented by `pyensembl.Transcript`
-    # TODO  implement the feature extractors
 
     @classmethod
     def from_pyensembl(cls, obj):

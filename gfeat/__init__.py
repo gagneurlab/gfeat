@@ -7,7 +7,6 @@ __version__ = '0.1.0'
 from . import gene
 from . import genome
 from . import gfeat
-from . import splice_junction
 from . import transcript
 from . import units
 from . import utils

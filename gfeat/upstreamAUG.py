@@ -5,20 +5,24 @@ import numpy as np
 
 class UpstreamAUG:
     def __init__(self, allow_ORF=True, verbose_output=False):
+        """
+        constructor
+        :param allow_ORF: bool, True by default, whether to check uORFs
+        :param verbose_output: bool, False by default, whether to return dictionaries in predict_on_sample() and
+                                predict_on_batch() methods or not
+        """
         self.allow_ORF = allow_ORF
         self.verbose_output = verbose_output
         pass
 
     def predict_on_sample(self, seq):
         """
-        NOTE: parameters have changed
-
         :param seq: string, 5'UTR's sequence
         :return: if verbose_output: dictionary:
                      first entry – 1 or 0 depending whether the uAUG is in-frame or not
                      second – 1 or 0 depending whether it corresponds to a uORF or not
                  else: NumPy array of 1 and 0 depending whether the uAUG is in-frame or not
-        :example: if the input 5'UTR has 5 AUG, then
+        example: if the input 5'UTR has 5 AUG, then
                     {
                     "frame": [1, 1, 0, 0, 1],
                     "uORF": [1, 1, 1, 0, 0]
@@ -62,12 +66,11 @@ class UpstreamAUG:
                 return np.array(ATG_frame)
 
         else:
-            pass  # Todo what should it do in this case?
+            pass
 
     def predict_on_sample_with_pos(self, seq):
         """
         In comparison to predict_on_sample(), additionally returns the positions of AUGs
-
         :param seq: string utr's sequence
         :return: if verbose_output: dictionary:
                      first entry – 1 or 0 depending whether the uAUG is in-frame or not
@@ -133,7 +136,6 @@ class UpstreamAUG:
         :param start: integer, position relatively to the whole genome (in contrast to position relative to the exon)
 
         """
-
         if self.allow_ORF:
             if strand == '+':
                 if self.verbose_output:
@@ -143,11 +145,7 @@ class UpstreamAUG:
                     list_10 = []  # in-frame_no_uORF
                     list_11 = []  # in-frame_uORF
 
-                    # print(seq)
-
                     for ATG in re.finditer('ATG', seq):
-                        # if ATG.start() + start == 88497907:
-                        #     print('herer')
                         seq_remainder = seq[ATG.start() + 3:]
                         TAA_frame = [(TAA.start() % 3) for TAA in re.finditer('TAA', seq_remainder)]
                         if 0 in TAA_frame:
@@ -191,11 +189,7 @@ class UpstreamAUG:
                     list_10 = []  # in-frame_no_uORF
                     list_11 = []  # in-frame_uORF
 
-                    # print(seq)
-
                     for ATG in re.finditer('ATG', seq):
-                        # if ATG.start() + start == 88497907:
-                        #     print('herer')
                         seq_remainder = seq[ATG.start() + 3:]
                         TAA_frame = [(TAA.start() % 3) for TAA in re.finditer('TAA', seq_remainder)]
                         if 0 in TAA_frame:
@@ -232,7 +226,7 @@ class UpstreamAUG:
                     ATG_frame[:] = [(math.ceil(res / 2) ^ 1) for res in ATG_frame]
                     pass
         else:
-            pass  # Todo what should it do in this case?
+            pass
 
     def predict_on_sample_with_stop_pandas(self, seq, result_dict, strand, start=None):
         """
@@ -240,7 +234,8 @@ class UpstreamAUG:
         passed to it dictionary
 
         :param seq: string utr's sequence
-        :param result_dict: dictionary with 4 mandatory keys "not_in-frame_no_uORF", "not_in-frame_uORF", "in-frame_no_uORF", "in-frame_uORF", where to append the found values
+        :param result_dict: dictionary with 4 mandatory keys "not_in-frame_no_uORF", "not_in-frame_uORF",
+                            "in-frame_no_uORF", "in-frame_uORF", where to append the found values
         :param start: integer, position relatively to the whole genome (in contrast to position relative to the exon)
 
         """
@@ -306,11 +301,7 @@ class UpstreamAUG:
                     list_10 = []  # in-frame_no_uORF
                     list_11 = []  # in-frame_uORF
 
-                    # print(seq)
-
                     for ATG in re.finditer('ATG', seq):
-                        # if ATG.start() + start == 88497907:
-                        #     print('herer')
                         ORF = 0
                         seq_remainder = seq[ATG.start() + 3:]
 
@@ -355,7 +346,7 @@ class UpstreamAUG:
                     ATG_frame[:] = [(math.ceil(res / 2) ^ 1) for res in ATG_frame]
                     pass
         else:
-            pass  # Todo what should it do in this case?
+            pass
 
     def predict_on_batch(self, seq_list):
         """
@@ -375,4 +366,4 @@ class UpstreamAUG:
             return result_list
 
         else:
-            pass  # Todo what should it do in this case?
+            pass
