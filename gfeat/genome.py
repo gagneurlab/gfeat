@@ -288,15 +288,12 @@ class GFGenome(pyensembl.Genome):
 
         mutator = VCFMutator(False, True, vcf, True)
 
-        contigs = ["1", "2"]
-        # contigs = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18',
-        #            '19', '20', '21', '22', 'X', 'Y']
+        contigs = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18',
+                   '19', '20', '21', '22', 'X', 'Y']
 
         for contig in contigs:
             for transcript in self.transcripts(contig, '+'):
                 if transcript.contains_stop_codon and transcript.contains_start_codon:
-                    # if transcript.id == "ENST00000335137":
-                    #     print("here")
                     Kozak_seq = transcript.get_Kozak_seq()
                     Interval_Kozak = Interval("chr" + transcript.contig, transcript.start_codon_positions[0] - 6,
                                               transcript.start_codon_positions[0] + 9, "NA", 0, "+")
@@ -305,7 +302,6 @@ class GFGenome(pyensembl.Genome):
                                              transcript.stop_codon_positions[0] + 9, "NA", 0, "+")
                     df_nucleobases_line = mutator.mutate_codon_context([Interval_Kozak, Interval_stop],
                                                                        [Kozak_seq, stop_codon_context], ["K_", "S_"])
-                    # df_Kozak = mutator.mutate_codon_context(Interval_Kozak, Kozak_seq, "K_")
                     if len(Kozak_seq) < 15:
                         new_columns = []
                         for column in df_nucleobases_line:
@@ -318,16 +314,7 @@ class GFGenome(pyensembl.Genome):
                     df_nucleobases_line["transctipt_id"] = transcript.id
                     df_nucleobases_line["gene_id"] = transcript.gene_id
                     nucleobases_lines.append(df_nucleobases_line)
-                    # if transcript.id == "ENST00000335137":
-                    #     print("here")
-                    #     print(list(df_nucleobases_line))
-                    #     print(list(df_nucleobases))
-                    # df_nucleobases = df_nucleobases.append(df_nucleobases_line)
-                    # try:
-                    #     df_nucleobases = df_nucleobases.append(df_nucleobases_line)
-                    # except ValueError as e:
-                    #     raise Exception(transcript.id) from e
-            print("contig "+ contig + "+ strand is over")
+            print("contig "+ contig + " + strand is over")
             for transcript in self.transcripts(contig, '-'):
                 if transcript.contains_stop_codon and transcript.contains_start_codon:
                     Kozak_seq = reverse_complement(transcript.get_Kozak_seq())
@@ -338,7 +325,6 @@ class GFGenome(pyensembl.Genome):
                                              transcript.stop_codon_positions[0] + 9, "NA", 0, "-")
                     df_nucleobases_line = mutator.mutate_codon_context([Interval_Kozak, Interval_stop],
                                                                        [Kozak_seq, stop_codon_context], ["K_", "S_"])
-                    # df_Kozak = mutator.mutate_codon_context(Interval_Kozak, Kozak_seq, "K_")
                     if len(Kozak_seq) < 15:
                         new_columns = []
                         for column in df_nucleobases_line:
@@ -352,7 +338,7 @@ class GFGenome(pyensembl.Genome):
                     df_nucleobases_line["gene_id"] = transcript.gene_id
                     nucleobases_lines.append(df_nucleobases_line)
 
-            print("contig " + contig + "- strand is over")
+            print("contig " + contig + " - strand is over")
             df_nucleobases = pd.concat(nucleobases_lines, ignore_index=True)
             df_nucleobases = df_nucleobases.drop(['name'], axis=1)
         return df_nucleobases
