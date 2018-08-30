@@ -16,7 +16,8 @@ def create_design_matrix(vcf, save_to=None, sample_id=None, ensembl_version=None
     """
 
     if ensembl_version is not None:
-        GFdata = GFGenome(copy_genome=EnsemblRelease(ensembl_version))
+        genome = EnsemblRelease(ensembl_version)
+        GFdata = GFGenome(copy_genome=genome)
     else:
         GFdata = GFGenome(reference_name='NAME',
                           annotation_name='NAME',
