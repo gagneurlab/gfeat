@@ -66,8 +66,8 @@
       <file leaf-file-name="genome.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gfeat/genome.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="14" />
+            <state relative-caret-position="60">
+              <caret line="273" column="37" lean-forward="false" selection-start-line="273" selection-start-column="8" selection-end-line="273" selection-end-column="37" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
               </folding>
@@ -134,7 +134,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>todo</find>
       <find>stop</find>
       <find>codin</find>
       <find>AUGs.</find>
@@ -164,6 +163,7 @@
       <find>mutate_codon_context</find>
       <find>get</find>
       <find>reverse_complement</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -535,13 +535,6 @@
       <option name="presentableId" value="Default" />
       <updated>1509657925889</updated>
     </task>
-    <task id="LOCAL-00033" summary="– experementing with .gitlab-ci.yml">
-      <created>1521195200172</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1521195200172</updated>
-    </task>
     <task id="LOCAL-00034" summary="– experementing with .gitlab-ci.yml">
       <created>1521196886552</created>
       <option name="number" value="00034" />
@@ -878,7 +871,14 @@
       <option name="project" value="LOCAL" />
       <updated>1535610537525</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="GFGenome:&#10;*  fixed the copy constructor">
+      <created>1535612446050</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1535612446050</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TodoView">
@@ -899,8 +899,8 @@
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="0" y="0" width="270" height="600" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38789546" sideWeight="0.7964459" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27647868" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30536452" sideWeight="0.47415185" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17469051" sideWeight="0.48546043" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30536452" sideWeight="0.47415185" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17469051" sideWeight="0.48546043" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25201938" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -953,7 +953,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- score_UTRs v1" />
     <MESSAGE value="- &quot;mutate_sequence&quot; added ignoring &quot;.&quot;" />
     <MESSAGE value="- fixed FivePrimeUTRSeq for UTRs that have the same sequence but different intervals" />
     <MESSAGE value="- added formation of pd.DataFrame&#10;- change constructor of FivePrimeUTRSeq so as it work only for 1 chromosome now" />
@@ -978,7 +977,8 @@
     <MESSAGE value="added:&#10;  - expression_design_matrix: wrapper of GFGenome.get_nucleobase_mutation_table function for 1 patient&#10;  - GFGenome.get_nucleobase_mutation_table function" />
     <MESSAGE value="fixed:&#10;  -UTR.py didn't have a reference to reverse_complement() function" />
     <MESSAGE value="expression_design_matrix:&#10;*  genome from pyensembl" />
-    <option name="LAST_COMMIT_MESSAGE" value="expression_design_matrix:&#10;*  genome from pyensembl" />
+    <MESSAGE value="GFGenome:&#10;*  fixed the copy constructor" />
+    <option name="LAST_COMMIT_MESSAGE" value="GFGenome:&#10;*  fixed the copy constructor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -987,11 +987,6 @@
           <url>file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/pyensembl/sequence_data.py</url>
           <line>104</line>
           <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/gfeat/genome.py</url>
-          <line>298</line>
-          <option name="timeStamp" value="142" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -1405,8 +1400,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gfeat/genome.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="14" />
+        <state relative-caret-position="60">
+          <caret line="273" column="37" lean-forward="false" selection-start-line="273" selection-start-column="8" selection-end-line="273" selection-end-column="37" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
           </folding>
