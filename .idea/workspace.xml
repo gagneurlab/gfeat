@@ -4,9 +4,9 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42634b39-5467-43b6-ab3d-357c28d3d096" name="Default" comment="expression_design_matrix:&#10;*  genome from pyensembl">
+    <list default="true" id="42634b39-5467-43b6-ab3d-357c28d3d096" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/gfeat/expression_design_matrix.py" afterPath="$PROJECT_DIR$/gfeat/expression_design_matrix.py" />
+      <change beforePath="$PROJECT_DIR$/gfeat/genome.py" afterPath="$PROJECT_DIR$/gfeat/genome.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -63,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="genome.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="genome.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gfeat/genome.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="59">
-              <caret line="272" column="8" lean-forward="true" selection-start-line="272" selection-start-column="8" selection-end-line="272" selection-end-column="37" />
+            <state relative-caret-position="135">
+              <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="14" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
               </folding>
@@ -99,12 +99,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="expression_design_matrix.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="expression_design_matrix.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gfeat/expression_design_matrix.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="27" lean-forward="false" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
-              <folding />
+            <state relative-caret-position="227">
+              <caret line="19" column="8" lean-forward="false" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="45" />
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -218,9 +220,9 @@
         <option value="$PROJECT_DIR$/gfeat/utils.py" />
         <option value="$PROJECT_DIR$/gfeat/transcript.py" />
         <option value="$PROJECT_DIR$/gfeat/units.py" />
-        <option value="$PROJECT_DIR$/gfeat/genome.py" />
         <option value="$PROJECT_DIR$/gfeat/UTR.py" />
         <option value="$PROJECT_DIR$/gfeat/expression_design_matrix.py" />
+        <option value="$PROJECT_DIR$/gfeat/genome.py" />
       </list>
     </option>
   </component>
@@ -532,13 +534,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1509657925889</updated>
-    </task>
-    <task id="LOCAL-00032" summary="– experementing with .gitlab-ci.yml">
-      <created>1521194939407</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1521194939407</updated>
     </task>
     <task id="LOCAL-00033" summary="– experementing with .gitlab-ci.yml">
       <created>1521195200172</created>
@@ -876,7 +871,14 @@
       <option name="project" value="LOCAL" />
       <updated>1535607863326</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="expression_design_matrix:&#10;*  genome from pyensembl">
+      <created>1535610537525</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1535610537525</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TodoView">
@@ -951,7 +953,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- fixed FivePrimeUTRSeq" />
     <MESSAGE value="- score_UTRs v1" />
     <MESSAGE value="- &quot;mutate_sequence&quot; added ignoring &quot;.&quot;" />
     <MESSAGE value="- fixed FivePrimeUTRSeq for UTRs that have the same sequence but different intervals" />
@@ -976,7 +977,8 @@
     <MESSAGE value="- score_UTRs: deleted save_extra parameter" />
     <MESSAGE value="added:&#10;  - expression_design_matrix: wrapper of GFGenome.get_nucleobase_mutation_table function for 1 patient&#10;  - GFGenome.get_nucleobase_mutation_table function" />
     <MESSAGE value="fixed:&#10;  -UTR.py didn't have a reference to reverse_complement() function" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed:&#10;  -UTR.py didn't have a reference to reverse_complement() function" />
+    <MESSAGE value="expression_design_matrix:&#10;*  genome from pyensembl" />
+    <option name="LAST_COMMIT_MESSAGE" value="expression_design_matrix:&#10;*  genome from pyensembl" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -988,7 +990,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/gfeat/genome.py</url>
-          <line>297</line>
+          <line>298</line>
           <option name="timeStamp" value="142" />
         </line-breakpoint>
       </breakpoints>
@@ -1376,7 +1378,7 @@
         <state relative-caret-position="75">
           <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
-            <element signature="e#19#50#0" expanded="true" />
+            <element signature="e#19#50#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1391,21 +1393,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gfeat/genome.py">
+    <entry file="file://$PROJECT_DIR$/gfeat/expression_design_matrix.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="272" column="8" lean-forward="true" selection-start-line="272" selection-start-column="8" selection-end-line="272" selection-end-column="37" />
+        <state relative-caret-position="227">
+          <caret line="19" column="8" lean-forward="false" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="45" />
           <folding>
-            <element signature="e#0#16#0" expanded="true" />
+            <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gfeat/expression_design_matrix.py">
+    <entry file="file://$PROJECT_DIR$/gfeat/genome.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="27" lean-forward="false" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
-          <folding />
+        <state relative-caret-position="135">
+          <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

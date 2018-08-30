@@ -10,18 +10,18 @@ from pybedtools import Interval
 class GFGenome(pyensembl.Genome):
 
     def __init__(
-        self,
-        reference_name: object = None,
-        annotation_name: object = None,
-        annotation_version: object = None,
-        gtf_path_or_url: object = None,
-        transcript_fasta_paths_or_urls: object = None,
-        protein_fasta_paths_or_urls: object = None,
-        decompress_on_download: object = False,
-        copy_local_files_to_cache: object = False,
-        require_ensembl_ids: object = True,
-        cache_directory_path: object = None,
-        copy_genome=None):
+                self,
+                reference_name: object = None,
+                annotation_name: object = None,
+                annotation_version: object = None,
+                gtf_path_or_url: object = None,
+                transcript_fasta_paths_or_urls: object = None,
+                protein_fasta_paths_or_urls: object = None,
+                decompress_on_download: object = False,
+                copy_local_files_to_cache: object = False,
+                require_ensembl_ids: object = True,
+                cache_directory_path: object = None,
+                copy_genome=None):
 
         if copy_genome is not None:
             reference_name = copy_genome.reference_name
@@ -44,17 +44,18 @@ class GFGenome(pyensembl.Genome):
                                        copy_local_files_to_cache,
                                        require_ensembl_ids,
                                        cache_directory_path)
-        key_values = []
 
-        if ((len(self.transcript_sequences.fasta_dictionary) <= 1) and (self.transcript_fasta_path is not None)):
-            for key in self.transcript_sequences.fasta_dictionary.keys():
-                key_values.append(key);
-            for key in key_values:
-                for trans in self.transcripts():
-                    self.transcript_sequences.fasta_dictionary[trans.transcript_id] = \
-                        self.transcript_sequences.fasta_dictionary[key][trans.start - 1:trans.end];
-        dump_pickle(self._transcript_sequences._fasta_dictionary,
-                    self._transcript_sequences.fasta_dictionary_pickle_path)
+        if copy_genome is None:
+            key_values = []
+            if (len(self.transcript_sequences.fasta_dictionary) <= 1) and (self.transcript_fasta_path is not None):
+                for key in self.transcript_sequences.fasta_dictionary.keys():
+                    key_values.append(key);
+                for key in key_values:
+                    for trans in self.transcripts():
+                        self.transcript_sequences.fasta_dictionary[trans.transcript_id] = \
+                            self.transcript_sequences.fasta_dictionary[key][trans.start - 1:trans.end];
+            dump_pickle(self._transcript_sequences._fasta_dictionary,
+                        self._transcript_sequences.fasta_dictionary_pickle_path)
 
     def check_fasta_dictionary(self):
 
