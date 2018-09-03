@@ -1,7 +1,7 @@
 from cyvcf2 import VCF
 from collections import OrderedDict
 from itertools import combinations
-# from gfeat.utils import reverse_complement
+from gfeat.utils import reverse_complement
 import pandas as pd
 
 

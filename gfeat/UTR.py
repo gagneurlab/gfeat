@@ -2,7 +2,7 @@
 UTR module
 """
 from pybedtools import Interval
-# from gfeat.utils import reverse_complement
+from gfeat.utils import reverse_complement
 
 
 class FivePrimeUTRSeq:
