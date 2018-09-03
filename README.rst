@@ -18,7 +18,7 @@ gfeat
      :alt: Updates
 
 
-Genomic feature extractors from raw files.
+Genomic feature extractors from raw files (Fasta, GTF and VCF).
 
 
 * Free software: MIT license
@@ -28,7 +28,79 @@ Genomic feature extractors from raw files.
 Features
 --------
 
-* TODO
+GFGenome:
+
+* GFGenome.get_consensus_Kozak_seq(seq=False)
+    Consensus Kozak sequence
+
+* GFGenome.get_Kozak_matrix()
+    Kozak sequence matrix (rows - transcripts)
+
+* GFGenome.get_consensus_stop_codon_context(seq=False)
+    Consensus stop codon context sequence
+
+* GFGenome.get_stop_codon_context_matrix()
+    Stop codon context matrix (rows - transcripts)
+
+* GFGenome.get_codon_pair_bias()
+    Codon pair bias
+
+* GFGenome.get_nucleobase_mutation_table()
+    Nucleobase mutation matrix (table with positions of variants and their type in Kozak sequence and stop codon context)
+
+GFTranscript:
+
+* GFTranscript.codon_counts()
+    Coding sequence codon count
+
+* GFTranscript.utr5_motif_counts(pattern)
+    5'UTR motif count
+
+* GFTranscript.utr3_motif_counts(pattern)
+    3'UTR motif count
+
+* GFTranscript.codon_usage()
+    Coding sequence codon usage
+
+* GFTranscript.gc_content(region)
+    Coding sequence, 5'UTR or 3'UTR G and C content
+
+* GFTranscript.get_Kozak_seq()
+    Kozak sequence
+
+* GFTranscript.get_stop_codon_context()
+    Stop codon context
+
+* GFTranscript.get_codon_pairs_frequency()
+    Coding sequence codon pair frequency
+
+Upstream AUG:
+
+* UpstreamAUG.predict_on_sample(seq)
+    Predict on sample (get all AUGs with the information whether they are in-frame or not and whether they have a stop codon or not)
+
+* UpstreamAUG.predict_on_sample_with_pos(seq)
+    Predict on sample with position (predict on sample plus positions of AUGs)
+
+* UpstreamAUG.predict_on_sample_with_pos_pandas()
+    Predict on sample with position and appending to the passed dictionary
+
+* UpstreamAUG.predict_on_batch(seq_list)
+    Predict on batch
+
+5'UTR sequence:
+
+* List of all 5'UTR sequences, their positions, exons, positions of exons and corresponding transcripts
+
+Auxiliary functions:
+
+* Mutate sequence
+
+* Mutate codon context
+
+* Reverse complement
+
+* Pca with scaling
 
 Credits
 ---------

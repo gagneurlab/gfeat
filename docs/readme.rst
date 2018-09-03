@@ -7,7 +7,12 @@ Specification
    :members:
 .. autoclass:: UTR.FivePrimeUTRSeq
    :members:
-
-   .. automethod:: __len__
-   .. automethod:: __getitem__
+.. autoclass:: genome.GFGenome
+   :members:
+.. autoclass:: transcript.GFTranscript
+   :members:
+.. autoclass:: units.VCFMutator
+   :members:
+.. autoclass:: upstreamAUG.UpstreamAUG
+   :members:
 

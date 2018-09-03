@@ -8,12 +8,17 @@ import pandas as pd
 class VCFMutator:
     def __init__(self, BedTool, mutations_amount, vcf=None, pos_alt_ref=None):
         """
-        constructor
-        :param BedTool: bool, True if BedTool intervals are used
-        :param mutations_amount: bool, True, if the number of mutations withing the interval is needed
-        :param vcf: string or an "opened" file, path to the vcf.gz or file opened using cyvcf2
-        :param pos_alt_ref: bool, True if positions of mutations together with alternative and reference values
+        Constructor
+
+        :param BedTool: True if BedTool intervals are used
+        :type BedTool: bool
+        :param mutations_amount: True, if the number of mutations withing the interval is needed
+        :type mutations_amount: bool
+        :param vcf: path to the vcf.gz or file opened using cyvcf2
+        :type vcf: str or an "opened" file
+        :param pos_alt_ref: True if positions of mutations together with alternative and reference values
          of the nucleobase are needed
+        :type pos_alt_ref: bool
         """
         self.BedTool = BedTool
         self.mutations_amount = mutations_amount
@@ -22,19 +27,28 @@ class VCFMutator:
 
     def mutate_sequence(self, interval, fasta=None, seq_whole=None):
         """
-        function that takes an interval, fasta/seq and vcf and return all possible mutated sequences and the
+        Function that takes an interval, fasta/seq and vcf and return all possible mutated sequences and the
         positions of mutations
-        :param interval: pybedtools.cbedtools.Interval, interval object
-        :param fasta: sequence, path to the Fasta file
-        :param seq: sequence, sequence that we want to mutate
-        :return depends on what was the constructor's input.
-        case1: list with one tupe in it [(seq,)]
-        case2: list of tuples [(DNA string, tuple with variants positions, tuple with reference values,
-        tuple with alternative values), ...] and the number of all mutations withing the interval
-        if the number of mutations is bigger than 14, returns only the not mutated sequence since the number of
-        possible sequences is to large to be processed on a laptop (as for March 2018)
-        case 3: list of tuples [(DNA string, variant ids), ...] consisting of a DNA sequence and
+
+        :param interval: interval object
+        :type interval: pybedtools.cbedtools.Interval
+        :param fasta: path to the Fasta file
+        :type fasta: str
+        :param seq_whole: sequence that we want to mutate
+        :type seq_whole: str
+
+        :return: depends on what was the constructor's input.
+
+            case1: list with one tupe in it [(seq,)]
+
+            case2: list of tuples [(DNA string, tuple with variants positions, tuple with reference values,
+            tuple with alternative values), ...] and the number of all mutations withing the interval
+            if the number of mutations is bigger than 14, returns only the not mutated sequence since the number of
+            possible sequences is to large to be processed on a laptop (as for March 2018)
+
+            case 3: list of tuples [(DNA string, variant ids), ...] consisting of a DNA sequence and
             the positions of variants that were substituted
+
         """
         if self.vcf is None:
             # case 1: only extraction of a sequence from a fasta file is required, no vcf file is supplied
@@ -104,15 +118,28 @@ class VCFMutator:
                     else:
                         return _mutate_sequence_Interval(interval, seq_whole, vcf_file)
 
-    def mutate_codon_context(self, intervals, seqs, column_names, ):
+    def mutate_codon_context(self, intervals, seqs, column_names):
+        """
+        Get a table with positions of variants and their types (heterozygous or homozygous) in the given intervals for
+        the given sequences
+
+        :param intervals: intervals for which we want to know the type and positions of variants
+        :type intervals: list of pybedtools.Interval objects
+        :param seqs: DNA sequences corresponding to the intervals
+        :type seqs: list of str
+        :param column_names: prefixes to be added to the column names on order to distinguish to which interval variants
+                belong to
+        :type column_names: list of str
+        :return: pandas.DataFrame,
+
+            column names – corresponding prefix + the position of variant relative to the interval
+
+            rows – 1 if the variant is heterozygous, 2 of homozygous
+        """
         if self.BedTool:
             raise ValueError("Sorry! This functionality does not exist yet. Feel free to add it!")
         else:
-            # column_no = 0
-            # for seq in seqs:
-            #     column_no = column_no + len(seq)
             df_codon_context = pd.DataFrame({"name":[intervals[0].name]})
-            # df_codon_context = pd.DataFrame(pd.np.empty((1, column_no)) * pd.np.ma.zeros(1))
             # path to the vcf is provided
             if type(self.vcf) == str:
                 vcf_file = VCF(self.vcf)
@@ -136,7 +163,6 @@ class VCFMutator:
                         else:
                             print("The variant is not a SNP")
                     i = i + 1
-                    # return df_codon_context
                 else:
                     for variant in vcf_file(vcf_interval):
                         if variant.is_snp:

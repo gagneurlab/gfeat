@@ -8,7 +8,8 @@ from pybedtools import Interval
 
 
 def test_getitem_plus(FivePrimeUTRSeq_object):
-    res = FivePrimeUTRSeq_object[2]
+    # res = FivePrimeUTRSeq_object[2]
+    res = FivePrimeUTRSeq_object[1]
     assert res == {
         'CGCGGCCCCAAGCGGTTCCCGAGCCCAGGCCCGCGCCGAGCCCAGGTGAGCGCCCGCCCCGGGGACCCTGGTCCCCGGAACCCCGGTCCCCGCCCGCCGCCCCGCCTCTTCGCCCCGGCGCCGGGGGCCAGCGCTTGCGCTCCCAAGTCTCGGACCCCGGCCCGGCACGTTAGGGGCTGGGGGTT':
             Interval(22, 20965163, 20981358, "5' UTR", 0, "+"),

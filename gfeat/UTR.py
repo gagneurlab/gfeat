@@ -12,32 +12,40 @@ class FivePrimeUTRSeq:
 
     def __init__(self, data, reverse_complement_bool, contig=None, strand=None):
         """
-        constructor
+        Constructor
 
-        :param data: GFGenome or pyensembl.Genome object
-        :param reverse_complement: bool, True if the reverse_complement of 5'UTR sequence for "-" strand is required
-        :param contig: string, number of the chromosome without 'chr'
-        :param strand: character '+' or '-', can be absent
-        :return initialises the following attributes: - seq[] – list of 5' UTR sequences with exons and introns
+        :param data: genome of a being to be researched
+        :type data: GFGenome or pyensembl.Genome object
+        :param reverse_complement_bool: True if the reverse_complement of 5'UTR sequence for "-" strand is required
+        :type reverse_complement_bool: bool
+        :param contig: optional, number of the chromosome without 'chr'
+        :type contig: str
+        :param strand: optional, chromosome strand
+        :type strand: char '+' or '-'
+        :return: initialises the following attributes:
+
+            - seq[] – list of 5' UTR sequences with exons and introns
+
             - seq_exons[] – list of 5' UTR sequences with only exons,
-                    NOTE it gives exons corresponding to the 5' UTR, therefore the last corresponding exon gets
-                     cropped at the start_codon_positions[0]
+                NOTE it gives exons corresponding to the 5' UTR, therefore the last corresponding exon gets
+                cropped at the start_codon_positions[0]
+
             - intervals[] – list of 5' UTR intervals
+
             - transcripts{} – dictionary: key – transcript id, value – index of the corresponding 5' UTR
+
             - exons{} – dictionary: key - 5' UTR index, value - list of tuples (exon sequence, exon interval)
+
         """
 
         # NOTE 2 5' UTR are considered to be equal only if both their seq and seq_exons are equal
+
         self.seq_exons = []
         self.intervals = []
         self.transcripts = {}
         self.exons = {}
 
-        count = 1
-
-        self.seq_exons.append(" Pyensembl error")
-        self.intervals.append(Interval(contig, 0, 0, "5' UTR", 0, "+"))  # dummy score
-        self.exons[0] = []
+        count = 0
 
         if strand is None:
             for transcript in data.transcripts(contig, '+'):
