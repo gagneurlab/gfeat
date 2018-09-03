@@ -88,19 +88,24 @@ Upstream AUG:
 * UpstreamAUG.predict_on_batch(seq_list)
     Predict on batch
 
-5'UTR sequence:
+5'UTR class:
 
-* List of all 5'UTR sequences, their positions, exons, positions of exons and corresponding transcripts
+* FivePrimeUTRSeq(data, reverse_complement_bool, contig=None, strand=None)
+    An object contains list of all 5'UTR sequences, their positions, exons, positions of exons and corresponding transcripts
 
 Auxiliary functions:
 
-* Mutate sequence
+* VCFMutator.mutate_sequence(interval, fasta=None, seq_whole=None)
+    Mutate sequence
 
-* Mutate codon context
+* VCFMutator.mutate_codon_context(intervals, seqs, column_names)
+    Mutate codon context
 
-* Reverse complement
+* reverse_complement(dna)
+    Reverse complement
 
-* Pca with scaling
+* PCA_with_scaling(df, n_comp=2)
+    Pca with scaling
 
 Credits
 ---------

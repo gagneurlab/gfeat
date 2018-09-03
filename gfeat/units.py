@@ -1,7 +1,7 @@
 from cyvcf2 import VCF
 from collections import OrderedDict
 from itertools import combinations
-from gfeat.utils import reverse_complement
+# from gfeat.utils import reverse_complement
 import pandas as pd
 
 
@@ -39,7 +39,7 @@ class VCFMutator:
 
         :return: depends on what was the constructor's input.
 
-            case1: list with one tupe in it [(seq,)]
+            case1: list with one tupel in it [(seq,)]
 
             case2: list of tuples [(DNA string, tuple with variants positions, tuple with reference values,
             tuple with alternative values), ...] and the number of all mutations withing the interval

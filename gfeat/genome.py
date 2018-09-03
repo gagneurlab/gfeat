@@ -1,8 +1,8 @@
 import pyensembl
 from pyensembl.common import dump_pickle
-from gfeat.transcript import GFTranscript
-from gfeat.utils import PCA_with_scaling, reverse_complement
-from gfeat.units import VCFMutator
+# from gfeat.transcript import GFTranscript
+# from gfeat.utils import PCA_with_scaling, reverse_complement
+# from gfeat.units import VCFMutator
 import pandas as pd
 from pybedtools import Interval
 
