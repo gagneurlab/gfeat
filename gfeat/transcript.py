@@ -39,18 +39,10 @@ class GFTranscript(pyensembl.Transcript):
             genome
         )
 
-    def CDS(self):
-        """
-        TODO DELETE?
-        :return:
-        """
-        # The CDS includes the start and stop codon
-        sequence = self.sequence.replace(self.five_prime_utr_sequence, "").replace(self.three_prime_utr_sequence, "")
-        return sequence
-
     def codon_counts(self):
         """
         Calculate how many codons the coding sequence has
+
         :return: the number of codons constituting the coding sequence
         """
         # Removing 5' UTR and 3' UTR sequences
@@ -60,7 +52,10 @@ class GFTranscript(pyensembl.Transcript):
     def utr3_motif_counts(self, pattern):
         """
         Calculate how many times a given motif is presented in the 3' UTR sequence
-        :param pattern: string, motif to be found in the 3' UTR sequence
+
+        :param pattern: motif to be found in the 3' UTR sequence
+        :type pattern: str
+
         :return: int, how many times a given motif is presented in the 3' UTR sequence
         """
         return len(re.findall(pattern.upper(), self.three_prime_utr_sequence.upper()))
@@ -68,7 +63,10 @@ class GFTranscript(pyensembl.Transcript):
     def utr5_motif_counts(self, pattern):
         """
         Calculate how many times a given motif is presented in the 5' UTR sequence
-        :param pattern: string, motif to be found in the 5' UTR sequence
+
+        :param pattern: motif to be found in the 5' UTR sequence
+        :type pattern: str
+
         :return: int, how many times a given motif is presented in the 5' UTR sequence
         """
         return len(re.findall(pattern.upper(), self.five_prime_utr_sequence.upper()))
@@ -76,8 +74,12 @@ class GFTranscript(pyensembl.Transcript):
     def codon_usage(self):
         """
         Calculate the frequency of all codons in the transcript
-        :return: pandas.DataFrame, column names – 61 codons (all possible codons except for 3 stop codons),
-                                    rows – log2 of the corresponding codon frequency
+
+        :return: pandas.DataFrame,
+
+                column names – 61 codons (all possible codons except for 3 stop codons),
+
+                rows – log2 of the corresponding codon frequency
         """
         nucleobases = ['A', 'C', 'G', "T"]
         combs = [''.join(comb) for comb in product(*([nucleobases] * 3))]
@@ -103,7 +105,10 @@ class GFTranscript(pyensembl.Transcript):
     def gc_content(self, region):
         """
         Calculate the percentage of Cs and Gs in the specified region divided by 100
-        :param region: int, 0 – coding sequence, 1 – 5'UTR sequence, 2 – 3'UTR sequence
+
+        :param region: 0 – coding sequence, 1 – 5'UTR sequence, 2 – 3'UTR sequence
+        :type region: int
+
         :return: float, percentage of Cs and Gs in the specified region divided by 100
         """
         if region == 0:
@@ -122,6 +127,7 @@ class GFTranscript(pyensembl.Transcript):
     def get_Kozak_seq(self):
         """
         Get the Kozak sequence for this transcript (6 elements upstream, start codon and 6 elements downstream)
+
         :return: str, Kozak sequence
         """
         utr5_seq = self.five_prime_utr_sequence.upper()
@@ -136,9 +142,14 @@ class GFTranscript(pyensembl.Transcript):
     def get_line_Kozak_matrix(self):
         """
         Get a line of Kozak matrix for this transcript (6 elements upstream, start codon and 6 elements downstream)
-        :return: pandas.DataFrame, column names – first number corresponds to the base position in the Kozak sequence,
-                                                    e.g. 0A means base A 5 bases upstream from the start codon
-                                    rows – 1 if it has the corresponding base, 0 otherwise
+
+        :return: pandas.DataFrame,
+
+                column names – first number corresponds to the base position in the Kozak sequence,
+                e.g. 0A means base A 5 bases upstream from the start codon
+
+                rows – 1 if it has the corresponding base,0 otherwise
+
         """
         dict_Kozak = {"0A": [0], "0C": [0], "0G": [0], "0T": [0],
                       "1A": [0], "1C": [0], "1G": [0], "1T": [0],
@@ -172,6 +183,7 @@ class GFTranscript(pyensembl.Transcript):
     def get_stop_codon_context(self):
         """
         Get the stop codon context  sequence for this transcript (6 elements upstream, start codon and 6 elements downstream)
+
         :return: str, stop codon context  sequence
         """
 
@@ -185,11 +197,14 @@ class GFTranscript(pyensembl.Transcript):
     def get_line_stop_codon_context_matrix(self):
         """
         Get a line of stop codon context matrix for this transcript (6 elements upstream, start codon and 6 elements
-         downstream)
-        :return: pandas.DataFrame, column names – first number corresponds to the base position in the stop codon context
-                                                  sequence,
-                                                    e.g. 0A means base A 5 bases upstream from the start codon
-                                    rows – 1 if it has the corresponding base, 0 otherwise
+        downstream)
+
+        :return: pandas.DataFrame,
+
+                column names – first number corresponds to the base position in the stop codon context sequence,
+                e.g. 0A means base A 5 bases upstream from the start codon
+
+                rows – 1 if it has the corresponding base, 0 otherwise
         """
         dict_stop_codon_context = {"0A": [0], "0C": [0], "0G": [0], "0T": [0],
                       "1A": [0], "1C": [0], "1G": [0], "1T": [0],
@@ -223,10 +238,12 @@ class GFTranscript(pyensembl.Transcript):
     def get_codon_pairs_frequency(self):
         """
         Calculate the frequency of 2 codons being present together in the transcript coding sequence
-        :return: pandas.DataFrame, column names – a pair of codons
-                                                    e.g. AAACAA
-                                    rows – the frequency of the corresponding 2 codons being present together in the
-                                           transcript coding sequence
+
+        :return: pandas.DataFrame,
+
+                column names – a pair of codons, e.g. AAACAA
+
+                rows – the frequency of the corresponding 2 codons being present together in the transcript coding sequence
         """
         nucleobases = ['A', 'C', 'G', "T"]
         combs = [''.join(comb) for comb in product(*([nucleobases] * 6))]
@@ -235,7 +252,8 @@ class GFTranscript(pyensembl.Transcript):
 
         for comb in iter_combs:
             if comb.startswith("ATG") or comb.startswith("TAA") or comb.startswith("TAG") or comb.startswith("TGA") \
-                or comb.endswith("ATG") or comb.endswith("TAA") or comb.endswith("TAG") or comb.endswith("TGA"):
+                                    or comb.endswith("ATG") or comb.endswith("TAA") or comb.endswith("TAG") \
+                                    or comb.endswith("TGA"):
                 combs.remove(comb)
 
         df_codon_pairs_count = pd.DataFrame(np.full((1, 3600), 0, dtype=int), columns=combs)
@@ -248,11 +266,3 @@ class GFTranscript(pyensembl.Transcript):
         df_codon_pairs_count = (df_codon_pairs_count + 1) / len(self.coding_sequence)
 
         return df_codon_pairs_count
-
-    def get_nucleobase_mutation_table(self):
-        """
-        Todo
-        :return:
-        """
-        max_transcript_length = 11000
-        nucleobase_mutation_table = pd.DataFrame(pd.np.empty((1, max_transcript_length)) * pd.np.nan)

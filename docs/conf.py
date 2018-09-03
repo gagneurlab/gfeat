@@ -56,7 +56,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'gfeat'
-copyright = u"2017, Ziga Avsec, Jun Cheng, Veronika Kotova"
+copyright = u"2017, Ziga Avsec, Veronika Kotova"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -210,7 +210,7 @@ latex_elements = {
 latex_documents = [
     ('index', 'gfeat.tex',
      u'gfeat Documentation',
-     u'Ziga Avsec, Jun Cheng, Veronika Kotova', 'manual'),
+     u'Ziga Avsec, Veronika Kotova', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at
@@ -241,7 +241,7 @@ latex_documents = [
 man_pages = [
     ('index', 'gfeat',
      u'gfeat Documentation',
-     [u'Ziga Avsec, Jun Cheng, Veronika Kotova'], 1)
+     [u'Ziga Avsec, Veronika Kotova'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -256,7 +256,7 @@ man_pages = [
 texinfo_documents = [
     ('index', 'gfeat',
      u'gfeat Documentation',
-     u'Ziga Avsec, Jun Cheng, Veronika Kotova',
+     u'Ziga Avsec, Veronika Kotova',
      'gfeat',
      'One line description of project.',
      'Miscellaneous'),

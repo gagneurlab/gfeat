@@ -14,7 +14,7 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
     """
     1 possible model built using gfeat
     Looks for creation and deletion of AUGs which are located upstream from the corresponding canonical start.
-    Writes down to the file "mutated.csv" geneId, position of an AUG loss/creation, transcriptID,
+    Writes down to the file "mutated.csv" geneId, position of an AUG loss/creation, transcript_id,
     AUGType (in-frame_no_uORF, in-frame_uORF, not_in-frame_no_uORF, not_in-frame_uORF),
     alternative value of the nucleobase, chromosome, reference value of the nucleobase, sampleID
     :param vcf: string, path to the vcf.gz
@@ -23,11 +23,11 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
     :param ensembl_version:, int, Ensembl version
            MIN_ENSEMBL_RELEASE = 54
            MAX_ENSEMBL_RELEASE = 85
-    :param gtf: string, path to the gtf file, as an alternative to the Ensembl version, user gtf and Fasta files
+    :param gtf: string, path to the gtf file; as an alternative to the Ensembl version, user gtf and Fasta files
                 can be provided
-    :param fasta: string, path to the Fasta file, string, as an alternative to the Ensembl version, user gtf
+    :param fasta: string, path to the Fasta file, string; as an alternative to the Ensembl version, user gtf
                   and Fasta files can be provided
-    :return pd.DataFrame with 6 columns: geneId, position, transcriptID, AUGType, alt, chr, ref, sampleID
+    :return pd.DataFrame with 9 columns: gene_id, position, transcript_id, AUGType, alt, chr, ref, sampleID and Creation
     """
     model = UpstreamAUG(True, True)
 
@@ -43,22 +43,22 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
     contigs = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
                '20', '21', '22', 'X', 'Y']
 
+    # temporarily adding fields to the csv file in order to suppress the output and speed up the program
     vcf_fields = ["G5", "GENEINFO", "GMAF", "GNO", "KGPilot123", "RSPOS", "SAO", "SLO", "SSR", "VC", "VLD", "WGT",
                   "dbSNPBuildID", "HD", "PH2", "G5A", "PM", "PMC", "ASP", "RV", "S3D", "GCF", "CLN", "LSD", "NOV",
                   "OM", "CFL", "NOV", "TPA", "MTP"]
-
     vcf_file = VCF(vcf)
     for field in vcf_fields:
         vcf_file.add_info_to_header({"ID": field, "Number": 1, "Type": "String", "Description": "dummy"})
 
-    mutated_dictionary = {'Gene': [], 'Transcript': [], 'Type': [], 'Position': [], 'ref': [],
+    mutated_dictionary = {'gene_id': [], 'transcript_id': [], 'Type': [], 'Position': [], 'ref': [],
                               'alt': [], 'chr': [], 'Sample': [], 'Creation': []}
 
     for contig in contigs:
 
         ds = FivePrimeUTRSeq(data, False, contig, '+')
 
-        dictionary = {'Gene': [], 'Transcript': [], 'not_in-frame_no_uORF': [], 'not_in-frame_uORF': [],
+        dictionary = {'gene_id': [], 'transcript_id': [], 'not_in-frame_no_uORF': [], 'not_in-frame_uORF': [],
                       'in-frame_no_uORF': [], 'in-frame_uORF': []}
         sum_dictionary = {'Contig': [contig], 'Total_transcript_num': [len(ds) - 2], 'Mutated_transcript_num': [0],
                           'not_in-frame_no_uORF_num': [0],
@@ -66,7 +66,7 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
 
         list_many_mut = []
 
-        for i in range(2, len(ds)):  # ds[0] reserved for " Pyensembl error"
+        for i in range(1, len(ds)):
             sample = ds[i]
             ref_seq = ""
             if (list(sample.keys())[0] != "transcripts") and (list(sample.keys())[0] != "exons"):
@@ -119,7 +119,7 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
                     indexes[0] = indexes[0] + 1
                     counter = counter + 1
 
-                dictionary["Transcript"].append(sample["transcripts"])
+                dictionary["transcript_id"].append(sample["transcripts"])
                 genes = []
                 temp = ''
                 for transcript in sample["transcripts"]:
@@ -127,7 +127,7 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
                     if gene != temp:
                         genes.append(gene)
                         temp = gene
-                dictionary["Gene"].append(genes)
+                dictionary["gene_id"].append(genes)
 
                 if sample[ref_seq].strand == "-":
                     model.predict_on_sample_with_stop_pandas(reverse_complement(ref_seq), dictionary, '-',
@@ -144,8 +144,8 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
                     cur_1_1 = dictionary['in-frame_uORF'][len(dictionary['in-frame_uORF']) - 1]
 
                 for info in list_of_mut_seq_inf:
-                    dictionary["Transcript"].append(sample["transcripts"])
-                    dictionary["Gene"].append(genes)
+                    dictionary["transcript_id"].append(sample["transcripts"])
+                    dictionary["gene_id"].append(genes)
                     if sample[ref_seq].strand == "-":
                         model.predict_on_sample_with_stop_pandas(info['seq'], dictionary, '-', sample[ref_seq].start)
                     else:
@@ -159,8 +159,8 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
                                     sum_dictionary['not_in-frame_no_uORF_num'][
                                         0] + 1
                                     for transcript_id in sample["transcripts"]:
-                                        mutated_dictionary['Gene'].append(genes)
-                                        mutated_dictionary['Transcript'].append(transcript_id)
+                                        mutated_dictionary["gene_id"].append(genes)
+                                        mutated_dictionary['transcript_id'].append(transcript_id)
                                         mutated_dictionary['Type'].append("not_in-frame_no_uORF")
                                         mutated_dictionary['Position'].append(info['pos'][i])
                                         mutated_dictionary['ref'].append(info['ref'][i])
@@ -180,8 +180,8 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
                                     sum_dictionary['not_in-frame_uORF_num'][
                                         0] + 1
                                     for transcript_id in sample["transcripts"]:
-                                        mutated_dictionary['Gene'].append(genes)
-                                        mutated_dictionary['Transcript'].append(transcript_id)
+                                        mutated_dictionary['gene_id'].append(genes)
+                                        mutated_dictionary['transcript_id'].append(transcript_id)
                                         mutated_dictionary['Type'].append("not_in-frame_uORF")
                                         mutated_dictionary['Position'].append(info['pos'][i])
                                         mutated_dictionary['ref'].append(info['ref'][i])
@@ -200,8 +200,8 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
                                     sum_dictionary['in-frame_no_uORF_num'][0] = sum_dictionary['in-frame_no_uORF_num'][
                                                                                     0] + 1
                                     for transcript_id in sample["transcripts"]:
-                                        mutated_dictionary['Gene'].append(genes)
-                                        mutated_dictionary['Transcript'].append(transcript_id)
+                                        mutated_dictionary['gene_id'].append(genes)
+                                        mutated_dictionary['transcript_id'].append(transcript_id)
                                         mutated_dictionary['Type'].append("in-frame_no_uORF")
                                         mutated_dictionary['Position'].append(info['pos'][i])
                                         mutated_dictionary['ref'].append(info['ref'][i])
@@ -220,8 +220,8 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
                                     sum_dictionary['in-frame_uORF_num'][0] = sum_dictionary['in-frame_uORF_num'][
                                                                                  0] + 1
                                     for transcript_id in sample["transcripts"]:
-                                        mutated_dictionary['Gene'].append(genes)
-                                        mutated_dictionary['Transcript'].append(transcript_id)
+                                        mutated_dictionary['gene_id'].append(genes)
+                                        mutated_dictionary['transcript_id'].append(transcript_id)
                                         mutated_dictionary['Type'].append("in-frame_uORF")
                                         mutated_dictionary['Position'].append(info['pos'][i])
                                         mutated_dictionary['ref'].append(info['ref'][i])
@@ -237,14 +237,14 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
 
         ds = FivePrimeUTRSeq(data, False, contig, '-')
 
-        dictionary = {'Gene': [], 'Transcript': [], 'not_in-frame_no_uORF': [], 'not_in-frame_uORF': [],
+        dictionary = {'gene_id': [], 'transcript_id': [], 'not_in-frame_no_uORF': [], 'not_in-frame_uORF': [],
                       'in-frame_no_uORF': [], 'in-frame_uORF': []}
 
         sum_dictionary['Total_transcript_num'][0] = sum_dictionary['Total_transcript_num'][0] + len(ds) - 2
 
         list_many_mut = []
 
-        for i in range(2, len(ds)):  # ds[1]
+        for i in range(1, len(ds)):
             sample = ds[i]
             ref_seq = ""
             if (list(sample.keys())[0] != "transcripts") and (list(sample.keys())[0] != "exons"):
@@ -297,7 +297,7 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
                     indexes[0] = indexes[0] + 1
                     counter = counter + 1
 
-                dictionary["Transcript"].append(sample["transcripts"])
+                dictionary["transcript_id"].append(sample["transcripts"])
                 genes = []
                 temp = ''
                 for transcript in sample["transcripts"]:
@@ -305,7 +305,7 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
                     if gene != temp:
                         genes.append(gene)
                         temp = gene
-                dictionary["Gene"].append(genes)
+                dictionary["gene_id"].append(genes)
 
                 if sample[ref_seq].strand == "-":
                     model.predict_on_sample_with_stop_pandas(reverse_complement(ref_seq), dictionary, '-',
@@ -322,8 +322,8 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
                     cur_1_1 = dictionary['in-frame_uORF'][len(dictionary['in-frame_uORF']) - 1]
 
                 for info in list_of_mut_seq_inf:
-                    dictionary["Transcript"].append(sample["transcripts"])
-                    dictionary["Gene"].append(genes)
+                    dictionary["transcript_id"].append(sample["transcripts"])
+                    dictionary["gene_id"].append(genes)
                     if sample[ref_seq].strand == "-":
                         model.predict_on_sample_with_stop_pandas(info['seq'], dictionary, '-', sample[ref_seq].start)
                     else:
@@ -337,8 +337,8 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
                                     sum_dictionary['not_in-frame_no_uORF_num'][
                                         0] + 1
                                     for transcript_id in sample["transcripts"]:
-                                        mutated_dictionary['Gene'].append(genes)
-                                        mutated_dictionary['Transcript'].append(transcript_id)
+                                        mutated_dictionary['gene_id'].append(genes)
+                                        mutated_dictionary['transcript_id'].append(transcript_id)
                                         mutated_dictionary['Type'].append("not_in-frame_no_uORF")
                                         mutated_dictionary['Position'].append(info['pos'][i])
                                         mutated_dictionary['ref'].append(info['ref'][i])
@@ -358,8 +358,8 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
                                     sum_dictionary['not_in-frame_uORF_num'][
                                         0] + 1
                                     for transcript_id in sample["transcripts"]:
-                                        mutated_dictionary['Gene'].append(genes)
-                                        mutated_dictionary['Transcript'].append(transcript_id)
+                                        mutated_dictionary['gene_id'].append(genes)
+                                        mutated_dictionary['transcript_id'].append(transcript_id)
                                         mutated_dictionary['Type'].append("not_in-frame_uORF")
                                         mutated_dictionary['Position'].append(info['pos'][i])
                                         mutated_dictionary['ref'].append(info['ref'][i])
@@ -378,8 +378,8 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
                                     sum_dictionary['in-frame_no_uORF_num'][0] = sum_dictionary['in-frame_no_uORF_num'][
                                                                                     0] + 1
                                     for transcript_id in sample["transcripts"]:
-                                        mutated_dictionary['Gene'].append(genes)
-                                        mutated_dictionary['Transcript'].append(transcript_id)
+                                        mutated_dictionary['gene_id'].append(genes)
+                                        mutated_dictionary['transcript_id'].append(transcript_id)
                                         mutated_dictionary['Type'].append("in-frame_no_uORF")
                                         mutated_dictionary['Position'].append(info['pos'][i])
                                         mutated_dictionary['ref'].append(info['ref'][i])
@@ -398,8 +398,8 @@ def score_utrs(vcf, save_to, sample_id, ensembl_version=None, gtf=None, fasta=No
                                     sum_dictionary['in-frame_uORF_num'][0] = sum_dictionary['in-frame_uORF_num'][
                                                                                  0] + 1
                                     for transcript_id in sample["transcripts"]:
-                                        mutated_dictionary['Gene'].append(genes)
-                                        mutated_dictionary['Transcript'].append(transcript_id)
+                                        mutated_dictionary['gene_id'].append(genes)
+                                        mutated_dictionary['transcript_id'].append(transcript_id)
                                         mutated_dictionary['Type'].append("in-frame_uORF")
                                         mutated_dictionary['Position'].append(info['pos'][i])
                                         mutated_dictionary['ref'].append(info['ref'][i])

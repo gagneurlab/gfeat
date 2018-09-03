@@ -6,10 +6,10 @@ import numpy as np
 class UpstreamAUG:
     def __init__(self, allow_ORF=True, verbose_output=False):
         """
-        constructor
+        Constructor
+
         :param allow_ORF: bool, True by default, whether to check uORFs
-        :param verbose_output: bool, False by default, whether to return dictionaries in predict_on_sample() and
-                                predict_on_batch() methods or not
+        :param verbose_output: bool, False by default, whether to return dictionaries in predict_on_sample() and predict_on_batch() methods or not
         """
         self.allow_ORF = allow_ORF
         self.verbose_output = verbose_output
@@ -17,16 +17,27 @@ class UpstreamAUG:
 
     def predict_on_sample(self, seq):
         """
+        Predict_on_sample
+
         :param seq: string, 5'UTR's sequence
+
         :return: if verbose_output: dictionary:
-                     first entry – 1 or 0 depending whether the uAUG is in-frame or not
-                     second – 1 or 0 depending whether it corresponds to a uORF or not
-                 else: NumPy array of 1 and 0 depending whether the uAUG is in-frame or not
-        example: if the input 5'UTR has 5 AUG, then
-                    {
-                    "frame": [1, 1, 0, 0, 1],
-                    "uORF": [1, 1, 1, 0, 0]
-                    }
+
+                first entry – 1 or 0 depending whether the uAUG is in-frame or not
+
+                second – 1 or 0 depending whether it corresponds to a uORF or not
+
+            else: NumPy array of 1 and 0 depending whether the uAUG is in-frame or not
+
+        :example: if the input 5'UTR has 5 AUG, then
+
+            {
+
+                "frame": [1, 1, 0, 0, 1],
+
+                "uORF": [1, 1, 1, 0, 0]
+
+            }
         """
 
         if self.allow_ORF:
@@ -71,18 +82,30 @@ class UpstreamAUG:
     def predict_on_sample_with_pos(self, seq):
         """
         In comparison to predict_on_sample(), additionally returns the positions of AUGs
+
         :param seq: string utr's sequence
-        :return: if verbose_output: dictionary:
-                     first entry – 1 or 0 depending whether the uAUG is in-frame or not
-                     second – 1 or 0 depending whether it corresponds to a uORF or not
-                     third - pos of the ATG
-                 else: NumPy array of 1 and 0 depending whether the uAUG is in-frame or not
+
+        :return: if verbose_output: dictionary
+
+                first entry – 1 or 0 depending whether the uAUG is in-frame or not
+
+                second – 1 or 0 depending whether it corresponds to a uORF or not
+
+                third - pos of the ATG
+
+            else: NumPy array of 1 and 0 depending whether the uAUG is in-frame or not
+
         :example: if the input 5'UTR has 5 AUG, then
-                    {
-                    "frame": [1, 1, 0, 0, 1],
-                    "uORF": [1, 1, 1, 0, 0],
-                    "pos": [38, 190, 438, 769, 981]
-                    }
+
+            {
+
+                "frame": [1, 1, 0, 0, 1],
+
+                "uORF": [1, 1, 1, 0, 0],
+
+                "pos": [38, 190, 438, 769, 981]
+
+            }
         """
 
         if self.allow_ORF:
@@ -124,11 +147,11 @@ class UpstreamAUG:
                 return np.array(ATG_frame)
 
         else:
-            pass  # Todo what should it do in this case?
+            pass
 
     def predict_on_sample_with_pos_pandas(self, seq, result_dict, strand, start=None):
         """
-        In comparison to predict_on_sample(), additionally returns as positions of AUGs and outputs everything to the
+        In comparison to predict_on_sample(), additionally returns as positions of AUGs and outputs everything to the \
         passed to it dictionary
 
         :param seq: string utr's sequence
@@ -203,14 +226,14 @@ class UpstreamAUG:
                                 ORF = 0 in TGA_frame
                         if ORF:
                             if (len(seq) - ATG.start()) % 3:
-                                list_01.append(start + (len(seq) - ATG.start()) - 1) # CHECK IT!!!!!
+                                list_01.append(start + (len(seq) - ATG.start()) - 1)
                             else:
-                                list_11.append(start + (len(seq) - ATG.start()) - 1) # CHECK IT!!!!!
+                                list_11.append(start + (len(seq) - ATG.start()) - 1)
                         else:
                             if (len(seq) - ATG.start()) % 3:
-                                list_00.append(start + (len(seq) - ATG.start()) - 1) # CHECK IT!!!!!
+                                list_00.append(start + (len(seq) - ATG.start()) - 1)
                             else:
-                                list_10.append(start + (len(seq) - ATG.start()) - 1) # CHECK IT!!!!!
+                                list_10.append(start + (len(seq) - ATG.start()) - 1)
 
                     result_dict["not_in-frame_no_uORF"].append(np.array(list_00))
                     result_dict["not_in-frame_uORF"].append(np.array(list_01))
@@ -230,11 +253,11 @@ class UpstreamAUG:
 
     def predict_on_sample_with_stop_pandas(self, seq, result_dict, strand, start=None):
         """
-        In comparison to predict_on_sample(), additionally returns as positions of AUGs and outputs everything to the
+        In comparison to predict_on_sample(), additionally returns as positions of AUGs and outputs everything to the \
         passed to it dictionary
 
         :param seq: string utr's sequence
-        :param result_dict: dictionary with 4 mandatory keys "not_in-frame_no_uORF", "not_in-frame_uORF",
+        :param result_dict: dictionary with 4 mandatory keys "not_in-frame_no_uORF", "not_in-frame_uORF", \
                             "in-frame_no_uORF", "in-frame_uORF", where to append the found values
         :param start: integer, position relatively to the whole genome (in contrast to position relative to the exon)
 
@@ -350,11 +373,15 @@ class UpstreamAUG:
 
     def predict_on_batch(self, seq_list):
         """
+        Predict on batch
         :param seq_list: list of string utr's sequences
-        :return: if verbose_output: NumPy array of dictionaries:
-                    first entry – 1 or 0 depending whether the uAUG is in-frame or not
-                    second – 1 or 0 depending whether it corresponds to a uORF or not
-                 else: NumPy array of 1 and 0 whether the uAUG is in-frame or not
+        :return: if verbose_output: NumPy array of dictionaries
+
+            first entry – 1 or 0 depending whether the uAUG is in-frame or not
+
+            second – 1 or 0 depending whether it corresponds to a uORF or not
+
+        else: NumPy array of 1 and 0 whether the uAUG is in-frame or not
         """
 
         if self.allow_ORF:

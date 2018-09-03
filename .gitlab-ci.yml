@@ -9,8 +9,8 @@ before_script:
   - conda install -y numpy pandas scipy pytest h5py bcolz
   - conda install -c bioconda pybedtools bedtools htslib cyvcf2
   # dl toolkit
-  - pip install tensorflow
-  - pip install keras
+#  - pip install tensorflow
+#  - pip install keras
   # cython in case we need it
   - pip install cython
   - pip install 'pyensembl==1.1.0'

@@ -8,20 +8,23 @@ from pybedtools import Interval
 
 
 class GFGenome(pyensembl.Genome):
+    """
+    GFGenome class
+    """
 
     def __init__(
-                self,
-                reference_name: object = None,
-                annotation_name: object = None,
-                annotation_version: object = None,
-                gtf_path_or_url: object = None,
-                transcript_fasta_paths_or_urls: object = None,
-                protein_fasta_paths_or_urls: object = None,
-                decompress_on_download: object = False,
-                copy_local_files_to_cache: object = False,
-                require_ensembl_ids: object = True,
-                cache_directory_path: object = None,
-                copy_genome=None):
+        self,
+        reference_name: object = None,
+        annotation_name: object = None,
+        annotation_version: object = None,
+        gtf_path_or_url: object = None,
+        transcript_fasta_paths_or_urls: object = None,
+        protein_fasta_paths_or_urls: object = None,
+        decompress_on_download: object = False,
+        copy_local_files_to_cache: object = False,
+        require_ensembl_ids: object = True,
+        cache_directory_path: object = None,
+        copy_genome=None):
 
         if copy_genome is not None:
             reference_name = copy_genome.reference_name
@@ -63,11 +66,13 @@ class GFGenome(pyensembl.Genome):
 
     def transcripts(self, contig=None, strand=None):
         """
-        Todo
-        Construct Transcript object for every transcript entry in
-        the database. Optionally restrict to a particular
-        chromosome using the `contig` argument.
+        Get GFTranscript objects. Optionally restrict to a particular chromosome and strand
+
+        :param contig: optional, chromosome transcripts for which are required
+        :param strand: optional, chromosome strand transcripts for which are required
+        :return: list of transcripts
         """
+
         transcript_ids = self.transcript_ids(contig=contig, strand=strand)
         return [
             GFTranscript(copy_transcript=self.transcript_by_id(transcript_id))
@@ -76,12 +81,17 @@ class GFGenome(pyensembl.Genome):
 
     def get_consensus_Kozak_seq(self, seq=False):
         """
-        Get the consensus Kozak sequence (Kozak sequence which is present more times than the other for this being)
-        :param seq: bool, True – to return the letter representation of the sequence
-                          False – to return the digit representation of the sequence: 0 – A, 1 – C, 2 – G, 3 – T
+        Get the consensus Kozak sequence (Kozak sequence which is present more times than all other for this being)
+
+        :param seq: True – to return the letter representation of the sequence
+
+            False – to return the digit representation of the sequence: 0 – A, 1 – C, 2 – G, 3 – T
+
+        :type seq: bool
         :return: string, consensus Kozak sequence constituting of either digits or letters depending on the specified
-                         seq parameter
+		seq parameter
         """
+
         nucleobase_count = {"0A": [0], "0C": [0], "0G": [0], "0T": [0],
                             "1A": [0], "1C": [0], "1G": [0], "1T": [0],
                             "2A": [0], "2C": [0], "2G": [0], "2T": [0],
@@ -137,12 +147,18 @@ class GFGenome(pyensembl.Genome):
     def get_Kozak_matrix(self):
         """
         Get Kozak matrix with all transcripts for this being. Consensus columns are removed
-        :return: pandas.DataFrame, column names – first number corresponds to the base position in the Kozak sequence,
-                                                    e.g. 0A means base A 5 bases upstream from the start codon
-                                                  NOTE: columns corresponding to the most frequent bases at each
-                                                        position are removed
-                                    rows – 1 if it has the corresponding base, 0 otherwise
+
+        :return: pandas.DataFrame,
+
+                column names – first number corresponds to the base position in the Kozak sequence,
+                e.g. 0A means base A 5 bases upstream from the start codon
+
+                rows – 1 if it has the corresponding base, 0 otherwise
+
+        NOTE: columns corresponding to the most frequent bases at each position are removed
+
         """
+
         lines = []
         for contig in self.contigs():
             for transcript in self.transcripts(contig, '+'):
@@ -165,12 +181,16 @@ class GFGenome(pyensembl.Genome):
     def get_consensus_stop_codon_context(self, seq=False):
         """
         Get the consensus stop codon context sequence (stop codon context sequence which is present more times than
-        the other for this being)
-        :param seq: bool, True – to return the letter representation of the sequence
+        all other for this being)
+
+        :param seq: True – to return the letter representation of the sequence
+
                           False – to return the digit representation of the sequence: 0 – A, 1 – C, 2 – G, 3 – T
+        :type seq: bool
         :return: string, consensus stop codon context sequence constituting of either digits or letters
-                         depending on the specified seq parameter
+		depending on the specified seq parameter
         """
+
         nucleobase_count = {"0A": [0], "0C": [0], "0G": [0], "0T": [0],
                             "1A": [0], "1C": [0], "1G": [0], "1T": [0],
                             "2A": [0], "2C": [0], "2G": [0], "2T": [0],
@@ -226,13 +246,17 @@ class GFGenome(pyensembl.Genome):
     def get_stop_codon_context_matrix(self):
         """
         Get stop codon context matrix with all transcripts for this being. Consensus columns are removed
-        :return: pandas.DataFrame, column names – first number corresponds to the base position in the stop codon
-                                                  context sequence,
-                                                    e.g. 0A means base A 5 bases upstream from the start codon
-                                                  NOTE: columns corresponding to the most frequent bases at each
-                                                        position are removed
-                                    rows – 1 if it has the corresponding base, 0 otherwise
+
+        :return: pandas.DataFrame,
+
+                column names – first number corresponds to the base position in the stop codon
+                context sequence, e.g. 0A means base A 5 bases upstream from the start codon
+
+                rows – 1 if it has the corresponding base, 0 otherwise
+
+        NOTE: columns corresponding to the most frequent bases at each position are removed
         """
+
         lines = []
         for contig in self.contigs():
             for transcript in self.transcripts(contig, '+'):
@@ -255,8 +279,10 @@ class GFGenome(pyensembl.Genome):
     def get_codon_pair_bias(self):
         """
         Get truncated PCA of the codon frequency matrix with 2 principal components
+
         :return: pandas.DataFrame, truncated PCA of the codon frequency matrix with 2 principal components
         """
+
         lines = []
 
         for contig in self.contigs():
@@ -273,10 +299,18 @@ class GFGenome(pyensembl.Genome):
 
     def get_nucleobase_mutation_table(self, vcf):
         """
-        Todo
-        :param vcf:
-        :return:
+        Get a table which shows whether a certain nucleobase in Kozak sequence or stop codon context was mutated or not.
+
+        :param vcf: path to the vcf.gz or file opened using cyvcf2
+        :type vcf: string or an "opened" file
+        :return: pd.DataFrame,
+
+                column names – K_i – where i shows position in Kozak sequence;
+                S_i – where i shows position in stop codon context; gene_id; transctipt_id
+
+                rows – NaN – no variant, 1 – heterozygous variant, 2 – homozygous variant
         """
+
         # only for Kozak sequence and stop codon context + transcript_id column
         columns = ["K_0", "K_1", "K_2", "K_3", "K_4", "K_5", "K_6", "K_7", "K_8", "K_9", "K_10", "K_11", "K_12", "K_13",
                    "K_14",
@@ -306,7 +340,7 @@ class GFGenome(pyensembl.Genome):
                         new_columns = []
                         for column in df_nucleobases_line:
                             if column.find("K_") != -1:
-                                new_columns.append("K_"+str(int(column[2:]) + (15-len(Kozak_seq))))
+                                new_columns.append("K_" + str(int(column[2:]) + (15 - len(Kozak_seq))))
                             else:
                                 new_columns.append(column)
                         df_nucleobases_line.columns = new_columns
@@ -314,7 +348,6 @@ class GFGenome(pyensembl.Genome):
                     df_nucleobases_line["transctipt_id"] = transcript.id
                     df_nucleobases_line["gene_id"] = transcript.gene_id
                     nucleobases_lines.append(df_nucleobases_line)
-            print("contig "+ contig + " + strand is over")
             for transcript in self.transcripts(contig, '-'):
                 if transcript.contains_stop_codon and transcript.contains_start_codon:
                     Kozak_seq = reverse_complement(transcript.get_Kozak_seq())
@@ -329,7 +362,7 @@ class GFGenome(pyensembl.Genome):
                         new_columns = []
                         for column in df_nucleobases_line:
                             if column.find("K_") != -1:
-                                new_columns.append("K_"+str(int(column[2:]) + (15-len(Kozak_seq))))
+                                new_columns.append("K_" + str(int(column[2:]) + (15 - len(Kozak_seq))))
                             else:
                                 new_columns.append(column)
                         df_nucleobases_line.columns = new_columns
@@ -338,7 +371,6 @@ class GFGenome(pyensembl.Genome):
                     df_nucleobases_line["gene_id"] = transcript.gene_id
                     nucleobases_lines.append(df_nucleobases_line)
 
-            print("contig " + contig + " - strand is over")
             df_nucleobases = pd.concat(nucleobases_lines, ignore_index=True)
             df_nucleobases = df_nucleobases.drop(['name'], axis=1)
         return df_nucleobases
