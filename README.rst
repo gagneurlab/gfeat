@@ -22,7 +22,7 @@ Genomic feature extractors from raw files (Fasta, GTF and VCF).
 
 
 * Free software: MIT license
-* Documentation: https://gfeat.readthedocs.io.
+* Documentation: https://i12g-gagneurweb.in.tum.de/public/docs/gfeat
 
 
 Features
