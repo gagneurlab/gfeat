@@ -69,8 +69,10 @@ class GFGenome(pyensembl.Genome):
         Get GFTranscript objects. Optionally restrict to a particular chromosome and strand
 
         :param contig: optional, chromosome transcripts for which are required
+        :type contig: int
         :param strand: optional, chromosome strand transcripts for which are required
-        :return: list of transcripts
+        :type strand: str
+        :return: list of gfeat.transcript.GFTranscript
         """
 
         transcript_ids = self.transcript_ids(contig=contig, strand=strand)
@@ -78,6 +80,40 @@ class GFGenome(pyensembl.Genome):
             GFTranscript(copy_transcript=self.transcript_by_id(transcript_id))
             for transcript_id in transcript_ids
         ]
+
+    def transcripts_by_name(self, transcript_name):
+        """
+        Get GFTranscript objects by the specified transcript name
+
+        :param transcript_name: name of the transcripts
+        :type transcript_name: str
+        :return: gfeat.transcript.GFTranscript object
+        """
+        transcripts = self.transcripts_by_name(transcript_name)
+        return [
+            GFTranscript(copy_transcript=self.transcript_by_id(transcript))
+            for transcript in transcripts
+        ]
+
+    def transcript_by_protein_id(self, protein_id):
+        """
+        Get GFTranscript objects by the specified protein id
+
+        :param protein_id: protein id transcript for which is required
+        :type protein_id: str
+        :return: gfeat.transcript.GFTranscript object
+        """
+        return GFTranscript(copy_transcript=self.transcript_by_id(protein_id))
+
+    def gftranscript_by_id(self, transcript_id):
+        """
+        Get GFTranscript object by the transcript id
+
+        :param transcript_id: id of the transcript
+        :type transcript_id: str
+        :return: gfeat.transcript.GFTranscript object
+        """
+        return GFTranscript(copy_transcript=self.transcript_by_id(transcript_id))
 
     def get_consensus_Kozak_seq(self, seq=False):
         """

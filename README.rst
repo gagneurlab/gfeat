@@ -110,8 +110,9 @@ Auxiliary functions:
 Credits
 ---------
 
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
+This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template. gfeat is based
+on pyensembl_ package and can be partially viewed as its extension.
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
-
+.. _pyensembl: https://github.com/openvax/pyensembl

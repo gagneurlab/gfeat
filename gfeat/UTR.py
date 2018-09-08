@@ -10,7 +10,7 @@ class FivePrimeUTRSeq:
     FivePrimeUTRSeq class
     """
 
-    def __init__(self, data, reverse_complement_bool, contig=None, strand=None):
+    def __init__(self, data, reverse_complement_bool=False, contig=None, strand=None):
         """
         Constructor
 
