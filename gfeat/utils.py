@@ -17,7 +17,7 @@ def reverse_complement(dna):
     return ''.join([complement[base] for base in dna[::-1]])
 
 
-def PCA_with_scaling(df, n_comp=2):
+def PCA_with_standard_sample_deviation_scaling(df, n_comp=2):
     """
     PCA with scaling. Scaling is done using sample standard deviation
 

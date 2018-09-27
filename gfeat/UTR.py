@@ -22,7 +22,7 @@ class FivePrimeUTRSeq:
         :type contig: str
         :param strand: optional, chromosome strand
         :type strand: char '+' or '-'
-        :return: initialises the following attributes:
+        :return: initializes the following attributes:
 
             - seq[] – list of 5' UTR sequences with exons and introns
 
@@ -127,12 +127,12 @@ class FivePrimeUTRSeq:
                         for temp_exon in temp_exon_list:
                             temp_exon_list_reverse.append((reverse_complement(temp_exon[0]), temp_exon[1]))
                         temp_exon_list = temp_exon_list_reverse
-                        curent_transcript_seq = transcript.five_prime_utr_sequence
+                        current_transcript_seq = transcript.five_prime_utr_sequence
                     else:
-                        curent_transcript_seq = reverse_complement(transcript.five_prime_utr_sequence)
+                        current_transcript_seq = reverse_complement(transcript.five_prime_utr_sequence)
 
-                    if curent_transcript_seq not in self.seq_exons:
-                        self.seq_exons.append(curent_transcript_seq)
+                    if current_transcript_seq not in self.seq_exons:
+                        self.seq_exons.append(current_transcript_seq)
                         self.intervals.append(Interval(transcript.contig, transcript.exons[0].start,
                                                        transcript.exons[len(transcript.exons) - 1].end, "5' UTR", 0,
                                                        "-"))  # dummy score
@@ -140,10 +140,10 @@ class FivePrimeUTRSeq:
                         self.transcripts[transcript.id] = count
                         count = count + 1
                     else:
-                        pos = self.seq_exons.index(curent_transcript_seq)
+                        pos = self.seq_exons.index(current_transcript_seq)
                         if (self.intervals[pos].strand == "-") and \
                             (self.intervals[pos].start != transcript.exons[len(transcript.exons) - 1].end):
-                            self.seq_exons.append(curent_transcript_seq)
+                            self.seq_exons.append(current_transcript_seq)
                             self.intervals.append(
                                 Interval(transcript.contig, transcript.exons[0].start,
                                          transcript.exons[len(transcript.exons) - 1].end, "5' UTR", 0,
@@ -152,7 +152,7 @@ class FivePrimeUTRSeq:
                             self.transcripts[transcript.id] = count
                             count = count + 1
                         else:
-                            self.transcripts[transcript.id] = self.seq_exons.index(curent_transcript_seq)
+                            self.transcripts[transcript.id] = self.seq_exons.index(current_transcript_seq)
         else:
             if strand == "+":
                 for transcript in data.transcripts(contig, '+'):
@@ -235,22 +235,22 @@ class FivePrimeUTRSeq:
                             for temp_exon in temp_exon_list:
                                 temp_exon_list_reverse.append((reverse_complement(temp_exon[0]), temp_exon[1]))
                             temp_exon_list = temp_exon_list_reverse
-                            curent_transcript_seq = transcript.five_prime_utr_sequence
+                            current_transcript_seq = transcript.five_prime_utr_sequence
                         else:
-                            curent_transcript_seq = reverse_complement(transcript.five_prime_utr_sequence)
+                            current_transcript_seq = reverse_complement(transcript.five_prime_utr_sequence)
 
-                        if curent_transcript_seq not in self.seq_exons:
-                            self.seq_exons.append(curent_transcript_seq)
+                        if current_transcript_seq not in self.seq_exons:
+                            self.seq_exons.append(current_transcript_seq)
                             self.intervals.append(Interval(transcript.contig, transcript.start_codon_positions[2] + 1,
                                                            transcript.end, "5' UTR", 0, "-"))  # dummy score
                             self.exons[count] = temp_exon_list
                             self.transcripts[transcript.id] = count
                             count = count + 1
                         else:
-                            pos = self.seq_exons.index(curent_transcript_seq)
+                            pos = self.seq_exons.index(current_transcript_seq)
                             if (self.intervals[pos].strand == "-") and \
                                 (self.intervals[pos].start != transcript.exons[len(transcript.exons) - 1].end):
-                                self.seq_exons.append(curent_transcript_seq)
+                                self.seq_exons.append(current_transcript_seq)
                                 self.intervals.append(
                                     Interval(transcript.contig, transcript.start_codon_positions[2] + 1, transcript.end,
                                              "5' UTR", 0, "-"))  # dummy score
@@ -258,7 +258,7 @@ class FivePrimeUTRSeq:
                                 self.transcripts[transcript.id] = count
                                 count = count + 1
                             else:
-                                self.transcripts[transcript.id] = self.seq_exons.index(curent_transcript_seq)
+                                self.transcripts[transcript.id] = self.seq_exons.index(current_transcript_seq)
 
     def __len__(self):
         """

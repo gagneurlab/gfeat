@@ -1,7 +1,7 @@
 import pyensembl
 from pyensembl.common import dump_pickle
 from gfeat.transcript import GFTranscript
-from gfeat.utils import PCA_with_scaling, reverse_complement
+from gfeat.utils import PCA_with_standard_sample_deviation_scaling, reverse_complement
 from gfeat.units import VCFMutator
 import pandas as pd
 from pybedtools import Interval
@@ -160,7 +160,7 @@ class GFGenome(pyensembl.Genome):
                         nucleobase_count[str(i) + c][0] = nucleobase_count[str(i) + c][0] + 1
                         i = i + 1
 
-        nucliobase_int = {0: "A", 1: "C", 2: "G", 3: "T"}
+        nucleobase_int = {0: "A", 1: "C", 2: "G", 3: "T"}
         consensus_seq = ""
 
         if seq:
@@ -169,7 +169,7 @@ class GFGenome(pyensembl.Genome):
                              nucleobase_count[str(i) + "C"][0],
                              nucleobase_count[str(i) + "G"][0],
                              nucleobase_count[str(i) + "T"][0]]
-                consensus_seq = consensus_seq + nucliobase_int[temp_list.index(max(temp_list))]
+                consensus_seq = consensus_seq + nucleobase_int[temp_list.index(max(temp_list))]
         else:
             for i in range(15):
                 temp_list = [nucleobase_count[str(i) + "A"][0],
@@ -199,10 +199,10 @@ class GFGenome(pyensembl.Genome):
         for contig in self.contigs():
             for transcript in self.transcripts(contig, '+'):
                 if transcript.contains_start_codon and transcript.contains_stop_codon:
-                    lines.append(transcript.get_line_Kozak_matrix())
+                    lines.append(transcript.get_Kozak_seq_as_df())
             for transcript in self.transcripts(contig, '-'):
                 if transcript.contains_start_codon and transcript.contains_stop_codon:
-                    lines.append(transcript.get_line_Kozak_matrix())
+                    lines.append(transcript.get_Kozak_seq_as_df())
 
         df_Kozak_matrix = pd.concat(lines)
         consensus_Kozak_seq = self.get_consensus_Kozak_seq(True)
@@ -259,7 +259,7 @@ class GFGenome(pyensembl.Genome):
                         nucleobase_count[str(i) + c][0] = nucleobase_count[str(i) + c][0] + 1
                         i = i + 1
 
-        nucliobase_int = {0: "A", 1: "C", 2: "G", 3: "T"}
+        nucleobase_int = {0: "A", 1: "C", 2: "G", 3: "T"}
         consensus_seq = ""
 
         if seq:
@@ -268,7 +268,7 @@ class GFGenome(pyensembl.Genome):
                              nucleobase_count[str(i) + "C"][0],
                              nucleobase_count[str(i) + "G"][0],
                              nucleobase_count[str(i) + "T"][0]]
-                consensus_seq = consensus_seq + nucliobase_int[temp_list.index(max(temp_list))]
+                consensus_seq = consensus_seq + nucleobase_int[temp_list.index(max(temp_list))]
         else:
             for i in range(15):
                 temp_list = [nucleobase_count[str(i) + "A"][0],
@@ -297,10 +297,10 @@ class GFGenome(pyensembl.Genome):
         for contig in self.contigs():
             for transcript in self.transcripts(contig, '+'):
                 if transcript.contains_start_codon and transcript.contains_stop_codon:
-                    lines.append(transcript.get_line_stop_codon_context_matrix())
+                    lines.append(transcript.get_stop_codon_context_as_df())
             for transcript in self.transcripts(contig, '-'):
                 if transcript.contains_start_codon and transcript.contains_stop_codon:
-                    lines.append(transcript.get_line_stop_codon_context_matrix())
+                    lines.append(transcript.get_stop_codon_context_as_df())
 
         df_stop_codon_context_matrix = pd.concat(lines)
         consensus_stop_codon_context = self.get_consensus_stop_codon_context(True)
@@ -342,7 +342,7 @@ class GFGenome(pyensembl.Genome):
         :return: pd.DataFrame,
 
                 column names – K_i – where i shows position in Kozak sequence;
-                S_i – where i shows position in stop codon context; gene_id; transctipt_id
+                S_i – where i shows position in stop codon context; gene_id; transcript_id
 
                 rows – NaN – no variant, 1 – heterozygous variant, 2 – homozygous variant
         """
@@ -352,7 +352,7 @@ class GFGenome(pyensembl.Genome):
                    "K_14",
                    "S_0", "S_1", "S_2", "S_3", "S_4", "S_5", "S_6", "S_7", "S_8", "S_9", "S_10", "S_11", "S_12", "S_13",
                    "S_14",
-                   "transctipt_id", "gene_id", "name"]
+                   "transcript_id", "gene_id", "name"]
         df_nucleobases = pd.DataFrame(columns=columns)
         nucleobases_lines = []
 
@@ -381,7 +381,7 @@ class GFGenome(pyensembl.Genome):
                                 new_columns.append(column)
                         df_nucleobases_line.columns = new_columns
 
-                    df_nucleobases_line["transctipt_id"] = transcript.id
+                    df_nucleobases_line["transcript_id"] = transcript.id
                     df_nucleobases_line["gene_id"] = transcript.gene_id
                     nucleobases_lines.append(df_nucleobases_line)
             for transcript in self.transcripts(contig, '-'):
@@ -403,7 +403,7 @@ class GFGenome(pyensembl.Genome):
                                 new_columns.append(column)
                         df_nucleobases_line.columns = new_columns
 
-                    df_nucleobases_line["transctipt_id"] = transcript.id
+                    df_nucleobases_line["transcript_id"] = transcript.id
                     df_nucleobases_line["gene_id"] = transcript.gene_id
                     nucleobases_lines.append(df_nucleobases_line)
 

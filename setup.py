@@ -18,7 +18,10 @@ requirements = [
     'pytest',
     'pysam',
     'pybedtools',
-    'cyvcf2', 'numpy', 'scikit-learn', 'pandas',
+    'cyvcf2',
+    'numpy',
+    'scikit-learn',
+    'pandas',
 ]
 
 test_requirements = [
@@ -28,11 +31,11 @@ test_requirements = [
 setup(
     name='gfeat',
     version='0.1.0',
-    description="Genomic feature extractors from raw files.",
+    description="Python genomic features extractor from raw files.",
     long_description=readme + '\n\n' + history,
     author="Veronika Kotova",
     author_email='kotova@in.tum.de',
-    url='https://github.com/avsecz/gfeat',
+    url='https://github.com/gagneurlab/gfeat',
     packages=find_packages(),
     include_package_data=True,
     install_requires=requirements,

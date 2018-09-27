@@ -18,8 +18,14 @@ gfeat
      :alt: Updates
 
 
-Genomic feature extractors from raw files (Fasta, GTF and VCF).
+Python genomic features extractor from raw files (Fasta, GTF and VCF).
 
+*gfeat* is a convenient tool for extracting diverse DNA features for genomic modeling and analysis. It allows to get,
+for example, transcript Kozak sequence and GC content, genome codon pair bias and etc. It is also possible to inject
+SNPs using a VCF file, get position-type variant matrices and investigate sequences with different combinations
+of heterozygous variants (when homozygous always stay injected in the sequence).
+
+You can find several short usage examples in the Tutorial section of the documentation.
 
 * Free software: MIT license
 * Documentation: https://i12g-gagneurweb.in.tum.de/public/docs/gfeat
@@ -104,13 +110,13 @@ Auxiliary functions:
 * reverse_complement(dna)
     Reverse complement
 
-* PCA_with_scaling(df, n_comp=2)
+* PCA_with_standard_sample_deviation_scaling(df, n_comp=2)
     Pca with scaling
 
 Credits
 ---------
 
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template. gfeat is based
+This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template. *gfeat* is based
 on pyensembl_ package and can be partially viewed as its extension.
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
