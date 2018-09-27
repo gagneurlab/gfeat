@@ -24,7 +24,7 @@ def test_get_consensus_stop_codon_context(genome):
 
 
 def test_get_line_stop_codon_context_matrix(transcript2):
-    res = transcript2.get_line_stop_codon_context_matrix()
+    res = transcript2.get_stop_codon_context_as_df()
     dict_stop_codon_context = {"0A": [0], "0C": [0], "0G": [0], "0T": [1],
                             "1A": [0], "1C": [0], "1G": [0], "1T": [1],
                             "2A": [0], "2C": [0], "2G": [0], "2T": [1],

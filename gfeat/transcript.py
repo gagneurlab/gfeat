@@ -53,7 +53,7 @@ class GFTranscript(pyensembl.Transcript):
         """
         Calculate how many times a given motif is presented in the 3' UTR sequence
 
-        :param pattern: motif to be found in the 3' UTR sequence
+        :param pattern: string motif to be found in the 3' UTR sequence
         :type pattern: str
 
         :return: int, how many times a given motif is presented in the 3' UTR sequence
@@ -64,7 +64,7 @@ class GFTranscript(pyensembl.Transcript):
         """
         Calculate how many times a given motif is presented in the 5' UTR sequence
 
-        :param pattern: motif to be found in the 5' UTR sequence
+        :param pattern: string motif to be found in the 5' UTR sequence
         :type pattern: str
 
         :return: int, how many times a given motif is presented in the 5' UTR sequence
@@ -139,7 +139,7 @@ class GFTranscript(pyensembl.Transcript):
             seq = utr5_seq + CDS_seq[:9]
         return seq
 
-    def get_line_Kozak_matrix(self):
+    def get_Kozak_seq_as_df(self):
         """
         Get a line of Kozak matrix for this transcript (6 elements upstream, start codon and 6 elements downstream)
 
@@ -194,7 +194,7 @@ class GFTranscript(pyensembl.Transcript):
 
         return seq
 
-    def get_line_stop_codon_context_matrix(self):
+    def get_stop_codon_context_as_df(self):
         """
         Get a line of stop codon context matrix for this transcript (6 elements upstream, start codon and 6 elements
         downstream)

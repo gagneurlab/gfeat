@@ -12,7 +12,7 @@ class VCFMutator:
 
         :param BedTool: True if BedTool intervals are used
         :type BedTool: bool
-        :param mutations_amount: True, if the number of mutations withing the interval is needed
+        :param mutations_amount: True, if the number of mutations within the interval is needed
         :type mutations_amount: bool
         :param vcf: path to the vcf.gz or file opened using cyvcf2
         :type vcf: str or an "opened" file
@@ -39,12 +39,12 @@ class VCFMutator:
 
         :return: depends on what was the constructor's input.
 
-            case1: list with one tupel in it [(seq,)]
+            case1: list with one tuple in it [(seq,)]
 
             case2: list of tuples [(DNA string, tuple with variants positions, tuple with reference values,
-            tuple with alternative values), ...] and the number of all mutations withing the interval
+            tuple with alternative values), ...] and the number of all mutations within the interval
             if the number of mutations is bigger than 14, returns only the not mutated sequence since the number of
-            possible sequences is to large to be processed on a laptop (as for March 2018)
+            possible sequences is too large to be processed on a laptop (as for March 2018)
 
             case 3: list of tuples [(DNA string, variant ids), ...] consisting of a DNA sequence and
             the positions of variants that were substituted
@@ -349,7 +349,7 @@ def _mutate_sequence_Interval_vcf(interval, seq, vcf_file=None):
     :return list of tuples [(DNA string, variant ids), ...] consisting of a DNA sequence and
             the positions of variants that were substituted
             if the number of mutations is bigger than 14, returns only the not mutated sequence since the number of
-            possible sequences is to large to be processed on a laptop (as for March 2018)
+            possible sequences is too large to be processed on a laptop (as for March 2018)
     :return number of mutations
     """
 
@@ -446,7 +446,7 @@ def _mutate_sequence_BedTool_vcf(interval, seq, vcf_file=None):
     :return list of tuples [(DNA string, variant ids), ...] consisting of a DNA sequence and
             the positions of variants that were substituted
             if the number of mutations is bigger than 14, returns only the not mutated sequence since the number of
-            possible sequences is to large to be processed on a laptop (as for March 2018)
+            possible sequences is too large to be processed on a laptop (as for March 2018)
     :return number of mutations
     """
 
@@ -543,7 +543,7 @@ def _mutate_sequence_Interval_vcf_with_pos_alt_ref(interval, seq, vcf_file=None)
     :return list of tuples [(DNA string, variant ids), ...] consisting of a DNA sequence and
             the positions of variants that were substituted
             if the number of mutations is bigger than 14, returns only the not mutated sequence since the number of
-            possible sequences is to large to be processed on a laptop (as for March 2018)
+            possible sequences is too large to be processed on a laptop (as for March 2018)
     :return number of mutations
     """
 
@@ -657,7 +657,7 @@ def _mutate_sequence_BedTool_vcf_with_pos_alt_ref(interval, seq, vcf_file=None):
     :return list of tuples [(DNA string, variant ids), ...] consisting of a DNA sequence and
             the positions of variants that were substituted
             if the number of mutations is bigger than 14, returns only the not mutated sequence since the number of
-            possible sequences is to large to be processed on a laptop (as for March 2018)
+            possible sequences is too large to be processed on a laptop (as for March 2018)
     :return number of mutations
     """
 

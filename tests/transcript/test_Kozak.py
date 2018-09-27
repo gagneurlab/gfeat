@@ -24,7 +24,7 @@ def test_get_consensus_Kozak_seq(genome):
 
 
 def test_get_line_Kozak_matrix(transcript2):
-    res = transcript2.get_line_Kozak_matrix()
+    res = transcript2.get_Kozak_seq_as_df()
     dict_line_Kozak_matrix = {"0A": [1], "0C": [0], "0G": [0], "0T": [0],
                             "1A": [1], "1C": [0], "1G": [0], "1T": [0],
                             "2A": [0], "2C": [0], "2G": [1], "2T": [0],
