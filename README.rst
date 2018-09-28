@@ -7,16 +7,14 @@ gfeat
         :target: https://pypi.python.org/pypi/gfeat
 
 .. image:: https://img.shields.io/travis/avsecz/gfeat.svg
-        :target: https://travis-ci.org/avsecz/gfeat
+        :target: https://travis-ci.org/gagneurlab/gfeat
 
-.. image:: https://readthedocs.org/projects/gfeat/badge/?version=latest
-        :target: https://gfeat.readthedocs.io/en/latest/?badge=latest
+.. image:: https://img.shields.io/pypi/pyversions/gfeat.svg
+        :target: https://pypi.python.org/pypi/gfeat
+
+.. image:: https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000
+        :target: https://github.com/fchollet/gfeat/blob/master/LICENSE
         :alt: Documentation Status
-
-.. image:: https://pyup.io/repos/github/avsecz/gfeat/shield.svg
-     :target: https://pyup.io/repos/github/avsecz/gfeat/
-     :alt: Updates
-
 
 Python genomic features extractor from raw files (Fasta, GTF and VCF).
 
