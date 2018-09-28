@@ -1,4 +1,4 @@
-Welcome to gfeat's documentation!
+Welcome to *gfeat*'s documentation!
 ======================================
 
 Contents:
@@ -8,9 +8,10 @@ Contents:
 
    readme
    installation
-   usage
+   tutorial
    contributing
-   authorshistory
+   authors
+   history
 
 Indices and tables
 ==================

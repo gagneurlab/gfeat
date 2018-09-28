@@ -2,12 +2,20 @@
 Credits
 =======
 
-Development Lead
+Lead developer
 ----------------
 
-* Ziga Avsec, Jun Cheng, Veronika Kotova <avsec@in.tum.de, chengju@in.tum.de, kotova@in.tum.de>
+* Veronika Kotova <veronika.kotova@tum.de>
 
 Contributors
 ------------
 
-None yet. Why not be the first?
+* Ziga Avsec <avsec@in.tum.de>
+
+Acknowledgement
+---------------
+
+* Jun Cheng
+* Basak Eraslan
+* Vicente Yepez
+* Gagneur Lab <https://gagneurlab.in.tum.de>
